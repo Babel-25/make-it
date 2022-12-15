@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{asset('authTemp/style.css')}}" />
-    <title>Sign in Form</title>
+    <title>Récupération du mot de passe</title>
 </head>
 
 <body>
@@ -21,14 +21,14 @@
                         <input type="text" placeholder="Email" />
                     </div>
 
-                    <input type="submit" value="Renitialiser" class="btn solid" />
+                    <input type="submit" value="Envoyer" class="btn solid" />
                     <div class="text-center p-t-15">
                         <p>
                             <span class="txt1">
-                                se
+                                Je me connecte
                             </span>
-                            <a class="txt2" href="{{ url('/connexion') }} ">
-                                connecter !</a>
+                            <a class="txt2" href="{{ url('/connexion') }} " style="text-decoration: none">
+                                ici</a>
                         </p>
                     </div>
 
@@ -41,7 +41,7 @@
                 <div class="content">
                     <h3>Mot de passe perdu ?</h3>
                     <p>
-                        veillez saisir votre mail puis valider et consulter vos messegaries soit votre spams!
+                        Veuillez saisir votre mail puis valider et consulter vos messageries soit votre spams!
                     </p>
 
                 </div>
