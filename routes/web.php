@@ -32,3 +32,14 @@ Route::get('connexion', function () {
 Route::get('mpOublier', function () {
     return view('mpOublier');
 });
+
+Route::get('Monreseau', function () {
+    return view('ma_page');
+});
+
+
+Route::get('vitrine', function () {
+    return view('vitrine');
+});
+
+
