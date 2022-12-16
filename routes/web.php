@@ -37,9 +37,16 @@ Route::get('Monreseau', function () {
     return view('ma_page');
 });
 
-
 Route::get('vitrine', function () {
     return view('vitrine');
 });
 
+Route::get('user', function () {
+    return view('user');
+});
+
+
+Route::get('profil', function () {
+    return view('mon_profil');
+});
 

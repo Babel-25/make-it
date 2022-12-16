@@ -14,7 +14,7 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="{{ url('/Monreseau') }}" class="sign-in-form">
+                <form action="{{ url('/user') }}" class="sign-in-form">
                     <h2 class="title">Connexion</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
