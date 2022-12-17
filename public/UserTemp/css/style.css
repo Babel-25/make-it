@@ -728,6 +728,14 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     opacity: 1;
 }
 
+/*Add */
+.notify-arrow-white {
+    border-color: transparent transparent #4ECDC4;
+    border-bottom-color: #ffffff !important;
+    border-top-color: #ffffff !important;
+}
+/*End Add */
+
 .notify-arrow-yellow {
     border-color: transparent transparent #FCB322;
     border-bottom-color: #FCB322 !important;

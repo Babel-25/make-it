@@ -16,7 +16,7 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('/UserTemp/lib/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <!--external css-->
-    <link href="l{{ asset('/UserTemp/ib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/UserTemp/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="{{ asset('/UserTemp/css/zabuto_calendar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('/UserTemp/lib/gritter/css/jquery.gritter.css') }}" />
     <!-- Custom styles for this template -->
@@ -39,10 +39,51 @@
             <!--logo start-->
             <a href="#" class="logo"><b>MAKE<span>IT</span></b></a>
             <!--logo end-->
+            <!--Notifications ici-->
 
             <div class="top-menu">
+
                 <ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="{{ url('connexion') }}">Se déconnecter</a></li>
+                    <div class="nav notify-row" id="top_menu" style="margin-right: 10em">
+                        <!--  notification start -->
+                        <ul class="nav top-menu">
+                            <!-- settings start -->
+
+                            <!-- settings end -->
+                            <!-- inbox dropdown start-->
+
+                            <!-- inbox dropdown end -->
+                            <!-- notification dropdown start-->
+                            <li id="header_notification_bar" class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="myprofil#">
+                                    <i class="fa fa-user"> Utilisateur  </i> <i class="fa fa-chevron-down"></i>
+                                </a>
+                                <ul class="dropdown-menu extended notification">
+                                    <div class="notify-arrow notify-arrow-white"></div>
+                                    {{-- <li>
+                                        <p class="yellow">You have 7 new notifications</p>
+                                    </li> --}}
+                                    <li>
+                                        <a href="{{ url('profil') }}">
+                                            <span class="label label-success"><i class="fa fa-user"></i></span>
+                                            Mon Profil
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ url('connexion') }}">
+                                            <span class="label label-danger"><i class="fa fa-power-off"></i></span>
+                                            Déconnexion
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                            <!-- notification dropdown end -->
+                        </ul>
+                        <!--  notification end -->
+                    </div>
+                    {{-- <li><a class="logout" href="{{ url('connexion') }}">Se déconnecter</a></li> --}}
                 </ul>
             </div>
         </header>
@@ -55,9 +96,10 @@
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
-                    <p class="centered"><a href="{{ url('profil') }}"><img src="img/ui-sam.jpg" class="img-circle" width="80">
+                    {{-- <p class="centered"><a href="{{ url('profil') }}"><img src="img/ui-sam.jpg" class="img-circle"
+                                width="80">
                             <h5 class="centered">Utilisateur</h5>
-                        </a></p>
+                        </a></p> --}}
                     <li class="mt">
                         <a class="active" href="{{ url('Monreseau') }}">
                             <i class="fa fa-dashboard"></i>
@@ -89,7 +131,7 @@
         <!--main content start-->
         <section id="main-content">
             <section class="wrapper">
-                    @yield('content')
+                @yield('content')
                 <!-- /row -->
             </section>
         </section>
@@ -109,7 +151,7 @@
           -->
                     Created with Dashio template by <a href="#">TemplateMag</a>
                 </div>
-               
+
             </div>
         </footer>
         <!--footer end-->
