@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, maximum-scale=1">
     <title> Make-IT</title>
-    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="icon" type="image/png" href="{{ asset('/logo/logo.png') }}" />
     <link href="{{ asset('/VitrineTemp/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/VitrineTemp/css/style.cs') }}s" rel="stylesheet" type="text/css">
     <link href="{{ asset('/VitrineTemp/css/linecons.css') }}" rel="stylesheet" type="text/css">
@@ -13,11 +13,8 @@
     <link href="{{ asset('/VitrineTemp/css/responsive.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/VitrineTemp/css/animate.css') }}" rel="stylesheet" type="text/css">
 
-    <link
-        href='http://fonts.googleapis.com/css?family=Lato:400,900,700,700italic,400italic,300italic,300,100italic,100,900italic'
-        rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Dosis:400,500,700,800,600,300,200' rel='stylesheet'
-        type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,900,700,700italic,400italic,300italic,300,100italic,100,900italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Dosis:400,500,700,800,600,300,200' rel='stylesheet' type='text/css'>
 
     <!--[if IE]><style type="text/css">.pie {behavior:url(PIE.htc);}</style><![endif]-->
 
@@ -72,8 +69,7 @@
     <header id="header_outer">
         <div class="container">
             <div class="header_section">
-                <div class="logo"><a href="javascript:void(0)"><img src="{{ asset('/VitrineTemp/img/make_it.png') }}"
-                            height="50" width="50" alt=""></a></div>
+                <div class="logo"><a href="javascript:void(0)"><img src="{{ asset('/VitrineTemp/img/logo.png') }}" height="50" width="50" alt=""></a></div>
                 <nav class="nav" id="nav">
                     <ul class="toggle">
                         <li><a href="#top_content">Accueil</a></li>
@@ -129,8 +125,7 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="service_block">
-                            <div class="service_icon delay-03s animated wow  zoomIn"> <span><i
-                                        class="fa-flash"></i></span> </div>
+                            <div class="service_icon delay-03s animated wow  zoomIn"> <span><i class="fa-flash"></i></span> </div>
                             <h3 class="animated fadeInUp wow">Comment ca marche ? </h3>
                             <p class="animated fadeInDown wow">
                                 Tout d’abord, Make it est un système de cotisation et d’entre-aide. Un système facile à
@@ -144,8 +139,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="service_block">
-                            <div class="service_icon icon2  delay-03s animated wow zoomIn"> <span><i
-                                        class="fa-lock"></i></span> </div>
+                            <div class="service_icon icon2  delay-03s animated wow zoomIn"> <span><i class="fa-lock"></i></span> </div>
                             <h3 class="animated fadeInUp wow">Inscription</h3>
                             <p class="animated fadeInDown wow">
                                 Pour être membre de ce système, il suffit d’avoir 3000f CFA sur un compte mobile money
@@ -161,8 +155,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="service_block">
-                            <div class="service_icon icon3  delay-03s animated wow zoomIn"> <span><i
-                                        class="fa-shield"></i></span> </div>
+                            <div class="service_icon icon3  delay-03s animated wow zoomIn"> <span><i class="fa-shield"></i></span> </div>
                             <h3 class="animated fadeInUp wow">Description</h3>
                             <p class="animated fadeInDown wow">A chaque phase se trouve une matrice à valider par le
                                 membre pour bénéficier des avantages liés à cette phase. La validation de chaque phase
@@ -230,23 +223,20 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="contact_block">
-                                <div class="contact_block_icon rollIn animated wow"><span><i
-                                            class="fa-home"></i></span></div>
+                                <div class="contact_block_icon rollIn animated wow"><span><i class="fa-home"></i></span></div>
                                 <span> Lomé <br>
                                     TOGO </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="contact_block">
-                                <div class="contact_block_icon icon2 rollIn animated wow"><span><i
-                                            class="fa-phone"></i></span></div>
+                                <div class="contact_block_icon icon2 rollIn animated wow"><span><i class="fa-phone"></i></span></div>
                                 <span> (228) 00 01 22 22 </span>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="contact_block">
-                                <div class="contact_block_icon icon3 rollIn animated wow"><span><i
-                                            class="fa-pencil"></i></span></div>
+                                <div class="contact_block_icon icon3 rollIn animated wow"><span><i class="fa-pencil"></i></span></div>
                                 <span> <a href="mailto:hello@butterfly.com"> dgmakeit@gmail.com </a> </span>
                             </div>
                         </div>
@@ -263,29 +253,18 @@
                                 aliquampor id.</p>
                         </div>
                         <ul class="social-link">
-                            <li class="twitter animated bounceIn wow delay-02s"><a href="javascript:void(0)"><i
-                                        class="fa-twitter"></i></a></li>
-                            <li class="facebook animated bounceIn wow delay-03s"><a href="javascript:void(0)"><i
-                                        class="fa-facebook"></i></a></li>
-                            <li class="pinterest animated bounceIn wow delay-04s"><a href="javascript:void(0)"><i
-                                        class="fa-pinterest"></i></a></li>
-                            <li class="gplus animated bounceIn wow delay-05s"><a href="javascript:void(0)"><i
-                                        class="fa-google-plus"></i></a></li>
-                            <li class="dribbble animated bounceIn wow delay-06s"><a href="javascript:void(0)"><i
-                                        class="fa-dribbble"></i></a></li>
+                            <li class="twitter animated bounceIn wow delay-02s"><a href="javascript:void(0)"><i class="fa-twitter"></i></a></li>
+                            <li class="facebook animated bounceIn wow delay-03s"><a href="javascript:void(0)"><i class="fa-facebook"></i></a></li>
+                            <li class="pinterest animated bounceIn wow delay-04s"><a href="javascript:void(0)"><i class="fa-pinterest"></i></a></li>
+                            <li class="gplus animated bounceIn wow delay-05s"><a href="javascript:void(0)"><i class="fa-google-plus"></i></a></li>
+                            <li class="dribbble animated bounceIn wow delay-06s"><a href="javascript:void(0)"><i class="fa-dribbble"></i></a></li>
                         </ul>
                     </div>
                     <div class="col-lg-6 wow fadeInUp delay-06s">
                         <div class="form">
-                            <input class="input-text animated wow flipInY delay-02s" type="text" name=""
-                                value="nom  d'utilisateur *" onFocus="if(this.value==this.defaultValue)this.value='';"
-                                onBlur="if(this.value=='')this.value=this.defaultValue;">
-                            <input class="input-text animated wow flipInY delay-04s" type="text" name=""
-                                value="Email *" onFocus="if(this.value==this.defaultValue)this.value='';"
-                                onBlur="if(this.value=='')this.value=this.defaultValue;">
-                            <textarea class="input-text text-area animated wow flipInY delay-06s" cols="0" rows="0"
-                                onFocus="if(this.value==this.defaultValue)this.value='';"
-                                onBlur="if(this.value=='')this.value=this.defaultValue;">Votre message ici *</textarea>
+                            <input class="input-text animated wow flipInY delay-02s" type="text" name="" value="nom  d'utilisateur *" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;">
+                            <input class="input-text animated wow flipInY delay-04s" type="text" name="" value="Email *" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;">
+                            <textarea class="input-text text-area animated wow flipInY delay-06s" cols="0" rows="0" onFocus="if(this.value==this.defaultValue)this.value='';" onBlur="if(this.value=='')this.value=this.defaultValue;">Votre message ici *</textarea>
                             <input class="input-btn animated wow flipInY delay-08s" type="submit" value="Envoyer">
                         </div>
                     </div>

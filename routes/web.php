@@ -50,3 +50,11 @@ Route::get('profil', function () {
     return view('mon_profil');
 });
 
+Route::get('inscrit1', function () {
+    return view('inscrit1');
+});
+
+Route::get('inscrit2', function () {
+    return view('inscrit2');
+});
+

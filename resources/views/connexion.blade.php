@@ -66,13 +66,13 @@
                         facere, cumque, voluptas ratione doloribus laudantium ipsum dicta optio ut rerum rem nulla qui
                         consequuntur voluptatibus!
                     </p>
-                    <button class="btn"><a href="{{ url('/inscription') }}"
+                    <button class="btn"><a href="{{ url('/inscrit1') }}"
                             style="text-decoration: none; color:white;">
                             Créer un compte
                         </a>
                     </button>
                 </div>
-                <img src="{{ asset('authTemp/img/log.svg') }}" class="image" alt="" />
+                <img src="{{ asset('authTemp/img/register.svg') }}" class="image" alt="" />
             </div>
         </div>
     </div>

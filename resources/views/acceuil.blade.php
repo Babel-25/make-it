@@ -24,16 +24,9 @@
             <div class="row">
                 <a href="{{ url('/vitrine') }}">Me renseignez</a>
                 <a href="{{ url('/connexion') }}">Oui allons-y<span>&#x27f6</span></a>
-
             </div>
         </section>
-
-        <section class="social-icons">
-            <a href="#"><img src="{{ asset('acceuilTemp/images/github-fill.png') }}" alt=""></a>
-            <a href="#"><img src="{{ asset('acceuilTemp/images/instagram-fill.png') }}" alt=""></a>
-            <a href="#"><img src="{{ asset('acceuilTemp/images/telegram-fill.png') }}" alt=""></a>
-            <a href="#"><img src="{{ asset('acceuilTemp/images/drive-fill.png') }}" alt=""></a>
-        </section>
+       
     </div>
 </body>
 
