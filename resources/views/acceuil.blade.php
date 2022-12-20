@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8" />
@@ -26,7 +26,12 @@
                 <a href="{{ url('/connexion') }}">Oui allons-y<span>&#x27f6</span></a>
             </div>
         </section>
-       
+
+        <section class="social-icons">
+            <a href="#"><img src="{{ asset('acceuilTemp/images/github-fill.png')}}" alt=""></a>
+            <a href="#"><img src="{{ asset('acceuilTemp/images/instagram-fill.png')}}" alt=""></a>
+            <a href="#"><img src="{{ asset('acceuilTemp/images/telegram-fill.png')}}" alt=""></a>
+        </section>
     </div>
 </body>
 
