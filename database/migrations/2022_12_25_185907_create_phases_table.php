@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('phases', function (Blueprint $table) {
             $table->id();
-            $table->string('identifiant');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->enum('status', ['Admin', 'Client']);
-            $table->enum('etat', ['Actif', 'Inactif']);
-            $table->rememberToken();
+            $table->string('ref_phase');
+            $table->string('libelle_phase');
+            $table->integer('total_niveau');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('phases');
     }
 };

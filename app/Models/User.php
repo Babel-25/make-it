@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'identifiant',
         'email',
         'password',
+        'status',
+        'etat',
     ];
 
     /**
@@ -41,4 +43,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //Le compte appartient à une seul et unique personne
+    public function personne()
+    {
+        return $this->belongsTo(Personne::class);
+    }
 }
