@@ -1,4 +1,4 @@
-@extends('user')
+@extends('screens.user.index')
 @section('content')
     <section class="mt container">
         <div id="Moi">

@@ -55,8 +55,8 @@
                             <!-- inbox dropdown end -->
                             <!-- notification dropdown start-->
                             <li id="header_notification_bar" class="dropdown">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="myprofil#">
-                                    <i class="fa fa-user"> Utilisateur  </i> <i class="fa fa-chevron-down"></i>
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="fa fa-user"> Utilisateur </i> <i class="fa fa-chevron-down"></i>
                                 </a>
                                 <ul class="dropdown-menu extended notification">
                                     <div class="notify-arrow notify-arrow-white"></div>
@@ -71,7 +71,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="{{ url('connexion') }}">
+                                        <a href="{{ route('logout') }}">
                                             <span class="label label-danger"><i class="fa fa-power-off"></i></span>
                                             Déconnexion
                                         </a>
@@ -101,7 +101,7 @@
                             <h5 class="centered">Utilisateur</h5>
                         </a></p> --}}
                     <li class="mt">
-                        <a class="active" href="{{ url('Monreseau') }}">
+                        <a class="active" href="{{ route('dashboard') }}">
                             <i class="fa fa-dashboard"></i>
                             <span>Accueil</span>
                         </a>

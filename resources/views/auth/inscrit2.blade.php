@@ -14,7 +14,8 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="{{ url('/user') }}" class="sign-in-form">
+                <form action="#" class="sign-in-form">
+                    @csrf
                     <h2 class="title">Inscription</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>

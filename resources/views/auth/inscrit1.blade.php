@@ -14,7 +14,8 @@
     <div class="container">
         <div class="forms-container">
             <div class="signin-signup">
-                <form action="{{ url('/inscrit2') }}" class="sign-in-form">
+                <form action="#" class="sign-in-form">
+                    @csrf
                     <h2 class="title">Inscription</h2>
                     <div class="input-field">
                         <i class="fas fa-user"></i>
@@ -57,7 +58,8 @@
                         facere, cumque, voluptas ratione doloribus laudantium ipsum dicta optio ut rerum rem nulla qui
                         consequuntur voluptatibus!
                     </p>
-                    <button class="btn"><a href="{{ url('/connexion') }}" style="text-decoration: none; color:white;">
+                    <button class="btn"><a href="{{ route('login_form') }}"
+                            style="text-decoration: none; color:white;">
                             Se connecter
                         </a>
                     </button>

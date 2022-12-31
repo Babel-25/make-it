@@ -1,4 +1,4 @@
-@extends('user')
+@extends('screens.user.index')
 @section('content')
     <div class="row mt">
         <div class="col-lg-12">

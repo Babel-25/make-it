@@ -22,8 +22,8 @@
             <h4>PARTENAIRE, TU VEUX TE FAIRE UNE MAX D'ARGENT ?</h4>
 
             <div class="row">
-                <a href="{{ url('/vitrine') }}">Me renseignez</a>
-                <a href="{{ url('/connexion') }}">Oui allons-y<span>&#x27f6</span></a>
+                <a href="{{ route('vitrine') }}">Me renseignez</a>
+                <a href="{{ route('login_form')}}">Oui allons-y<span>&#x27f6</span></a>
             </div>
         </section>
 

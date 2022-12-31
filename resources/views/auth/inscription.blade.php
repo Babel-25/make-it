@@ -13,6 +13,7 @@
     <div class="container">
         <h1 class="form-title">Formulaire d'inscription</h1>
         <form action="{{ url('/Monreseau') }}">
+            @csrf
             <div class="main-user-info">
                 {{-- <div class="user-input-box">
 					<label for="codePaie">Code paiemment</label>
