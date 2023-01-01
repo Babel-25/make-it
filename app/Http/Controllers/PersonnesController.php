@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Paiement;
+use App\Models\Personne as ModelsPersonne;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Models\Personne;
+use Illuminate\Support\Facades\DB;
 
 class PersonnesController extends Controller
 {
@@ -13,7 +18,6 @@ class PersonnesController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
@@ -32,9 +36,50 @@ class PersonnesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function savePersonnes(Request $request)
     {
-        //
+        $verif = Paiement::where(
+            [
+                'code_paiement','=', $request->codePai
+            ])->get();
+
+        // Insertion dans la table Personnes
+        $person = ModelsPersonne::create(
+            [
+                'nom_prenom'    => strtoupper($request->name),
+            ],
+            [
+                'code_parrainage'       => $request->codePar,
+                'adresse'       => $request->adresse,
+                'contact'    => $request->phone,
+                'date_naissance'    => $request->date,
+                'email'      => $request->email,
+                'date' => $request->date,
+                'sexe_id'       => $request->sexe,
+                'user_id'       => $request->age,
+                'paiement_id'       => $request->age,
+            ]
+        );
+
+        // Insertion dans la table users
+        $user = User::create(
+            [
+                'identifiant'    => strtoupper($request->pseudo),
+
+            ],
+            [
+                'password'       => $request->password,
+                'status'       => $request->sexe,
+                'etat' => $request->date,
+            ]
+        );
+
+        if ($person and $user) {
+            return view('auth.login');
+        } else {
+            
+            return back();
+        }
     }
 
     /**

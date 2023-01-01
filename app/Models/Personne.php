@@ -11,13 +11,10 @@ class Personne extends Model
 
     protected $fillable = [
         'nom_prenom',
-        'sexe',
+        'sexe_id',
         'adresse',
         'contact',
-<<<<<<< HEAD
         'date_naissance',
-=======
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
         'email',
         'code_parrainage',
         'user_id',
@@ -28,6 +25,11 @@ class Personne extends Model
     //Une personne possède un seul et unique compte
     public function User(){
         return $this->hasOne(User::class);
+    }
+
+    //Une personne possède un seul sexe
+    public function Sexe(){
+        return $this->hasOne(Sexe::class);
     }
 
     //Une personne possede 1.1 code de paiement

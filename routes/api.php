@@ -1,9 +1,6 @@
 <?php
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\AuthController;
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-=======
 
 Route::post('register',[AuthController::class,'registerAction']);
 Route::post('login',[AuthController::class,'loginAction']);
@@ -31,4 +23,3 @@ Route::post('login',[AuthController::class,'loginAction']);
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550

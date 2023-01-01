@@ -1,10 +1,7 @@
 <?php
 
-<<<<<<< HEAD
-=======
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,11 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-<<<<<<< HEAD
-Route::get('/', function () {
-    return view('acceuil');
-});
-=======
 /** PREVOIR UN MIDDLEWARE POUR BLOQUER LES PAGES DONT L'ACCES REQUIERT UNE CONNEXION 😁 😁 😁 */
 
 //Page Home
@@ -48,38 +40,11 @@ Route::get('mot de passe oublié', [AuthController::class, 'forgetPwdForm'])->na
 Route::get('ma page', [PageController::class, 'indexUser'])->name('user_index');
 //Page Mon réseau
 Route::get('dashboard', [PageController::class, 'dashboard'])->name('dashboard');
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
 
 Route::get('inscription', function () {
     return view('inscription');
 });
 
-<<<<<<< HEAD
-Route::get('acceuil', function () {
-    return view('acceuil');
-});
-
-Route::get('connexion', function () {
-    return view('connexion');
-});
-
-Route::get('mpOublier', function () {
-    return view('mpOublier');
-});
-
-Route::get('Monreseau', function () {
-    return view('ma_page');
-});
-
-Route::get('vitrine', function () {
-    return view('vitrine');
-});
-
-Route::get('user', function () {
-    return view('user');
-});
-
-=======
 //Action Deconnexion
 Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 
@@ -95,26 +60,12 @@ Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 // Route::get('user', function () {
 //     return view('user');
 // });
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
 
 Route::get('profil', function () {
     return view('mon_profil');
 });
 
 Route::get('inscrit1', function () {
-<<<<<<< HEAD
-    return view('inscrit1');
-});
-
-Route::get('inscrit2', function () {
-    return view('inscrit2');
-});
-
-=======
     return view('auth.inscrit1');
 });
 
-Route::get('inscrit2', function () {
-    return view('auth.inscrit2');
-});
->>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550

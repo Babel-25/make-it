@@ -20,7 +20,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('status', ['Admin', 'Client']);
-            $table->enum('etat', ['Actif', 'Inactif']);
+            //Id User
+            $table->unsignedBigInteger('etat_id')->index();
+            $table->foreign('etat_id')->references('id')->on('etats')->onUpdate('cascade')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -36,3 +38,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
+
+
+
