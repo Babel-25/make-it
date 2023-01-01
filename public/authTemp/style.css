@@ -80,6 +80,7 @@ form.sign-in-form {
   color: #444;
   margin-bottom: 10px;
 }
+<<<<<<< HEAD
 .form-section {
   display: none;
 }
@@ -91,13 +92,19 @@ form.sign-in-form {
 .parsley-errors-list {
   color: red;
 }
+=======
+>>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
 
 .input-field {
   max-width: 380px;
   width: 100%;
   background-color: #f0f0f0;
   margin: 10px 0;
+<<<<<<< HEAD
   height: 45px;
+=======
+  height: 55px;
+>>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
   border-radius: 55px;
   display: grid;
   grid-template-columns: 15% 85%;
@@ -117,7 +124,11 @@ form.sign-in-form {
   background: none;
   outline: none;
   border: none;
+<<<<<<< HEAD
   line-height: 2;
+=======
+  line-height: 1;
+>>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
   font-weight: 600;
   font-size: 1.1rem;
   color: #333;

@@ -19,7 +19,10 @@ return new class extends Migration
             $table->enum('sexe', ['M', 'F']);
             $table->string('contact');
             $table->string('adresse');
+<<<<<<< HEAD
             $table->string('date_naissance');
+=======
+>>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
             $table->string('email')->unique();
             $table->string('code_parrainage')->nullable();
 

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 @extends('user')
+=======
+@extends('screens.user.index')
+>>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
 @section('content')
     <div class="row mt">
         <div class="col-lg-12">

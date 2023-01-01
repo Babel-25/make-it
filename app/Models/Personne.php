@@ -14,7 +14,10 @@ class Personne extends Model
         'sexe',
         'adresse',
         'contact',
+<<<<<<< HEAD
         'date_naissance',
+=======
+>>>>>>> 2cc119af9e396a4818755a869b0d4ba0a94cf550
         'email',
         'code_parrainage',
         'user_id',
