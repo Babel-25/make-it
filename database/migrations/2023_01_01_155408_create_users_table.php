@@ -16,11 +16,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('identifiant');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('status', ['Admin', 'Client']);
-            //Id User
+            $table->string('status');
+            //Id Etat
             $table->unsignedBigInteger('etat_id')->index();
             $table->foreign('etat_id')->references('id')->on('etats')->onUpdate('cascade')->onDelete('cascade');
             $table->rememberToken();
@@ -38,6 +36,3 @@ return new class extends Migration
         Schema::dropIfExists('users');
     }
 };
-
-
-

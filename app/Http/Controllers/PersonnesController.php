@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paiement;
-use App\Models\Personne as ModelsPersonne;
+use App\Models\Personne;
 use App\Models\User;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Http\Request;
-use Illuminate\Http\Models\Personne;
 use Illuminate\Support\Facades\DB;
 
 class PersonnesController extends Controller
@@ -16,7 +16,7 @@ class PersonnesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
     }
 
@@ -38,47 +38,72 @@ class PersonnesController extends Controller
      */
     public function savePersonnes(Request $request)
     {
-        $verif = Paiement::where(
-            [
-                'code_paiement','=', $request->codePai
-            ])->get();
+        $verif = Paiement::where('code_paiement', $request->codePai)->get();
 
-        // Insertion dans la table Personnes
-        $person = ModelsPersonne::create(
-            [
-                'nom_prenom'    => strtoupper($request->name),
-            ],
-            [
-                'code_parrainage'       => $request->codePar,
-                'adresse'       => $request->adresse,
-                'contact'    => $request->phone,
-                'date_naissance'    => $request->date,
-                'email'      => $request->email,
-                'date' => $request->date,
-                'sexe_id'       => $request->sexe,
-                'user_id'       => $request->age,
-                'paiement_id'       => $request->age,
-            ]
-        );
+        //return $verif;
+        // dd($verif->code_paiement);
+        $request->validate([
+            'pseudo' => 'required',
+            'name' => 'required',
+            'codePai' => 'required',
+            'codePar' => 'required',
+            'adresse' => 'required',
+            'phone' => 'required',
+            'sexe' => 'required',
+            'date' => 'required',
+            'email' => 'required|email|unique:personnes',
+            'password' => 'required|min:8',
+            'passwordConf'    => 'required|min:8|same:password'
+        ],
+        [
+            'pseudo.required' => 'Votre identifiant de connexion est requis',
+            'name.required' => 'Le nom et prenom sont requis',
+            'codePai.required' => 'Le code de paiement est obligatoire',
+            'codePar.required' => 'Le code de parrainnage est obligatoire',
+            'adresse.required' => 'Votre adresse est obligatoire',
+            'sexe.required' => 'Le sexe est obligatoire',
+            'phone.required' => 'Votre numéro de téléphone est obligatoire',
+            'date.required' => 'Votre date de nissance est obligatoire',
+            'email.required' => 'Votre mail est obligatoire ou ce mail existe déja',
+            'password.required' => 'Le mot de passe doit dépasser 8 caractères',
+            'passwordConf.required' => 'Les mots de passe ne correspondent pas veiller ressayer!'
+        ]
+    );
+        if ($verif != null) {
+            // Insertion dans la table users
+            $user = User::create(
+                [
+                    'identifiant'    => strtoupper($request->pseudo),
+                    'password'       => $request->password,
+                    'status'       => $request->status,
+                    'etat_id' => $request->etat,
+                ]
+            );
+            // Insertion dans la table Personnes
+            $person = Personne::create(
+                [
+                    'nom_prenom'    => strtoupper($request->name),
+                    'code_parrainage'       => $request->codePar,
+                    'adresse'       => $request->adresse,
+                    'contact'    => $request->phone,
+                    'date_naissance'    => $request->date,
+                    'email'      => $request->email,
+                    'sexe_id'       => $request->sexe,
+                    'user_id'       => $user->id,
+                    'paiement_id'       => $verif->id,
+                ]
+            );
 
-        // Insertion dans la table users
-        $user = User::create(
-            [
-                'identifiant'    => strtoupper($request->pseudo),
-
-            ],
-            [
-                'password'       => $request->password,
-                'status'       => $request->sexe,
-                'etat' => $request->date,
-            ]
-        );
-
-        if ($person and $user) {
-            return view('auth.login');
+            if ($person and $user) {
+                session()->flash('message','Inscription Réussi!');
+                return view('auth.login');
+            } else {
+               // dd('pas enregistrer');
+               session()->flash('message','Inscription échoué, veiller ressayer!');
+                return back();
+            }
         } else {
-            
-            return back();
+            dd('le code de paiement ne correspond pas');
         }
     }
 
@@ -87,11 +112,11 @@ class PersonnesController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     */
+     
     public function show($id)
     {
         //
-    }
+    }*/
 
     /**
      * Show the form for editing the specified resource.

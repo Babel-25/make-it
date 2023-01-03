@@ -37,7 +37,7 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'identifiant' => 'required|string',
-            'password'    => 'required|min:3'
+            'password'    => 'required|min:8'
         ]);
 
         $try_connexion = Auth::attempt(['identifiant' => $data['identifiant'], 'password' => $data['password']]);

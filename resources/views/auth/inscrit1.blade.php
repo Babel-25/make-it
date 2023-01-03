@@ -13,7 +13,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js" integrity="sha512-eyHL1atYNycXNXZMDndxrDhNAegH2BDWt1TmkXJPoGf1WLlNYt08CSjkqF5lnCRmdm3IrkHid8s2jOUY4NIZVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <title> Page d'inscription </title>
+    <title> Inscription </title>
 
 
 </head>
@@ -23,6 +23,16 @@
         <div class="forms-container">
             <div class="signin-signup">
                 <div class="row justify-content-md-center">
+                    <div>
+                        @if(session()->exists('message'))
+                        <div class="alert alert-success" id="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                X
+                            </button>
+                            {{session('message')}}
+                        </div>
+                        @endif
+                    </div>
                     <div class="col-md-12 ">
                         <div class=" px-5 py-3 mt-5 ">
                             <h1 class="text-danger text-center mt-3 mb-4">Incription</h1>
@@ -33,17 +43,32 @@
                                 <label class="nav-link shadow-sm step2   border ml-2 ">Etape Trois</label>
                             </div>
 
-                            <form action="" method="post" class="sign-in-form">
+                            <form action="{{ route('register_action') }}" method="POST" class="sign-in-form">
                                 @csrf
                                 <div class="form-section">
                                     <label for="">Code paiemment:</label>
-                                    <input type="text" class="form-control mb-3" name="codePai" required>
+                                    <input type="text" class="form-control mb-3" value="{{old('codePai')}}" name="codePai">
+                                    <span style="color:red">
+                                        @error('codePai')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                     <label for="">Code de parrainage:</label>
-                                    <input type="text" class="form-control mb-3" name="codePar" required>
+                                    <input type="text" class="form-control mb-3" value="{{old('codePar')}}" name="codePar">
+                                    <span style="color:red">
+                                        @error('codePar')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                     <label for="">Nom et Prénom:</label>
-                                    <input type="text" class="form-control mb-3" name="name" required>
+                                    <input type="text" class="form-control mb-3" value="{{old('name')}}" name="name">
+                                    <span style="color:red">
+                                        @error('name')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                     <label for="">Sexe:</label>
-                                    <select name="sexe" class="form-control mb-3" required>
+                                    <select name="sexe" class="form-control mb-3" value="{{old('sexe')}}">
                                         <p hidden>
                                             {{$gendre = \App\Models\Sexe::all()}}
                                         </p>
@@ -52,32 +77,72 @@
                                         <option value=" {{$sexe->id}} ">{{$sexe->code}}</option>
                                         @endforeach
                                     </select>
+                                    <span style="color:red">
+                                        @error('sexe')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                 </div>
                                 <div class="form-section">
                                     <label for="">Adresse:</label>
-                                    <input type="text" class="form-control mb-3" name="adresse" required>
+                                    <input type="text" class="form-control mb-3" value="{{old('adresse')}}" name="adresse">
+                                    <span style="color:red">
+                                        @error('adresse')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                     <label for="">Contact:</label>
-                                    <input type="tel" class="form-control mb-3" name="phone" required>
+                                    <input type="tel" class="form-control mb-3" value="{{old('phone')}}" name="phone">
+                                    <span style="color:red">
+                                        @error('phone')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                     <label for="">Date de naissance:</label>
-                                    <input type="date" class="form-control mb-3" name="date" required>
+                                    <input type="date" class="form-control mb-3" id="dateValidate" value="{{old('date')}}" name="date">
+                                    <span style="color:red">
+                                        @error('date')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                     <label for="">E-mail:</label>
-                                    <input type="email" class="form-control mb-3" name="email" required>
-
+                                    <input type="email" class="form-control mb-3" value="{{old('email')}}" name="email">
+                                    <span style="color:red">
+                                        @error('email')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
                                 </div>
                                 <div class="form-section">
                                     <label for="">Identifiant:</label>
-                                    <input type="date" class="form-control mb-3" name="pseudo" required>
-                                    <label for="">Mot de passe:</label>
-                                    <input type="password" class="form-control mb-3" name="password" required>
-                                    <label for="">Confirmer mot de passe:</label>
-                                    <input type="password" class="form-control mb-3" name="passwordConf" required>
+                                    <input type="text" class="form-control mb-3" value="{{old('pseudo')}}" name="pseudo">
+                                    <span style="color:red">
+                                        @error('pseudo')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
+                                    <label for="password">Mot de passe:</label>
+                                    <input type="password" class="form-control mb-3" name="password">
+                                    <span style="color:red">
+                                        @error('password')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
+                                    <label for="passwordConf">Confirmer mot de passe:</label>
+                                    <input type="password" class="form-control mb-3" name="passwordConf">
+                                    <span style="color:red">
+                                        @error('passwordConf')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
+                                    <p id="message"></p>
                                     <input type="text" class="form-control mb-3" name="status" value="Client" hidden>
-                                    <input type="text" class="form-control mb-3" name="etat_id" value="2" hidden>
+                                    <input type="text" class="form-control mb-3" name="etat" value="2" hidden>
                                 </div>
                                 <div class="form-navigation mt-3">
                                     <button type="button" class="previous btn btn-primary float-left">&lt; Précédent</button>
                                     <button type="button" class="next btn btn-primary float-right">Suivant &gt;</button>
-                                    <button type="submit" class="btn btn-success float-right">Valider</button>
+                                    <button type="submit"  class="btn btn-success float-right">Valider</button>
                                 </div>
 
                             </form>
@@ -110,7 +175,33 @@
     </div>
 
     <script src="{{ asset('authTemp/app.js') }}"></script>
+    <script type="text/javascript">
+        $("document").ready(function() {
+            setTimeout(function() {
 
+                $("div.alert").remove;
+
+            }, 7000);
+        });
+    </script>
+    <script>
+        $(function() {
+            var date = new Date();
+            var mois = date.getMonth() + 1;
+            var jours = date.getDate();
+            var annee = date.getFullYear();
+            if (mois < 10) {
+
+                mois = '0' + mois.toString();
+            }
+            if (jours < 10) {
+
+                jours = '0' + jours.toString();
+            }
+            var maxdate = annee + '-' + mois + '-' + jours;
+            document.getElementById("dateValidate").setAttribute('max', maxdate);
+        });
+    </script>
     <script>
         $(function() {
             var $sections = $('.form-section');

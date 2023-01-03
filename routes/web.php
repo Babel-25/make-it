@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PersonnesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +65,9 @@ Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 Route::get('profil', function () {
     return view('mon_profil');
 });
+
+//Action Enregistrement
+Route::post('inscrit1', [PersonnesController::class, 'savePersonnes'])->name('register_action');
 
 Route::get('inscrit1', function () {
     return view('auth.inscrit1');

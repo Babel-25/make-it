@@ -20,17 +20,21 @@
                     <div class="input-field">
                         <i class="fas fa-user"></i>
                         <input type="text" placeholder="Identifiant" name="identifiant" required />
-                        @error('Identifiant')
-                            <div class="text-danger"> {{ $message }} </div>
-                        @enderror
                     </div>
+                    <span>
+                        @error('Identifiant')
+                        <div class="text-danger"> {{ $message }} </div>
+                        @enderror
+                    </span>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input type="password" placeholder="Mot de passe" name="password" required />
-                        @error('password')
-                            <div class="text-danger"> {{ $message }} </div>
-                        @enderror
                     </div>
+                    <span>
+                        @error('password')
+                        <div class="text-danger"> {{ $message }} </div>
+                        @enderror
+                    </span>
                     <input type="submit" value="Se connecter" class="btn solid" />
                     <div class="text-center p-t-15">
                         <p>
