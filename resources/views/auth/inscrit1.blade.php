@@ -23,20 +23,18 @@
         <div class="forms-container">
             <div class="signin-signup">
                 <div class="row justify-content-md-center">
-                    <div>
-                        @if(session()->exists('message'))
-                        <div class="alert alert-success" id="alert">
-                            <button type="button" class="close" data-dismiss="alert">
-                                X
-                            </button>
-                            {{session('message')}}
-                        </div>
-                        @endif
-                    </div>
                     <div class="col-md-12 ">
                         <div class=" px-5 py-3 mt-5 ">
                             <h1 class="text-danger text-center mt-3 mb-4">Incription</h1>
+                            <div>
+                                @if(session()->exists('message'))
+                                <div class="alert alert-success" id="alert">
+                                    
+                                    {{session('message')}}
 
+                                </div>
+                                @endif
+                            </div>
                             <div class="nav nav-fill my-3">
                                 <label class="nav-link shadow-sm step0    border ml-2 ">Etape un</label>
                                 <label class="nav-link shadow-sm step1   border ml-2 ">Etape deux</label>
@@ -53,17 +51,24 @@
                                         <div class="text-danger"> {{ $message }} </div>
                                         @enderror
                                     </span>
-                                    <label for="">Code de parrainage:</label>
+                                    <!--<label for="">Code de parrainage:</label>
                                     <input type="text" class="form-control mb-3" value="{{old('codePar')}}" name="codePar">
                                     <span style="color:red">
                                         @error('codePar')
                                         <div class="text-danger"> {{ $message }} </div>
                                         @enderror
-                                    </span>
+                                    </span>-->
                                     <label for="">Nom et Prénom:</label>
                                     <input type="text" class="form-control mb-3" value="{{old('name')}}" name="name">
                                     <span style="color:red">
                                         @error('name')
+                                        <div class="text-danger"> {{ $message }} </div>
+                                        @enderror
+                                    </span>
+                                    <label for="">Adresse:</label>
+                                    <input type="text" class="form-control mb-3" value="{{old('adresse')}}" name="adresse">
+                                    <span style="color:red">
+                                        @error('adresse')
                                         <div class="text-danger"> {{ $message }} </div>
                                         @enderror
                                     </span>
@@ -84,13 +89,6 @@
                                     </span>
                                 </div>
                                 <div class="form-section">
-                                    <label for="">Adresse:</label>
-                                    <input type="text" class="form-control mb-3" value="{{old('adresse')}}" name="adresse">
-                                    <span style="color:red">
-                                        @error('adresse')
-                                        <div class="text-danger"> {{ $message }} </div>
-                                        @enderror
-                                    </span>
                                     <label for="">Contact:</label>
                                     <input type="tel" class="form-control mb-3" value="{{old('phone')}}" name="phone">
                                     <span style="color:red">
@@ -142,7 +140,7 @@
                                 <div class="form-navigation mt-3">
                                     <button type="button" class="previous btn btn-primary float-left">&lt; Précédent</button>
                                     <button type="button" class="next btn btn-primary float-right">Suivant &gt;</button>
-                                    <button type="submit"  class="btn btn-success float-right">Valider</button>
+                                    <button type="submit" class="btn btn-success float-right">Valider</button>
                                 </div>
 
                             </form>
@@ -179,9 +177,9 @@
         $("document").ready(function() {
             setTimeout(function() {
 
-                $("div.alert").remove;
+                $("div.alert").remove();
 
-            }, 7000);
+            },5000);
         });
     </script>
     <script>
