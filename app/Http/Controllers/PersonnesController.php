@@ -79,7 +79,7 @@ class PersonnesController extends Controller
             // Insertion dans la table users
             $user = User::create(
                 [
-                    'identifiant'    => strtoupper($request->pseudo),
+                    'identifiant'    => $request->pseudo,
                     'password'       => Hash::make($request->password),
                     'status'       =>  $request->status,
                     'etat_id' => $request->etat,

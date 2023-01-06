@@ -28,7 +28,7 @@
                             <h1 class="text-danger text-center mt-3 mb-4">Incription</h1>
                             <div>
                                 @if(session()->exists('message'))
-                                <div class="alert alert-success" id="alert">
+                                <div class="alert alert-success" id="alert" align="center">
                                     
                                     {{session('message')}}
 

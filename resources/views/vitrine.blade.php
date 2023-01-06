@@ -76,13 +76,13 @@
                         <li><a href="#service">Comment ca marche</a></li>
                         <li><a href="#client_outer">Clients</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="{{ url('/inscrit1') }}">Je m'inscris</a></li>
+                        <li><a href="{{ url('auth/inscrit1') }}">S'inscrire</a></li>
                     </ul>
                     <ul class="">
                         <li><a href="#top_content">Accueil</a></li>
                         <li><a href="#service">Comment ca marche</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="{{ url('/inscrit1') }}">Je m'inscris</a></li>
+                        <li><a href="{{ url('auth/inscrit1') }}">S'inscrire</a></li>
                     </ul>
                 </nav>
                 <a class="res-nav_click animated wobble wow" href="javascript:void(0)"><i class="fa-bars"></i></a>
