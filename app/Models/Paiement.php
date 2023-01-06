@@ -10,7 +10,7 @@ class Paiement extends Model
     use HasFactory;
     protected $primaryKey = 'id';
     protected $fillable  = [
-        
+
         'code_paiement',
         'montant_parrainage',
         'montant_net',
@@ -18,8 +18,4 @@ class Paiement extends Model
         'date_paiement'
     ];
 
-    //Un code de paiement appartient a 1.1 personne
-    public function personne(){
-        return $this->belongsTo(Personne::class);
-    }
 }
