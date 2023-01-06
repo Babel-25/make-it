@@ -27,6 +27,15 @@ input {
   left: 0;
 }
 
+/***Ajout manuel**/
+.txt0 {
+    font-family: Poppins-Regular;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #292929;
+  }
+/***Ajout manuel**/
+
 .txt1 {
   font-family: Poppins-Regular;
   font-size: 13px;

@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-   
+
     protected $fillable = [
         'identifiant',
         'password',
@@ -20,7 +20,7 @@ class User extends Authenticatable
         'etat_id',
     ];
 
-    
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -31,9 +31,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //Le compte appartient à une seul et unique personne
-    public function personne()
-    {
-        return $this->belongsTo(Personne::class);
+    //Une personne a un compte utilisateur 
+    public function personne(){
+        return $this->hasOne(Personne::class);
     }
 }

@@ -13,21 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('membres', function (Blueprint $table) {
+        Schema::create('levels', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_membre');
+            $table->string('ref_niveau');
+            $table->string('libelle_niveau');
+            $table->integer('total_membre');
 
             //Id Phase
             $table->unsignedBigInteger('phase_id')->index();
             $table->foreign('phase_id')->references('id')->on('phases')->onUpdate('cascade')->onDelete('cascade');
-
-            //Id Niveau
-            $table->unsignedBigInteger('niveau_id')->index();
-            $table->foreign('niveau_id')->references('id')->on('niveaux')->onUpdate('cascade')->onDelete('cascade');
-
-            //Id Personne
-            $table->unsignedBigInteger('personne_id')->index();
-            $table->foreign('personne_id')->references('id')->on('personnes')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -39,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('membres');
+        Schema::dropIfExists('levels');
     }
 };

@@ -1,4 +1,4 @@
-@extends('user')
+@extends('layout.user.user')
 @section('content')
     <section class="mt container">
         <div id="Moi">
@@ -118,8 +118,7 @@
     </section>
     <section class="container mt">
         <div id="PhaseI">
-            <div class="bg-theme01 row text-center text-success "
-                style="border-color: green;border-style:solid;height:3em">
+            <div class="bg-theme01 row text-center text-success " style="border-color: green;border-style:solid;height:3em">
                 <div class="col-md-6 text-white"> Gain Brut Phase A :</div>
                 <div class="col-md-6 text-white"> 10 000 F CFA</div>
             </div>
@@ -133,6 +132,5 @@
             <div class="bg-theme01 col-md-6 "> Gain net total de la phase I </div>
             <div class="bg-white col-md-6 text-theme01 text-center"> 9 540 F CFA</div>
         </div>
-
     </section>
 @endsection
