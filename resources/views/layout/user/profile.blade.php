@@ -19,6 +19,13 @@
                             @csrf
                             @method('PUT')
 
+                            <div class="form-group" >
+                                <label class="col-sm-2 col-sm-2 control-label"> Code de Parrainage </label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" disabled="true" name="name"
+                                        value="{{ $user->code_parrainage }}">
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="col-sm-2 col-sm-2 control-label"> Nom & Prénom(s) </label>
                                 <div class="col-sm-10">

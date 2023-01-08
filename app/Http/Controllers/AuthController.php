@@ -28,6 +28,7 @@ class AuthController extends Controller
                 'pseudo'       => 'required',
                 'name'         => 'required',
                 'codePai'      => 'required',
+                'codePar'      => 'required',
                 'adresse'      => 'required',
                 'phone'        => 'required',
                 'sexe'         => 'required',
@@ -40,6 +41,7 @@ class AuthController extends Controller
                 'pseudo.required'       => 'Votre identifiant est obligatoire',
                 'name.required'         => 'Le nom et prénom(s) sont requis',
                 'codePai.required'      => 'Le code de paiement est obligatoire',
+                'codePar.required'      => 'Le code de parrainage est obligatoire',
                 'adresse.required'      => 'Votre adresse est obligatoire',
                 'sexe.required'         => 'Le sexe est obligatoire',
                 'phone.required'        => 'Votre numéro de téléphone est obligatoire',
@@ -60,47 +62,53 @@ class AuthController extends Controller
 
         //Vérification de l'existence du code de paiement
         $verif = Paiement::where('code_paiement', $request->codePai)->get();
+        $verifCodePar = Personne::where('code_parrainage ', $request->codePar)->get();
         $recupInfo = json_decode($verif, true);
+        $recupInfoCodePar = json_decode($verifCodePar, true);
 
         if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0) {
             $valueId = $recupInfo[0]['id'];
+            if ($recupInfoCodePar != null && $recupInfoCodePar != 'undefined' && $recupInfoCodePar[0] != 0) {
+                // Insertion dans la table users
+                $user = User::create(
+                    [
+                        'identifiant' => strtoupper($request->pseudo),
+                        'password'    => Hash::make($request->password),
+                        'status'      => $request->status,
+                        'etat_id'     => $request->etat,
+                    ]
+                );
 
-            // Insertion dans la table users
-            $user = User::create(
-                [
-                    'identifiant' => strtoupper($request->pseudo),
-                    'password'    => Hash::make($request->password),
-                    'status'      => $request->status,
-                    'etat_id'     => $request->etat,
-                ]
-            );
+                // Insertion dans la table Personnes
+                $person = Personne::create(
+                    [
+                        'nom_prenom'      => strtoupper($request->name),
+                        'code_parrainage' => $generateCodePar,
+                        'adresse'         => $request->adresse,
+                        'contact'         => $request->phone,
+                        'date_naissance'  => $request->date,
+                        'email'           => $request->email,
+                        'sexe_id'         => $request->sexe,
+                        'user_id'         => $user->id,
+                        'paiement_id'     => $valueId,
+                        //Recuperation de l'id user
+                        'user_id'         => $user->id
+                    ]
+                );
 
-            // Insertion dans la table Personnes
-            $person = Personne::create(
-                [
-                    'nom_prenom'      => strtoupper($request->name),
-                    'code_parrainage' => $generateCodePar,
-                    'adresse'         => $request->adresse,
-                    'contact'         => $request->phone,
-                    'date_naissance'  => $request->date,
-                    'email'           => $request->email,
-                    'sexe_id'         => $request->sexe,
-                    'user_id'         => $user->id,
-                    'paiement_id'     => $valueId,
-                    //Recuperation de l'id user
-                    'user_id'         => $user->id
-                ]
-            );
-
-            if ($person and $user) {
-                session()->flash('message', 'Inscription Réussie!');
-                return back();
+                if ($person and $user) {
+                    session()->flash('message', 'Inscription Réussie!');
+                    return back();
+                } else {
+                    session()->flash('message', 'Inscription échouée, veuiller réessayer!');
+                    return back();
+                }
             } else {
-                session()->flash('message', 'Inscription échouée, veuiller réessayer!');
+                session()->flash('message', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
                 return back();
             }
         } else {
-            session()->flash('message', 'Le code paiement est invalide, veuillez réessayer!');
+            session()->flash('message', 'Code paiement est invalide, veuillez réessayer!');
             return back();
         }
     }
@@ -157,7 +165,7 @@ class AuthController extends Controller
 
         $update_user = $user->update([
             'identifiant' => $data['identifiant'],
-            'password'    => Hash::make($data['password']) ,
+            'password'    => Hash::make($data['password']),
         ]);
 
         if ($update_user) {

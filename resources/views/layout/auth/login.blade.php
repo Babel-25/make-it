@@ -81,7 +81,7 @@
                     </a>
                 </button>
             </div>
-            <img src="{{ asset('authTemp/img/register.svg') }}" class="image" alt="" />
+            <img src="{{ asset('Auth/img/register.svg') }}" class="image" alt="" />
         </div>
     </div>
 </div>
