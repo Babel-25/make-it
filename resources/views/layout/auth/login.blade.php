@@ -10,14 +10,22 @@
                 @csrf
                 <h2 class="title">Connectez-vous</h2>
                 <div>
+<<<<<<< HEAD
                     @if (session()->exists('test'))
                     <div class="alert alert-success" id="alert" align="center">
                         {{ session('test') }}
                     </div>
+=======
+                    @if (session()->exists('message'))
+                        <div class="alert alert-success" id="alert">
+                            {{ session('message') }}
+                        </div>
+>>>>>>> 65cba0dece17992afe2185bc0b3f0737d7df8e34
                     @endif
                 </div>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
+<<<<<<< HEAD
                     <input type="text" placeholder="Identifiant"  value="{{ old('identifiant') }}" name="identifiant" required />
                 </div>
                 <span>
@@ -25,15 +33,34 @@
                     <div class="text-danger"> {{ $message }} </div>
                     @enderror
                 </span>
+=======
+                    <input type="text" placeholder="Identifiant" name="identifiant" required />
+                    <span>
+                        @error('Identifiant')
+                            <div class="text-danger"> {{ $message }} </div>
+                        @enderror
+                    </span>
+                </div>
+
+>>>>>>> 65cba0dece17992afe2185bc0b3f0737d7df8e34
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
                     <input type="password" placeholder="Mot de passe" name="password" required />
+                    <span>
+                        @error('password')
+                            <div class="text-danger"> {{ $message }} </div>
+                        @enderror
+                    </span>
                 </div>
+<<<<<<< HEAD
                 <span>
                     @error('password')
                     <div class="text-danger"> {{ $message }} </div>
                     @enderror
                 </span>
+=======
+
+>>>>>>> 65cba0dece17992afe2185bc0b3f0737d7df8e34
                 <input type="submit" value="Se connecter" class="btn solid" />
                 <div class="text-center p-t-15">
                     <p>

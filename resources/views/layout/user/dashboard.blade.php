@@ -1,5 +1,12 @@
 @extends('layout.user.user')
 @section('content')
+    <div>
+        @if (session()->exists('message'))
+            <div class="alert alert-success" id="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+    </div>
     <section class="mt container">
         <div id="Moi">
             <div class=" text-center text-success m-3" style="border-color: green;border-style:solid;height:3em"> MOI

@@ -138,6 +138,29 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+=======
+
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>A SAVOIR</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quas vel rerum. Veniam quisquam
+                        facere, cumque, voluptas ratione doloribus laudantium ipsum dicta optio ut rerum rem nulla qui
+                        consequuntur voluptatibus!
+                    </p>
+                    <button class="btn"><a href="{{ route('login_form') }}"
+                            style="text-decoration: none; color:white;">
+                            Se connecter
+                        </a>
+                    </button>
+                </div>
+
+                <img src="{{ asset('Auth/img/log.svg') }}" class="image" alt="" />
+            </div>
+        </div>
+>>>>>>> 65cba0dece17992afe2185bc0b3f0737d7df8e34
     </div>
 
     <div class="panels-container">

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MessageGoogle;
 use App\Models\Paiement;
 use App\Models\Personne;
 use App\Models\User;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -138,20 +141,57 @@ class AuthController extends Controller
         return back();
     }
 
+    //formulaire mot de passe oublié
     public function forgetPwdForm()
     {
         return view('layout.auth.forget_password');
     }
 
-    public function forgetPwdAction()
+    //action mot de passe oublié
+    public function forgetPwdAction(Request $request)
     {
-        //
+        #1. Validation de la requête
+        // $this->validate($request, ['message' => 'bail|required']);
+        $request->validate(['email' => 'required']);
+
+        $request->validate(
+            [
+                'email' => 'required|email',
+            ],
+            [
+                'email.required' => 'Votre mail est obligatoire',
+            ]
+        );
+        #2. Récupération des utilisateurs
+        // $users = User::all();
+
+        //Recupération du proprietaire du mail dans la table personnes
+
+
+        $personne = Personne::where('email', request('email'))->first();
+
+        //Recuperation de l'utilisateur dans la table Users
+        $user = User::where('id', $personne->user_id)->first();
+
+
+        //Mise à jour d'un mot de passe temporaire dans la table Users
+        $user->update([
+            'password' => Crypt::encrypt("none"),
+        ]);
+
+        #3. Envoi du mail
+        Mail::to($personne)->bcc("philippesf3@gmail.com")
+            ->queue(new MessageGoogle($personne));
+        session()->flash('message', 'Un mail vous a été envoyé');
+
+
+        return back()->withText("Message envoyé");
     }
 
+    //action mise à jour de l'utilisateur
     public function updateUser(Request $request, $id)
     {
-        // Mise a jour auth
-        $user  =  User::find($id);
+        $user = User::find($id);
 
         $data = $request->validate(
             [
@@ -160,7 +200,7 @@ class AuthController extends Controller
                 'password_confirmation' => 'required|min:8|same:password'
             ],
             [
-                'password.required'     => 'Caractères minimum requis 8 caractères',
+                'password.required'     => 'Caractères minimum requis 8',
                 'passwordConf.required' => 'Les mots de passe ne correspondent pas, veuiller réessayer!'
             ]
         );
@@ -171,7 +211,10 @@ class AuthController extends Controller
         ]);
 
         if ($update_user) {
-            session()->flash('message', 'Mot de passe modifié');
+            session()->flash('message', 'Compte mise à jour');
+            return back();
+        } else {
+            session()->flash('message', 'Echec de la mise à jour');
             return back();
         }
     }

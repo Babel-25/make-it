@@ -72,10 +72,10 @@ class PersonneController extends Controller
         $personne = Personne::find($id);
 
         $data = $request->validate([
-            'nom_prenom'    => 'required',
-            'contact' => 'required',
-            'email'   => 'required',
-            'adresse' => 'required',
+            'nom_prenom' => 'required',
+            'contact'    => 'required',
+            'email'      => 'required',
+            'adresse'    => 'required',
         ]);
 
         //Action de mise à jour
@@ -89,6 +89,11 @@ class PersonneController extends Controller
         if ($update_personne) {
             session()->flash('message', 'Mise à jour effectuée');
             return back();
+        }
+        else{
+            session()->flash('message', 'Echec de la mise à jour');
+            return back();
+
         }
     }
 
