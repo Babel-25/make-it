@@ -19,7 +19,7 @@
                     <span> Gestion </span>
                 </a>
                 <ul class="sub">
-                    <li><a href="#"> Configuration</a></li>
+                    <li><a href="{{ route('config_form') }}"> Configuration</a></li>
                 </ul>
             </li>
 

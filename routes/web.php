@@ -40,6 +40,13 @@ Route::get('mot de passe oublié', [AuthController::class, 'forgetPwdForm'])->na
 //Action Deconnexion
 Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 
+//Page de formulaire de sexe + etat
+Route::get('config', [PageController::class, 'configForm'])->name('config_form');
+
+//Action sexe + etat
+
+
+
 //Middleware pour la protection des pages
 Route::middleware(['Connection'])->group(function () {
 
