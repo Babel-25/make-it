@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MessageGoogle;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
 {

@@ -37,6 +37,9 @@ Route::post('Inscription', [AuthController::class, 'registerAction'])->name('reg
 //Formulaire Mot de passe oublié
 Route::get('mot de passe oublié', [AuthController::class, 'forgetPwdForm'])->name('forget_pwd_form');
 
+//Action mot de passe oublié
+Route::post('Mot de passe oublié', [AuthController::class, 'forgetPwdAction'])->name('forget_pwd_action');
+
 //Action Deconnexion
 Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 
@@ -44,7 +47,6 @@ Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 Route::get('config', [PageController::class, 'configForm'])->name('config_form');
 
 //Action sexe + etat
-
 
 
 //Middleware pour la protection des pages

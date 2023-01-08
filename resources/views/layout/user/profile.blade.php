@@ -27,10 +27,12 @@
                             <div class="col-sm-10" id="name_on" style="display: none">
                                 <input type="text" class="form-control" name="nom_prenom"
                                     value="{{ $user->nom_prenom }}">
+                                @error('nom_prenom')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="name_off">
-                                <input type="text" class="form-control" name="name"
-                                    value="{{ $user->nom_prenom }}" readonly>
+                                <input type="text" class="form-control" value="{{ $user->nom_prenom }}" readonly>
                             </div>
                         </div>
 
@@ -38,30 +40,37 @@
                             <label class="col-sm-2 col-sm-2 control-label"> Contact </label>
                             <div class="col-sm-10" id="contact_on" style="display: none">
                                 <input type="text" class="form-control" name="contact" value="{{ $user->contact }}">
+                                @error('contact')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="contact_off">
-                                <input type="text" class="form-control" name="contact" value="{{ $user->contact }}"
-                                    readonly>
+                                <input type="text" class="form-control" value="{{ $user->contact }}" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Email</label>
                             <div class="col-sm-10" id="email_on" style="display: none">
                                 <input type="email" class="form-control" name="email" value="{{ $user->email }}">
+                                @error('email')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="email_off">
-                                <input type="email" class="form-control" name="email" value="{{ $user->email }}"
-                                    readonly>
+                                <input type="email" class="form-control" value="{{ $user->email }}" readonly>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Adresse</label>
                             <div class="col-sm-10" id="adresse_on" style="display: none">
                                 <input type="text" class="form-control" name="adresse" value="{{ $user->adresse }}">
+                                @error('adresse')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="adresse_off">
-                                <input type="text" class="form-control" name="adresse" value="{{ $user->adresse }}"
-                                    readonly>
+                                <input type="text" class="form-control" value="{{ $user->adresse }}" readonly>
                             </div>
                         </div>
 
@@ -80,19 +89,26 @@
                             <div class="col-sm-10" id="identifiant_on" style="display: none">
                                 <input type="text" class="form-control" name="identifiant"
                                     value="{{ auth()->user()->identifiant }}">
+                                @error('identifiant')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="identifiant_off">
-                                <input type="text" class="form-control" name="identifiant"
-                                    value="{{ auth()->user()->identifiant }}" readonly>
+                                <input type="text" class="form-control" value="{{ auth()->user()->identifiant }}"
+                                    readonly>
+
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Nouveau mot de passe </label>
                             <div class="col-sm-10" id="pwd_on" style="display: none">
                                 <input type="password" class="form-control" name="password">
+                                @error('password')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="pwd_off">
-                                <input type="password" class="form-control" name="password" readonly>
+                                <input type="password" class="form-control" readonly>
                             </div>
                         </div>
 
@@ -100,13 +116,16 @@
                             <label class="col-sm-2 col-sm-2 control-label">Confirmer nouveau mot de passe </label>
                             <div class="col-sm-10" id="pwd_conf_on" style="display: none">
                                 <input type="password" class="form-control" name="password_confirmation">
+                                @error('password_confirmation')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                @enderror
                             </div>
                             <div class="col-sm-10" id="pwd_conf_off">
-                                <input type="password" class="form-control" name="password_confirmation" readonly>
+                                <input type="password" class="form-control" readonly>
                             </div>
                         </div>
-                        <button id="btn_connection" type="submit"
-                            class="btn btn-round btn-success btn-block" disabled>
+                        <button id="btn_connection" type="submit" class="btn btn-round btn-success btn-block"
+                            disabled>
                             Modifier</button>
                     </form>
                 </div>
@@ -118,7 +137,6 @@
 
 <script>
     function onClik() {
-
         document.getElementById('name_on').style.display = 'block';
         document.getElementById('name_off').style.display = 'none';
         document.getElementById('contact_on').style.display = 'block';
@@ -133,11 +151,8 @@
         document.getElementById('pwd_off').style.display = 'none';
         document.getElementById('pwd_conf_on').style.display = 'block';
         document.getElementById('pwd_conf_off').style.display = 'none';
-
         document.getElementById('btn_person').disabled = false;
         document.getElementById('btn_connection').disabled = false;
-        // alert(document.getElementById('btn_connection').disabled = true)
-
     }
 </script>
 

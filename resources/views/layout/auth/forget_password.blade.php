@@ -11,11 +11,15 @@
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup">
-            <form action="#" class="sign-in-form">
+            <form action="{{ route('forget_pwd_action') }}" method="POST" class="sign-in-form">
+                @csrf
                 <h2 class="title">Récupération</h2>
                 <div class="input-field">
                     <i class="fas fa-envelope"></i>
-                    <input type="text" placeholder="Email" />
+                    <input type="text" name="email" placeholder="Email" required />
+                    @error('email')
+                        <div class="text-danger"> {{ $message }} </div>
+                    @enderror
                 </div>
 
                 <input type="submit" value="reinitialiser" class="btn solid" />
@@ -46,7 +50,7 @@
                 </p>
 
             </div>
-            <img src="{{ asset('authTemp/img/register.svg') }}" class="image" alt="" />
+            <img src="{{ asset('Auth/img/register.svg') }}" class="image" alt="" />
         </div>
     </div>
 </div>
