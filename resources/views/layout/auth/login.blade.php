@@ -5,16 +5,17 @@
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup">
-            <div>
-                @if (session()->exists('message'))
-                    <div class="alert alert-success" id="alert">
-                        {{ session('message') }}
-                    </div>
-                @endif
-            </div>
+
             <form action="{{ route('login_action') }}" class="sign-in-form" method="POST">
                 @csrf
                 <h2 class="title">Connectez-vous</h2>
+                <div>
+                    @if (session()->exists('message'))
+                        <div class="alert alert-success" id="alert">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+                </div>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
                     <input type="text" placeholder="Identifiant" name="identifiant" required />
