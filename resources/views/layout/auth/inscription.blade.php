@@ -149,7 +149,7 @@
                     facere, cumque, voluptas ratione doloribus laudantium ipsum dicta optio ut rerum rem nulla qui
                     consequuntur voluptatibus!
                 </p>
-                <button class="btn"><a href="{{ route('login_form') }}" style="text-decoration: none; color:white;">
+                <button class="btn transparent" id="sign-in-btn"><a href="{{ route('login_form') }}" style="text-decoration: none;">
                         Se connecter
                     </a>
                 </button>

@@ -5,23 +5,24 @@
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup">
-            <div>
-                @if (session()->exists('message'))
-                    <div class="alert alert-success" id="alert">
-                        {{ session('message') }}
-                    </div>
-                @endif
-            </div>
+
             <form action="{{ route('login_action') }}" class="sign-in-form" method="POST">
                 @csrf
                 <h2 class="title">Connectez-vous</h2>
+                <div>
+                    @if (session()->exists('test'))
+                    <div class="alert alert-success" id="alert" align="center">
+                        {{ session('test') }}
+                    </div>
+                    @endif
+                </div>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Identifiant" name="identifiant" required />
+                    <input type="text" placeholder="Identifiant"  value="{{ old('identifiant') }}" name="identifiant" required />
                 </div>
                 <span>
                     @error('Identifiant')
-                        <div class="text-danger"> {{ $message }} </div>
+                    <div class="text-danger"> {{ $message }} </div>
                     @enderror
                 </span>
                 <div class="input-field">
@@ -30,7 +31,7 @@
                 </div>
                 <span>
                     @error('password')
-                        <div class="text-danger"> {{ $message }} </div>
+                    <div class="text-danger"> {{ $message }} </div>
                     @enderror
                 </span>
                 <input type="submit" value="Se connecter" class="btn solid" />
@@ -46,8 +47,8 @@
 
                     </p>
                 </div>
-                <p> ---------- OU ------------ </p>
-                <p class="social-text"> Se connecter avec les réseaux sociaux</p>
+                <p> ---------- OU ----------</p>
+                <p class="social-text"> Visiter nos réseaux sociaux</p>
                 <div class="social-media">
                     <a href="#" class="social-icon">
                         <i class="fab fa-facebook-f"></i>
@@ -75,8 +76,7 @@
                     facere, cumque, voluptas ratione doloribus laudantium ipsum dicta optio ut rerum rem nulla qui
                     consequuntur voluptatibus!
                 </p>
-                <button class="btn"><a href="{{ route('register_form') }}"
-                        style="text-decoration: none; color:white;">
+                <button class="btn transparent" id="sign-up-btn"><a href="{{ route('register_form') }}" style="text-decoration: none;">
                         Créer un compte
                     </a>
                 </button>
