@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EtatController;
+use App\Http\Controllers\SexeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PersonneController;
 use Illuminate\Support\Facades\Route;
@@ -43,10 +45,30 @@ Route::post('Mot de passe oublié', [AuthController::class, 'forgetPwdAction'])-
 //Action Deconnexion
 Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 
-//Page de formulaire de sexe + etat
-Route::get('config', [PageController::class, 'configForm'])->name('config_form');
+//Page de formulaire de sexe + etat + paiement
+Route::get('configurtion', [PageController::class, 'configForm'])->name('config_form');
+
+Route::get('paiement', [PageController::class, 'paiementForm'])->name('paie_form');
+
+//Route::get('listeEtat', [PageController::class, 'listeEtats'])->name('etat');
+
+//Route::get('listeEtat', [PageController::class, 'listeEtat']);
+
+//Route::get('/modifEtat{id}', [PageController::class, 'showEditEtat']);
+
+//Route::post('/modifEtat{id}', [PageController::class, 'modifEtat']);
+
+//Route::post('/supprimerEtat{id}', [PageController::class, 'deleteEtat']);
+
 
 //Action sexe + etat
+
+Route::resource("/Configuration", SexeController::class);
+
+Route::resource("/Liste_Etat", EtatController::class);
+
+
+//Route::post('etatAdd', [PageController::class, 'addEtat'])->name('register_etat_action');
 
 
 //Middleware pour la protection des pages

@@ -6,7 +6,8 @@
 <title> {{ config('app.name') }} - Ma Page</title>
 
 <!-- Favicons -->
-<link href="{{ asset('/User/img/favicon.png') }}" rel="icon">
+
+<link rel="icon" type="image/png" href="{{ asset('/logo/logo.png') }}" />
 <link href="{{ asset('/User/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
 <!-- Bootstrap core CSS -->
@@ -18,4 +19,9 @@
 <!-- Custom styles for this template -->
 <link href="{{ asset('/User/css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('/User/css/style-responsive.css') }}" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
+
+
 <script src="{{ asset('/User/lib/chart-master/Chart.js') }}"></script>

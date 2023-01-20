@@ -10,7 +10,7 @@
     Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
     Licensing information: https://templatemag.com/license/
   -->
-            Created  by <a href="#"> B-F</a>
+            Created  by <a href="#"> BIAO && FOLLY</a>
         </div>
 
     </div>

@@ -10,6 +10,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -65,54 +66,52 @@ class AuthController extends Controller
 
         //Vérification de l'existence du code de paiement
         $verif = Paiement::where('code_paiement', $request->codePai)->get();
-        $verifCodePar = Personne::where('code_parrainage ', $request->codePar)->get();
+        $verifCodePar = DB::table('personnes')->where('code_parrainage', $request->codePar)->get()->first();
         $recupInfo = json_decode($verif, true);
-        $recupInfoCodePar = json_decode($verifCodePar, true);
-        dd($recupInfoCodePar);
 
         if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0) {
             $valueId = $recupInfo[0]['id'];
-            // if ($recupInfoCodePar != null && $recupInfoCodePar != 'undefined' && $recupInfoCodePar[0] != 0) {
-            // Insertion dans la table users
-            $user = User::create(
-                [
-                    'identifiant' => $request->pseudo,
-                    'password'    => Hash::make($request->password),
-                    'status'      => $request->status,
-                    'etat_id'     => $request->etat,
-                ]
-            );
+            if ($verifCodePar != null) {
+                // Insertion dans la table users
+                $user = User::create(
+                    [
+                        'identifiant' => $request->pseudo,
+                        'password'    => Hash::make($request->password),
+                        'status'      => $request->status,
+                        'etat_id'     => $request->etat,
+                    ]
+                );
 
-            // Insertion dans la table Personnes
-            $person = Personne::create(
-                [
-                    'nom_prenom'      => $request->name,
-                    'code_parrainage' => $generateCodePar,
-                    'adresse'         => $request->adresse,
-                    'contact'         => $request->phone,
-                    'date_naissance'  => $request->date,
-                    'email'           => $request->email,
-                    'sexe_id'         => $request->sexe,
-                    'user_id'         => $user->id,
-                    'paiement_id'     => $valueId,
-                    //Recuperation de l'id user
-                    'user_id'         => $user->id
-                ]
-            );
+                // Insertion dans la table Personnes
+                $person = Personne::create(
+                    [
+                        'nom_prenom'      => $request->name,
+                        'code_parrainage' => $generateCodePar,
+                        'adresse'         => $request->adresse,
+                        'contact'         => $request->phone,
+                        'date_naissance'  => $request->date,
+                        'email'           => $request->email,
+                        'sexe_id'         => $request->sexe,
+                        'user_id'         => $user->id,
+                        'paiement_id'     => $valueId,
+                        //Recuperation de l'id user
+                        'user_id'         => $user->id
+                    ]
+                );
 
-            if ($person and $user) {
-                session()->flash('message', 'Inscription Réussie!');
-                return back();
+                if ($person and $user) {
+                    session()->flash('message', 'Inscription Réussie!');
+                    return back();
+                } else {
+                    session()->flash('message1', 'Inscription échouée, veuiller réessayer!');
+                    return back();
+                }
             } else {
-                session()->flash('message', 'Inscription échouée, veuiller réessayer!');
+                session()->flash('message1', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
                 return back();
             }
-            /* } else {
-                session()->flash('message', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
-                return back();
-            }*/
         } else {
-            session()->flash('message', 'Code paiement invalide, veuillez réessayer!');
+            session()->flash('message1', 'Code paiement invalide, veuillez réessayer!');
             return back();
         }
     }

@@ -13,6 +13,9 @@
   <!--script for this page-->
   <script src="{{ asset('/User/lib/sparkline-chart.js') }}"></script>
   <script src="{{ asset('/User/lib/zabuto_calendar.js') }}"></script>
+
+  <script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
   {{-- <script type="text/javascript">
   $(document).ready(function() {
     var unique_id = $.gritter.add({
@@ -34,16 +37,16 @@
   });
 </script> --}}
 
-<script type="text/javascript">
+  <script type="text/javascript">
     $("document").ready(function() {
-        setTimeout(function() {
+      setTimeout(function() {
 
-            $("div.alert").remove();
+        $("div.alert").remove();
 
-        }, 5000);
+      }, 5000);
     });
-</script>
-<script type="application/javascript">
+  </script>
+  <script type="application/javascript">
     $(document).ready(function() {
       $("#date-popover").popover({
         html: true,
@@ -84,4 +87,23 @@
       var to = $("#" + id).data("to");
       console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
     }
+
+    function Action() {
+      var r = confirm(" Voulez-vous supprimer cet élement ?");
+      if (r === false) {
+        return false;
+      }
+    }
+
+    $(document).ready(function() {
+      $('#sexeTab').DataTable();
+    });
+
+    $(document).ready(function() {
+      $('#etatTab').DataTable();
+    });
+
+    $(document).ready(function() {
+      $('#example').DataTable();
+    });
   </script>

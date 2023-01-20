@@ -18,6 +18,13 @@
                             </div>
                             @endif
                         </div>
+                        <div>
+                            @if (session()->exists('message1'))
+                            <div class="alert alert-danger" id="alert" align="center">
+                                {{ session('message1') }}
+                            </div>
+                            @endif
+                        </div>
                         <div class="nav nav-fill my-3">
                             <label class="nav-link shadow-sm step0 border ml-2 ">Première étape </label>
                             <label class="nav-link shadow-sm step1 border ml-2 ">Seconde étape</label>
@@ -63,7 +70,7 @@
                                     @php
                                     $gendre = \App\Models\Sexe::all();
                                     @endphp
-                                    <option> Choix </option>
+                                    <option> Selectionnez---</option>
                                     @foreach ($gendre as $sexe)
                                     <option value=" {{ $sexe->id }} ">{{ $sexe->libelle }}</option>
                                     @endforeach
@@ -138,29 +145,6 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-=======
-
-        <div class="panels-container">
-            <div class="panel left-panel">
-                <div class="content">
-                    <h3>A SAVOIR</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quas vel rerum. Veniam quisquam
-                        facere, cumque, voluptas ratione doloribus laudantium ipsum dicta optio ut rerum rem nulla qui
-                        consequuntur voluptatibus!
-                    </p>
-                    <button class="btn"><a href="{{ route('login_form') }}"
-                            style="text-decoration: none; color:white;">
-                            Se connecter
-                        </a>
-                    </button>
-                </div>
-
-                <img src="{{ asset('Auth/img/log.svg') }}" class="image" alt="" />
-            </div>
-        </div>
->>>>>>> 65cba0dece17992afe2185bc0b3f0737d7df8e34
     </div>
 
     <div class="panels-container">
