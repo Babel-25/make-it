@@ -12,9 +12,7 @@ class Paiement extends Model
     protected $fillable  = [
 
         'code_paiement',
-        'montant_parrainage',
-        'montant_net',
-        'montant_total',
+        'libelle_paiement',
         'date_paiement'
     ];
 

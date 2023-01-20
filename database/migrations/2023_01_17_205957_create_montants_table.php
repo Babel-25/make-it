@@ -13,11 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('paiements', function (Blueprint $table) {
+        Schema::create('montants', function (Blueprint $table) {
             $table->id();
-            $table->string('code_paiement');
-            $table->string('libelle_paiement');
-            $table->string('date_paiement');
+            $table->float('montant_parrain');
+            $table->float('montant_net');
+            $table->float('montant_total');
+
+            //Id Personne
+            $table->unsignedBigInteger('personne_id')->index();
+            $table->foreign('personne_id')->references('id')->on('personnes')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paiements');
+        Schema::dropIfExists('montants');
     }
 };
