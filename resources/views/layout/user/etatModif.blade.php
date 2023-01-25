@@ -6,40 +6,40 @@
             <h1 class="mb"><i class="fa fa-angle-right"></i> Configuration de base </h1>
             <div class="row">
                 <div class="col-md-6">
-                    <h3> Modifier sexe Informations</h3>
-
-                    <form class="form-horizontal style-form" method="POST" action="{{ url('Configuration/' .$sexes->id) }}" id="form_user">
+                    <h3> Modifier Etat Utilisateur </h3>
+                    <form class="form-horizontal style-form" method="POST" action="{{ url('Liste_Etat/' .$etats->id) }}" id="form_auth">
                         @csrf
                         @method("PATCH")
                         <div class="form-group">
-                            <input type="hidden" name="id" id="id" value="{{$sexes->id}}" />
+                            <input type="hidden" name="id" id="id" value="{{$etats->id}}" />
                             <div class="col-sm-10">
                                 <span>
-                                    <h5>Code Sexe</h5>
+                                    <h5>Code Etat</h5>
                                 </span>
-                                <select name="codeSexes" id="codeSexes" class="form-control mb-3" readonly="True">
-                                    <option value="{{$sexes->code}}">{{$sexes->code}} </option>
-                                    <option value="M"> M </option>
-                                    <option value="F"> F</option>
+                                <select name="codeEtat" placeholder="Code" class="form-control mb-3" readonly="true">
+                                    <option value="{{$etats->code}}"> {{$etats->code}}</option>
+                                    <option value="ACT"> ACT </option>
+                                    <option value="INA"> INA</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-10">
                                 <span>
-                                    <h5>Libelle Sexe</h5>
+                                    <h5>Libelle Etat</h5>
                                 </span>
-                                <div c lass="col-12">
-                                    <input type="text" value="{{$sexes->libelle}} " class="form-control" name="libelleSexes" id="libelleSexes">
+                                <div class="col-12">
+                                    <input type="text" value="{{$etats->libelle}} " class="form-control" name="libelleEtat">
                                 </div>
-
                             </div>
+
                         </div>
 
-                        <button type="submit" value="Update" class="btn btn-round btn-success"><i class="fa fa-check" aria-hidden="true"></i>
-                            Modifier</button><br><br>
+                        <button type="submit" class="btn btn-round btn-success"><i class="fa fa-check" aria-hidden="true"></i>
+                            Modifier </button><br><br>
                     </form>
-                    <a href="{{ url('Configuration') }}" title=""> <button class="btn btn-round btn-danger"><i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
+                    <a href="{{ url('Liste_Etat') }}" title=""> <button class="btn btn-round btn-danger">
+                            <i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
                 </div>
                 <div class="col-md-6" align="center">
                     <div class="wrap-login100">
@@ -48,7 +48,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>

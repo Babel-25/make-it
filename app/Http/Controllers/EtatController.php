@@ -88,7 +88,7 @@ class EtatController extends Controller
     public function edit($id)
     {
         $etat = Etat::find($id);
-        return view('layout.user.configModif')->with('etat', $etat);
+        return view('layout.user.etatModif')->with('etats', $etat);
     }
 
     /**
@@ -101,10 +101,14 @@ class EtatController extends Controller
     public function update(Request $request, $id)
     {
         $eta = Etat::findOrFail($id);
-        $input = $eta->update($request->all());
-        session()->flash('message2', 'Modification Réussi !');
+        $input = $eta->update([
+            'code' => request('codeEtat'),
+            'libelle' => request('libelleEtat'),
+        ]);
+        $input = Etat::all();
+        session()->flash('message3', 'Modification Réussi !');
 
-        return redirect('Configuration');
+        return redirect('Liste_Etat');
     }
 
     /**
@@ -116,7 +120,7 @@ class EtatController extends Controller
     public function destroy($id)
     {
         Etat::destroy($id);
-        session()->flash('echec2', 'Suppression réussi!');
+        session()->flash('echec3', 'Suppression réussi!');
         return redirect('Liste_Etat');
     }
 }

@@ -16,6 +16,7 @@
 <link href="{{ asset('/User/lib/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{{ asset('/User/css/zabuto_calendar.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('/User/lib/gritter/css/jquery.gritter.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('/User/animate/animate.css') }}">
 <!-- Custom styles for this template -->
 <link href="{{ asset('/User/css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('/User/css/style-responsive.css') }}" rel="stylesheet">

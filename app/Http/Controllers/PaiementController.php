@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sexe;
+use App\Models\Paiement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class SexeController extends Controller
+class PaiementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class SexeController extends Controller
      */
     public function index()
     {
-        $sexes = Sexe::all();
-        return view('layout.user.configuration')->with('sexes', $sexes);
+        $paiements = Paiement::all();
+        return view('layout.user.paiement')->with('paiements', $paiements);
     }
 
     /**
@@ -26,7 +26,7 @@ class SexeController extends Controller
      */
     public function create()
     {
-        return view('layout.user.configuration');
+        return view('layout.user.paiement');
     }
 
     /**
@@ -39,30 +39,30 @@ class SexeController extends Controller
     {
         $request->validate(
             [
-                'codeSexe'       => 'required',
-                'libelleSexe'         => 'required'
+                'codePaie'       => 'required',
+                'libellePaie'         => 'required'
 
             ],
             [
-                'codeSexe.required'       => 'Le code est obligatoire',
-                'libelleSexe.required'         => 'Le libelle est obligatoire'
+                'codePaie.required'       => 'Le code est obligatoire',
+                'libellePaie.required'         => 'Le libelle est obligatoire'
             ]
         );
 
-        $verifCodeSexe = DB::table('sexes')->where('code', $request->codeSexe)->get()->first();
-        if ($verifCodeSexe != null) {
+        $verifCodePaie = DB::table('paiements')->where('code_paiement', $request->codePaie)->get()->first();
+        if ($verifCodePaie != null) {
             //dd($valueCode);
-            session()->flash('echec1', 'Insertion echoué, cet enregistrement existe déja !');
+            session()->flash('echec4', 'Insertion echoué, cet enregistrement existe déja !');
             return back();
         } else {
-            $sexe = Sexe::create(
+            $paiem = Paiement::create(
                 [
-                    'code' => $request->codeSexe,
-                    'libelle'      => $request->libelleSexe,
+                    'code_paiement' => $request->codePaie,
+                    'libelle_paiement'      => $request->libellePaie,
                 ]
             );
 
-            session()->flash('message1', 'Ajout Réussi !');
+            session()->flash('message4', 'Ajout Réussi !');
             return back();
         }
     }
@@ -86,8 +86,8 @@ class SexeController extends Controller
      */
     public function edit($id)
     {
-        $sexe = Sexe::find($id);
-        return view('layout.user.configModif')->with('sexes', $sexe);
+        $paie = Paiement::find($id);
+        return view('layout.user.paiemenModif')->with('paiements', $paie);
     }
 
     /**
@@ -99,15 +99,15 @@ class SexeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $sex = Sexe::findOrFail($id);
-        $input = $sex->update([
-            'code' => request('codeSexes'),
-            'libelle' => request('libelleSexes'),
+        $spaiement = Paiement::findOrFail($id);
+        $input = $spaiement->update([
+            'code_paiement' => request('codePaie'),
+            'libelle_paiement' => request('libellePaie'),
         ]);
-        $input = Sexe::all();
-        session()->flash('message1', 'Modification Réussi !');
+        $input = Paiement::all();
+        session()->flash('message4', 'Modification Réussi !');
         
-        return redirect('Configuration');
+        return redirect('Paiement');
     }
 
     /**
@@ -118,8 +118,8 @@ class SexeController extends Controller
      */
     public function destroy($id)
     {
-        Sexe::destroy($id);
-        session()->flash('echec1', 'Suppression réussi!');
+        Paiement::destroy($id);
+        session()->flash('echec4', 'Suppression réussi!');
         return back();
     }
 }

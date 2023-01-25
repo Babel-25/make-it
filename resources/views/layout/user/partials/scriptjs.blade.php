@@ -104,6 +104,6 @@
     });
 
     $(document).ready(function() {
-      $('#example').DataTable();
+      $('#paiementListe').DataTable();
     });
   </script>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MessageGoogle;
+use App\Models\Montant;
 use App\Models\Paiement;
 use App\Models\Personne;
 use App\Models\User;
@@ -78,7 +79,7 @@ class AuthController extends Controller
                         'identifiant' => $request->pseudo,
                         'password'    => Hash::make($request->password),
                         'status'      => $request->status,
-                        'etat_id'     => $request->etat,
+                        'etat_id'     => '2'
                     ]
                 );
 
@@ -97,6 +98,15 @@ class AuthController extends Controller
                         //Recuperation de l'id user
                         'user_id'         => $user->id
                     ]
+                );
+                $montant = Montant::create(
+                    [
+                        'montant_parrain' => '0',
+                        'montant_net'    => '0',
+                        'montant_total'  => '0',
+                        'personne_id'  => $valueId
+                    ]
+
                 );
 
                 if ($person and $user) {

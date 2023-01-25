@@ -21,10 +21,13 @@
                     <li><a href="{{ url('Configuration') }}"> Configuration</a></li>
                 </ul>
                 <ul class="sub">
-                    <li><a href="{{ route('paie_form') }}"> Paiement</a></li>
+                    <li><a href="{{ url('Paiement') }}"> Paiement</a></li>
                 </ul>
                 <ul class="sub">
                     <li><a href="{{ url('Liste_Etat') }}"> Liste Etat</a></li>
+                </ul>
+                <ul class="sub">
+                    <li><a href="{{ url('Liste_User') }}"> Liste Utilisateurs</a></li>
                 </ul>
             </li>
 

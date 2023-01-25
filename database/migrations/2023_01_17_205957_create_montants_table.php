@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('montants', function (Blueprint $table) {
             $table->id();
-            $table->float('montant_parrain');
-            $table->float('montant_net');
-            $table->float('montant_total');
+            $table->float('montant_parrain')->nullable();
+            $table->float('montant_net')->nullable();
+            $table->float('montant_total')->nullable();
 
             //Id Personne
             $table->unsignedBigInteger('personne_id')->index();

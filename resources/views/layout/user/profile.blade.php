@@ -13,9 +13,20 @@
         <div class="form-panel">
             <h1 class="mb"><i class="fa fa-angle-right"></i> Mon Profil <button id="switch_state" onclick="onClik()" class="btn btn-success"> Modifier </button>
             </h1>
+            <div align="right">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-danger ">
+                        <input type="radio" name="options" id="option1" disabled> Inactif   
+                    </label>
+                    <label class="btn btn-success">
+                        <input type="radio" name="options" id="option2" checked> Actif &nbsp; &nbsp;
+                    </label>
+                </div>
+            </div>
             <div class="row">
+
                 <div class="col-md-6">
-                    <h3> Informations personnelles</h3>
+                    <h3> Informations personnelles </h3>
                     <form class="form-horizontal style-form" name="form_person" method="POST" action="{{ route('personnes.update', $user->id) }}" id="form_user">
                         @csrf
                         @method('PUT')
@@ -28,10 +39,9 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Nom & Prénom(s) </label>
                             <div class="col-sm-10" id="name_on" style="display: none">
-                                <input type="text" class="form-control" name="nom_prenom"
-                                    value="{{ $user->nom_prenom }}">
+                                <input type="text" class="form-control" name="nom_prenom" value="{{ $user->nom_prenom }}">
                                 @error('nom_prenom')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="name_off">
@@ -44,7 +54,7 @@
                             <div class="col-sm-10" id="contact_on" style="display: none">
                                 <input type="text" class="form-control" name="contact" value="{{ $user->contact }}">
                                 @error('contact')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="contact_off">
@@ -56,7 +66,7 @@
                             <div class="col-sm-10" id="email_on" style="display: none">
                                 <input type="email" class="form-control" name="email" value="{{ $user->email }}">
                                 @error('email')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="email_off">
@@ -69,7 +79,7 @@
                             <div class="col-sm-10" id="adresse_on" style="display: none">
                                 <input type="text" class="form-control" name="adresse" value="{{ $user->adresse }}">
                                 @error('adresse')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="adresse_off">
@@ -89,15 +99,13 @@
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Identifiant </label>
                             <div class="col-sm-10" id="identifiant_on" style="display: none">
-                                <input type="text" class="form-control" name="identifiant"
-                                    value="{{ auth()->user()->identifiant }}">
+                                <input type="text" class="form-control" name="identifiant" value="{{ auth()->user()->identifiant }}">
                                 @error('identifiant')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="identifiant_off">
-                                <input type="text" class="form-control" value="{{ auth()->user()->identifiant }}"
-                                    readonly>
+                                <input type="text" class="form-control" value="{{ auth()->user()->identifiant }}" readonly>
 
                             </div>
                         </div>
@@ -106,7 +114,7 @@
                             <div class="col-sm-10" id="pwd_on" style="display: none">
                                 <input type="password" class="form-control" name="password">
                                 @error('password')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="pwd_off">
@@ -119,15 +127,14 @@
                             <div class="col-sm-10" id="pwd_conf_on" style="display: none">
                                 <input type="password" class="form-control" name="password_confirmation">
                                 @error('password_confirmation')
-                                    <div class="text-danger"> {{ $message }} </div>
+                                <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="pwd_conf_off">
                                 <input type="password" class="form-control" readonly>
                             </div>
                         </div>
-                        <button id="btn_connection" type="submit" class="btn btn-round btn-success btn-block"
-                            disabled>
+                        <button id="btn_connection" type="submit" class="btn btn-round btn-success btn-block" disabled>
                             Modifier</button>
                     </form>
                 </div>

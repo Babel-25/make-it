@@ -121,3 +121,12 @@
         return false;
     });
 </script>
+<script type="text/javascript">
+    $("document").ready(function() {
+        setTimeout(function() {
+
+            $("div.alert").remove();
+
+        }, 7000);
+    });
+</script>

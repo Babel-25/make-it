@@ -3,6 +3,8 @@
 @section('title','Inscription')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
+<link rel="stylesheet" href="{{ asset('Auth/build/css/intlTelInput.css') }}">
+<link rel="stylesheet" href="{{ asset('Auth/build/css/demo.css') }}">
 
 <div class="container">
     <div class="forms-container">
@@ -66,7 +68,7 @@
                             </div>
                             <div class="form-section">
                                 <label for="">Sexe:</label>
-                                <select name="sexe" class="form-control mb-3" value="{{ old('sexe') }}">
+                                <select name="sexe" class="form-control mb-3">
                                     @php
                                     $gendre = \App\Models\Sexe::all();
                                     @endphp
@@ -80,13 +82,7 @@
                                     <div class="text-danger"> {{ $message }} </div>
                                     @enderror
                                 </span>
-                                <label for="">Contact:</label>
-                                <input type="tel" class="form-control mb-3" value="{{ old('phone') }}" name="phone">
-                                <span style="color:red">
-                                    @error('phone')
-                                    <div class="text-danger"> {{ $message }} </div>
-                                    @enderror
-                                </span>
+
                                 <label for="">Date de naissance:</label>
                                 <input type="date" class="form-control mb-3" id="dateValidate" value="{{ old('date') }}" name="date">
                                 <span style="color:red">
@@ -98,6 +94,13 @@
                                 <input type="email" class="form-control mb-3" value="{{ old('email') }}" name="email">
                                 <span style="color:red">
                                     @error('email')
+                                    <div class="text-danger"> {{ $message }} </div>
+                                    @enderror
+                                </span>
+                                <label for="">Contact:</label><br>
+                                <input type="tel" class="form-control mb-8" value="{{ old('phone') }}" name="phone" id="phone">
+                                <span style="color:red">
+                                    @error('phone')
                                     <div class="text-danger"> {{ $message }} </div>
                                     @enderror
                                 </span>
@@ -126,7 +129,10 @@
                                 </span>
                                 <p id="message"></p>
                                 <input type="text" class="form-control mb-3" name="status" value="Client" hidden>
-                                <input type="text" class="form-control mb-3" name="etat" value="2" hidden>
+                                <!-- <input type="text" class="form-control mb-3" name="mt1" value="0" hidden>
+                                <input type="text" class="form-control mb-3" name="mt2" value="0" hidden>
+                                <input type="text" class="form-control mb-3" name="mt3" value="0" hidden>
+                                <input type="text" class="form-control mb-3" name="etat" value="2" hidden>-->
                             </div>
                             <div class="form-navigation mt-3">
                                 <button type="button" class="previous btn btn-primary float-left">&lt;

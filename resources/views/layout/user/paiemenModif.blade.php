@@ -6,22 +6,19 @@
             <h1 class="mb"><i class="fa fa-angle-right"></i> Configuration de base </h1>
             <div class="row">
                 <div class="col-md-6">
-                    <h3> Modifier sexe Informations</h3>
-
-                    <form class="form-horizontal style-form" method="POST" action="{{ url('Configuration/' .$sexes->id) }}" id="form_user">
+                    <h3> Modifier Paiement information </h3>
+                    <form class="form-horizontal style-form" method="POST" action="{{ url('Paiement/' .$paiements->id) }}" id="form_user">
                         @csrf
                         @method("PATCH")
                         <div class="form-group">
-                            <input type="hidden" name="id" id="id" value="{{$sexes->id}}" />
                             <div class="col-sm-10">
                                 <span>
-                                    <h5>Code Sexe</h5>
+                                    <h5>Code Paiement</h5>
                                 </span>
-                                <select name="codeSexes" id="codeSexes" class="form-control mb-3" readonly="True">
-                                    <option value="{{$sexes->code}}">{{$sexes->code}} </option>
-                                    <option value="M"> M </option>
-                                    <option value="F"> F</option>
-                                </select>
+                                <div c lass="col-12">
+                                    <input type="text" value="{{$paiements->code_paiement}} " class="form-control" name="codePaie" id="codePaie" readonly>
+                                </div>
+
                             </div>
                         </div>
                         <div class="form-group">
@@ -30,7 +27,7 @@
                                     <h5>Libelle Sexe</h5>
                                 </span>
                                 <div c lass="col-12">
-                                    <input type="text" value="{{$sexes->libelle}} " class="form-control" name="libelleSexes" id="libelleSexes">
+                                    <input type="text" value="{{$paiements->libelle_paiement}} " class="form-control" name="libellePaie" id="libellePaie">
                                 </div>
 
                             </div>
@@ -38,8 +35,9 @@
 
                         <button type="submit" value="Update" class="btn btn-round btn-success"><i class="fa fa-check" aria-hidden="true"></i>
                             Modifier</button><br><br>
+
                     </form>
-                    <a href="{{ url('Configuration') }}" title=""> <button class="btn btn-round btn-danger"><i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
+                    <a href="{{ url('Paiement') }}" title=""> <button class="btn btn-round btn-danger"><i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
                 </div>
                 <div class="col-md-6" align="center">
                     <div class="wrap-login100">

@@ -1,4 +1,5 @@
 <script src="{{ asset('Auth/app.js') }}"></script>
+<script src="{{ asset('Auth/build/js/intlTelInput.js') }}"></script>
 
 <script type="text/javascript">
     $("document").ready(function() {
@@ -73,3 +74,29 @@
 
     });
 </script>
+<script>
+    var input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+      // allowDropdown: false,
+      // autoHideDialCode: false,
+      // autoPlaceholder: "off",
+      // dropdownContainer: document.body,
+       excludeCountries: ["us"],
+      // formatOnDisplay: false,
+       geoIpLookup: function(callback) {
+         $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+           var countryCode = (resp && resp.country) ? resp.country : "";
+           callback(countryCode);
+         });
+       },
+      // hiddenInput: "full_number",
+      initialCountry: "tg",
+      // localizedCountries: { 'de': 'Deutschland' },
+      // nationalMode: false,
+      // onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+      // placeholderNumberType: "MOBILE",
+       preferredCountries: ['tg', 'ci'],
+       separateDialCode: true,
+      utilsScript: "{{ asset('Auth/build/js/utils.js') }}",
+    });
+  </script>

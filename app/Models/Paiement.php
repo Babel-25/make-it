@@ -12,8 +12,7 @@ class Paiement extends Model
     protected $fillable  = [
 
         'code_paiement',
-        'libelle_paiement',
-        'date_paiement'
+        'libelle_paiement'
     ];
 
 }

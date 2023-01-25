@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMail;
 use App\Mail\MessageGoogle;
 use App\Models\Etat;
 use App\Models\User;
@@ -53,74 +54,20 @@ class PageController extends Controller
         return view('layout.user.paiement');
     }
 
-    public function listeEtats()
+    public function sendEmail(Request $req)
     {
-        $etats = Etat::all();
-        return view('layout.user.listeEtat', [
-            'etats' => $etats,
-        ]);
-    }
-
-
-    public function deleteEtat($id)
-    {
-        DB::table('etats')->where('id', $id)->delete();
-        session()->flash('echec3', 'Suppression réussi!');
+        $data = [
+            'name' =>$req->name,
+            'email' =>$req->email,
+            'message' =>$req->message
+        ];
+        Mail::to('badioubabel1@gmail.com')->send(new ContactMail($data));
+        session()->flash('message7', 'Email envoyé avec succès!');
         return back();
     }
 
-    public function showEditEtat()
-    {
-        $mod = Etat::where('id', Request('id'))->get();
-        return view('layout.user.configModif', [
-            'configModif' => $mod,
-        ]);
-    }
-
-    public function modifEtat(Request $request, $id)
-    {
-        $index = Etat::findOrFail($id);
-
-        $modif = $index->update($request->all());
-
-        $modif = Etat::all();
-        return view('layout.user.configuration', [
-            'configuration' => $modif,
-        ]);
-    }
-
+   
 
     //Fonction ajout d'etat
-    public function addEtat(Request $request)
-    {
-        $request->validate(
-            [
-                'codeEtat'       => 'required',
-                'libelleEtat'         => 'required'
-
-            ],
-            [
-                'codeEtat.required'       => 'Le code est obligatoire',
-                'libelleEtat.required'         => 'Le libelle est obligatoire'
-            ]
-        );
-
-
-        $verifcodeEtat = DB::table('etats')->where('code', $request->codeEtat)->get()->first();
-        //dd($verifcodeEtat);
-
-        if ($verifcodeEtat != null) {
-            session()->flash('echec2', 'Insertion echoué, cet état existe déja !');
-            return back();
-        } else {
-            $etat = Etat::create(
-                [
-                    'code' => $request->codeEtat,
-                    'libelle'      => $request->libelleEtat,
-                ]
-            );
-            session()->flash('message2', 'Insertion Réussi !');
-            return back();
-        }
-    }
+    
 }

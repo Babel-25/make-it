@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('code_paiement');
             $table->string('libelle_paiement');
-            $table->string('date_paiement');
             $table->timestamps();
         });
     }

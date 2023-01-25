@@ -67,7 +67,7 @@
                         </div>
                         @endif
                     </div>
-                    <form class="form-horizontal style-form" method="POST" action="{{ route('register_etat_action') }}" id="form_auth">
+                    <form class="form-horizontal style-form" method="POST" action="{{ url('Liste_Etat') }}" id="form_auth">
                         @csrf
                         <div class="form-group">
                             <div class="col-sm-10">
@@ -119,8 +119,7 @@
                                     <form method="POST" action="{{ url('/Configuration' . '/' . $sexe->id) }}" accept-charset="UTF-8" style="display:inline">
                                         {{ method_field('DELETE') }}
                                         {{ csrf_field() }}
-                                        <!--<a href="/supprimerSexe{{$sexe->id}}" onclick="Action()" class="btn btn-danger btn-circle" ><i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer</a>-->
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete " onclick="return confirm('Confirm delete?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer</button>
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete " onclick="return confirm('voulez-vous supprimer cet élément?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer</button>
                                     </form>
                                 </td>
                             </tr>
@@ -130,7 +129,7 @@
                     </table><br><br>
 
                 </div>
-                
+
             </div>
 
         </div>

@@ -41,6 +41,12 @@
                                             Mon Profil
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="{{ url('Portefeuille')  }}">
+                                            <span class="label label-success"><i class="fa fa-money"></i></span>
+                                            Mon Portefeuille
+                                        </a>
+                                    </li>
 
                                     <li>
                                         <a href="{{ route('logout') }}">

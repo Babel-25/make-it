@@ -6,88 +6,105 @@
         <div class="form-panel">
             <h1 class="mb"><i class="fa fa-angle-right"></i> Configuration Paiement </h1>
             <div class="row">
+                <div>
+                    @if (session()->exists('message4'))
+                    <div class="alert alert-success" id="alert" align="center">
+                        {{ session('message4') }}
+                    </div>
+                    @endif
+                </div>
+                <div>
+                    @if (session()->exists('echec4'))
+                    <div class="alert alert-danger" id="alert" align="center">
+                        {{ session('echec4') }}
+                    </div>
+                    @endif
+                </div>
                 <div class="col-md-6">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                    <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#addPaieModal"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
                         Ajouter
                     </button><br><br><br>
                 </div>
-
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="addPaieModal" tabindex="-1" aria-labelledby="addPaieModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <h5 class="modal-title" id="addPaieModal">Ajout Paiment</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                ...
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form class="form-horizontal style-form" method="POST" action="{{ url('Paiement') }}" id="form_user">
+                                            @csrf
+                                            <div class="form-group">
+                                                <div class="col-sm-10">
+                                                    <span>
+                                                        <h5>Code Paiement</h5>
+                                                    </span>
+                                                    <div class="col-12">
+                                                        <input type="text" class="form-control" name="codePaie">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-10">
+                                                    <span>
+                                                        <h5>Libelle Paiement</h5>
+                                                    </span>
+                                                    <div class="col-12">
+                                                        <input type="text" class="form-control" name="libellePaie">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-round btn-success">Enregistrer</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="button" class="btn btn-round btn-danger" data-dismiss="modal">Fermer</button>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="col-lg-12">
-                    <table id="example" class="display" style="width:100%">
+                    <table id="paiementListe" class="display" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>#</th>
+                                <th>Code Paiement</th>
+                                <th>Libelle Paiement</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach($paiements as $paie)
                             <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011-04-25</td>
-                                <td>$320,800</td>
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-                                <td>63</td>
-                                <td>2011-07-25</td>
-                                <td>$170,750</td>
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>Junior Technical Author</td>
-                                <td>San Francisco</td>
-                                <td>66</td>
-                                <td>2009-01-12</td>
-                                <td>$86,000</td>
-                            </tr>
-                            <tr>
-                                <td>Cedric Kelly</td>
-                                <td>Senior Javascript Developer</td>
-                                <td>Edinburgh</td>
-                                <td>22</td>
-                                <td>2012-03-29</td>
-                                <td>$433,060</td>
-                            </tr>
-                            <tr>
-                                <td>Jenette Caldwell</td>
-                                <td>Development Lead</td>
-                                <td>New York</td>
-                                <td>30</td>
-                                <td>2011-09-03</td>
-                                <td>$345,000</td>
-                            </tr>
+                                <td>{{$loop->index+1}}</td>
+                                <td>{{$paie->code_paiement}} </td>
+                                <td>{{$paie->libelle_paiement}} </td>
+                                <td>
+                                    <a href="{{ url('/Paiement/' . $paie->id . '/edit') }}" title=""> <button class="btn btn-primary btn-circle" data-toggle="modal" data-target="#modifPaieModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Modifier</button> </a>
+                                    <form method="POST" action="{{ url('/Paiement' . '/' . $paie->id) }}" accept-charset="UTF-8" style="display:inline">
+                                        {{ method_field('DELETE') }}
+                                        {{ csrf_field() }}
 
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete " onclick="return confirm('voulez-vous supprimer cet élément?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer</button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
 
                     </table>
