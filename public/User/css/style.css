@@ -1765,8 +1765,7 @@ PANELS CONFIGURATIONS
 
 /* Grid Showcase*/
 
-margin-bottom: 15px;
-}
+
 
 .show-grid [class^=col-] {
     padding-top: 10px;
@@ -3785,31 +3784,31 @@ ul.chat-available-user li a:hover {
 }
 
 @media (max-width: 992px) {
-    .wrap-login100 {
-        padding: 177px 90px 33px 85px;
-    }
+  .wrap-login100 {
+    padding: 177px 90px 33px 85px;
+  }
 
-    .login100-pic {
-        width: 35%;
-    }
+  .login100-pic {
+    width: 35%;
+  }
 
-    .login100-form {
-        width: 50%;
-    }
+  .login100-form {
+    width: 50%;
+  }
 }
 
 @media (max-width: 768px) {
-    .wrap-login100 {
-        padding: 100px 80px 33px 80px;
-    }
+  .wrap-login100 {
+    padding: 100px 80px 33px 80px;
+  }
 
-    .login100-pic {
-        display: none;
-    }
+  .login100-pic {
+    display: none;
+  }
 
-    .login100-form {
-        width: 100%;
-    }
+  .login100-form {
+    width: 100%;
+  }
 }
 
 /* Copyrights */
