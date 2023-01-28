@@ -17,8 +17,6 @@ class PaiementController extends Controller
     public function index()
     {
         $paiements = Paiement::all();
-        $verif_code_pay_status = Paiement::where('code_paiement', '100000')->first();
-        //dd($verif_code_pay_status);
         return view('layout.user.paiements.list_paiements', compact('paiements'));
     }
 
