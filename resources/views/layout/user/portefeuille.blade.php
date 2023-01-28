@@ -49,7 +49,7 @@
                                     <i class="fa fa-check" aria-hidden="true"></i> Verifier </button> </a>
 
                         </div>
-
+                        
                     </div>
                 </div>
             </div>

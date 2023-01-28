@@ -16,7 +16,7 @@
             <div align="right">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     <label class="btn btn-danger ">
-                        <input type="radio" name="options" id="option1" disabled> Inactif   
+                        <input type="radio" name="options" id="option1" disabled> Inactif
                     </label>
                     <label class="btn btn-success">
                         <input type="radio" name="options" id="option2" checked> Actif &nbsp; &nbsp;
