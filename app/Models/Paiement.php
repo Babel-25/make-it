@@ -10,9 +10,9 @@ class Paiement extends Model
     use HasFactory;
     protected $primaryKey = 'id';
     protected $fillable  = [
-
         'code_paiement',
-        'libelle_paiement'
+        'libelle_paiement',
+        'montant_paiement',
+        'status'
     ];
-
 }

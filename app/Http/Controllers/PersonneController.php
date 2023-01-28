@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Personne;
+use App\Models\Sexe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PersonneController extends Controller
 {
@@ -14,7 +16,13 @@ class PersonneController extends Controller
      */
     public function index()
     {
-        //
+        $personnes = DB::table('personnes')
+            ->join('sexes', 'sexes.id', '=', 'personnes.sexe_id')
+            ->join('paiements', 'paiements.id', '=', 'personnes.paiement_id')
+            ->join('users', 'users.id', '=', 'personnes.user_id')
+            ->get();
+
+        return view('layout.user.personnes.list_personnes', compact('personnes',));
     }
 
     /**
@@ -89,11 +97,9 @@ class PersonneController extends Controller
         if ($update_personne) {
             session()->flash('message', 'Mise à jour effectuée');
             return back();
-        }
-        else{
+        } else {
             session()->flash('message', 'Echec de la mise à jour');
             return back();
-
         }
     }
 
@@ -105,6 +111,14 @@ class PersonneController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $suppression = Personne::destroy($id);
+
+        if ($suppression) {
+            session()->flash('message', 'Suppression réussi!');
+            return back();
+        } else {
+            session()->flash('echec', 'Echec de la suppression');
+            return back();
+        }
     }
 }

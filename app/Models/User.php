@@ -20,19 +20,21 @@ class User extends Authenticatable
         'etat_id',
     ];
 
-
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    //Une personne a un compte utilisateur 
+    //Une personne a un compte utilisateur
     public function personne(){
         return $this->hasOne(Personne::class);
+    }
+
+    public function etat(){
+        return $this->hasOne(Etat::class);
     }
 }

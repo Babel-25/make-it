@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('code_paiement');
             $table->string('libelle_paiement');
+            $table->float('montant_paiement');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

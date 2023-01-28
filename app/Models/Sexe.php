@@ -13,4 +13,9 @@ class Sexe extends Model
         'code',
         'libelle',
     ];
+
+    public function personne(){
+        return $this->hasOne(Personne::class);
+    }
+
 }

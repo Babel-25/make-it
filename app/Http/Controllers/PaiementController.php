@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paiement;
+use App\Models\Personne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,9 @@ class PaiementController extends Controller
     public function index()
     {
         $paiements = Paiement::all();
-        return view('layout.user.paiement')->with('paiements', $paiements);
+        $verif_code_pay_status = Paiement::where('code_paiement', '100000')->first();
+        dd($verif_code_pay_status);
+        return view('layout.user.paiements.list_paiements', compact('paiements'));
     }
 
     /**
@@ -26,7 +29,7 @@ class PaiementController extends Controller
      */
     public function create()
     {
-        return view('layout.user.paiement');
+        return view('layout.user.paiements.add_paiement');
     }
 
     /**
@@ -39,31 +42,35 @@ class PaiementController extends Controller
     {
         $request->validate(
             [
-                'codePaie'       => 'required',
-                'libellePaie'         => 'required'
-
+                'codePaie'    => 'required',
+                'libellePaie' => 'required'
             ],
             [
-                'codePaie.required'       => 'Le code est obligatoire',
-                'libellePaie.required'         => 'Le libelle est obligatoire'
+                'codePaie.required'     => 'Le code est obligatoire',
+                'libellePaie.required'  => 'Le libelle est obligatoire'
             ]
         );
 
         $verifCodePaie = DB::table('paiements')->where('code_paiement', $request->codePaie)->get()->first();
         if ($verifCodePaie != null) {
-            //dd($valueCode);
-            session()->flash('echec4', 'Insertion echoué, cet enregistrement existe déja !');
+            session()->flash('echec4', 'Insertion echouée, cet enregistrement existe déja !');
             return back();
         } else {
-            $paiem = Paiement::create(
+            $insertion_paiement = Paiement::create(
                 [
-                    'code_paiement' => $request->codePaie,
-                    'libelle_paiement'      => $request->libellePaie,
+                    'code_paiement'    => $request->codePaie,
+                    'libelle_paiement' => $request->libellePaie,
+                    'montant_paiement' => 3000
                 ]
             );
 
-            session()->flash('message4', 'Ajout Réussi !');
-            return back();
+            if ($insertion_paiement) {
+                session()->flash('message4', 'Code de paiement enregistré !');
+                return back();
+            } else {
+                session()->flash('echec4', 'Insertion echouée, veuillez réessayer !');
+                return back();
+            }
         }
     }
 
@@ -86,8 +93,8 @@ class PaiementController extends Controller
      */
     public function edit($id)
     {
-        $paie = Paiement::find($id);
-        return view('layout.user.paiemenModif')->with('paiements', $paie);
+        $paiement = Paiement::find($id);
+        return view('layout.user.paiements.edit_paiement', compact('paiement'));
     }
 
     /**
@@ -99,15 +106,23 @@ class PaiementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $spaiement = Paiement::findOrFail($id);
-        $input = $spaiement->update([
-            'code_paiement' => request('codePaie'),
+        $paiement = Paiement::findOrFail($id);
+        $maj = $paiement->update([
+            'code_paiement'    => request('codePaie'),
             'libelle_paiement' => request('libellePaie'),
         ]);
-        $input = Paiement::all();
-        session()->flash('message4', 'Modification Réussi !');
-        
-        return redirect('Paiement');
+        if ($maj) {
+            session()->flash('message4', 'Modification Réussi !');
+
+            return redirect()->route('list_paiements');
+        } else {
+            session()->flash('echec4', 'Echec  !');
+
+            return redirect()->route('list_paiements');
+        }
+
+        // $input = Paiement::all();
+
     }
 
     /**

@@ -16,7 +16,7 @@ class EtatController extends Controller
     public function index()
     {
         $etats = Etat::all();
-        return view('layout.user.listeEtat')->with('etats', $etats);
+        return view('layout.user..etats.list_etats', compact('etats'));
     }
 
     /**
@@ -39,32 +39,49 @@ class EtatController extends Controller
     {
         $request->validate(
             [
-                'codeEtat'       => 'required',
-                'libelleEtat'         => 'required'
-
+                'codeEtat' => 'required',
             ],
             [
-                'codeEtat.required'       => 'Le code est obligatoire',
-                'libelleEtat.required'         => 'Le libelle est obligatoire'
+                'codeEtat.required' => 'Le code est obligatoire',
             ]
         );
-
-
-        $verifcodeEtat = DB::table('etats')->where('code', $request->codeEtat)->get()->first();
-        //dd($verifcodeEtat);
-
-        if ($verifcodeEtat != null) {
-            session()->flash('echec2', 'Insertion echoué, cet état existe déja !');
+        if (Etat::where('code', $request->codeEtat)->exists() === true) {
+            session()->flash('message1', 'Cet Enregistrement existe déjà');
             return back();
         } else {
-            $etat = Etat::create(
-                [
-                    'code' => $request->codeEtat,
-                    'libelle'      => $request->libelleEtat,
-                ]
-            );
-            session()->flash('message2', 'Insertion Réussi !');
-            return back();
+            if ($request->codeEtat === 'ACT') {
+                $insertion = Etat::firstOrCreate(
+                    [
+                        'code' => $request->codeEtat,
+                    ],
+                    [
+                        'libelle' => 'Actif'
+                    ]
+                );
+                if ($insertion) {
+                    session()->flash('message1', 'Ajout confirmé ACT');
+                    return back();
+                } else {
+                    session()->flash('echec2', 'Echec, veuillez réessayer');
+                    return back();
+                }
+            } else if ($request->codeEtat === 'INA') {
+                $insertion = Etat::firstOrCreate(
+                    [
+                        'code' => $request->codeEtat,
+                    ],
+                    [
+                        'libelle' => 'Inactif'
+                    ]
+                );
+                if ($insertion) {
+                    session()->flash('message1', 'Ajout confirmé INA');
+                    return back();
+                } else {
+                    session()->flash('echec2', 'Echec, veuillez réessayer');
+                    return back();
+                }
+            }
         }
     }
 
@@ -88,7 +105,7 @@ class EtatController extends Controller
     public function edit($id)
     {
         $etat = Etat::find($id);
-        return view('layout.user.etatModif')->with('etats', $etat);
+        return view('layout.user.etats.edit_etat', compact('etat'));
     }
 
     /**
@@ -101,14 +118,18 @@ class EtatController extends Controller
     public function update(Request $request, $id)
     {
         $eta = Etat::findOrFail($id);
-        $input = $eta->update([
-            'code' => request('codeEtat'),
+        $maj_etat = $eta->update([
+            'code'    => request('codeEtat'),
             'libelle' => request('libelleEtat'),
         ]);
-        $input = Etat::all();
-        session()->flash('message3', 'Modification Réussi !');
+        if ($maj_etat) {
+            session()->flash('message3', 'Modification Réussi !');
 
-        return redirect('Liste_Etat');
+            return redirect()->route('list_etats');
+        } else {
+            session()->flash('echec3', 'Erreur intervenue, veuillez réessayer!');
+            return back();
+        }
     }
 
     /**
@@ -119,8 +140,13 @@ class EtatController extends Controller
      */
     public function destroy($id)
     {
-        Etat::destroy($id);
-        session()->flash('echec3', 'Suppression réussi!');
-        return redirect('Liste_Etat');
+        $suppression = Etat::destroy($id);
+        if ($suppression) {
+            session()->flash('message3', 'Suppression réussi!');
+            return redirect()->route('list_etats');
+        } else {
+            session()->flash('echec3', 'Erreur intervenue, veuillez réessayer!');
+            return back();
+        }
     }
 }

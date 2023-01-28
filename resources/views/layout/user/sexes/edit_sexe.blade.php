@@ -8,17 +8,17 @@
                 <div class="col-md-6">
                     <h3> Modifier sexe Informations</h3>
 
-                    <form class="form-horizontal style-form" method="POST" action="{{ url('Configuration/' .$sexes->id) }}" id="form_user">
+                    <form class="form-horizontal style-form" method="POST" action="{{ route('sexes.update',$sexe->id) }}" id="form_user">
                         @csrf
-                        @method("PATCH")
+                        @method("PUT")
                         <div class="form-group">
-                            <input type="hidden" name="id" id="id" value="{{$sexes->id}}" />
+                            <input type="hidden" name="id" id="id" value="{{$sexe->id}}" />
                             <div class="col-sm-10">
                                 <span>
                                     <h5>Code Sexe</h5>
                                 </span>
                                 <select name="codeSexes" id="codeSexes" class="form-control mb-3" readonly="True">
-                                    <option value="{{$sexes->code}}">{{$sexes->code}} </option>
+                                    <option value="{{$sexe->code}}">{{$sexe->code}} </option>
                                     <option value="M"> M </option>
                                     <option value="F"> F</option>
                                 </select>
@@ -30,7 +30,7 @@
                                     <h5>Libelle Sexe</h5>
                                 </span>
                                 <div c lass="col-12">
-                                    <input type="text" value="{{$sexes->libelle}} " class="form-control" name="libelleSexes" id="libelleSexes">
+                                    <input type="text" value="{{$sexe->libelle}} " class="form-control" name="libelleSexes" id="libelleSexes">
                                 </div>
 
                             </div>
@@ -39,7 +39,7 @@
                         <button type="submit" value="Update" class="btn btn-round btn-success"><i class="fa fa-check" aria-hidden="true"></i>
                             Modifier</button><br><br>
                     </form>
-                    <a href="{{ url('Configuration') }}" title=""> <button class="btn btn-round btn-danger"><i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
+                    <a href="{{ route('config_form') }}" title=""> <button class="btn btn-round btn-danger"><i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
                 </div>
                 <div class="col-md-6" align="center">
                     <div class="wrap-login100">

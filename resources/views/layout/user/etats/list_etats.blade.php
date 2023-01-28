@@ -37,10 +37,10 @@
                                 <td>{{$etat->code}}</td>
                                 <td>{{$etat->libelle}}</td>
                                 <td align="center">
-                                    <a href="{{ url('/Liste_Etat/' . $etat->id . '/edit') }} " title=""> <button class="btn btn-primary btn-circle"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Modifier</button> </a>
-                                    <form method="POST" action="{{ url('/Liste_Etat' . '/' . $etat->id) }}" accept-charset="UTF-8" style="display:inline">
-                                        {{ method_field('DELETE') }}
-                                        {{ csrf_field() }}
+                                    <a href="{{ route('edit_etat',$etat->id) }} " title=""> <button class="btn btn-primary btn-circle"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Modifier</button> </a>
+                                    <form method="POST" action="{{ route('etats.destroy',$etat->id) }}" accept-charset="UTF-8" style="display:inline">
+                                        @method('DELETE')
+                                        @csrf
                                         <button type="submit" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('voulez-vous supprimer cet élément?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Supprimer</button>
                                     </form>
 

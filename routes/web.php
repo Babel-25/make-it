@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EtatController;
-use App\Http\Controllers\MoneyController;
 use App\Http\Controllers\SexeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PaiementController;
 use App\Http\Controllers\PersonneController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +26,8 @@ Route::get('/', [PageController::class, 'home'])->name('home');
 //Page vitrine
 Route::get('vitrine', [PageController::class, 'vitrine'])->name('vitrine');
 
-Route::post('mailSend', [PageController::class, 'sendEmail'])->name('mailEnvoie');
+//Envoie de mail depuis le site vitrine
+Route::post('Contactez-nous', [PageController::class, 'sendEmailSiteAction'])->name('send_mail_site_action');
 
 //Formulaire Connexion
 Route::get('connexion', [AuthController::class, 'loginForm'])->name('login_form');
@@ -50,21 +50,6 @@ Route::post('Mot de passe oublié', [AuthController::class, 'forgetPwdAction'])-
 //Action Deconnexion
 Route::get('déconnexion', [AuthController::class, 'logout'])->name('logout');
 
-//Action sexe + etat + paiement + portefeuille + users
-Route::resource("/Configuration", SexeController::class);
-
-Route::resource("/Liste_Etat", EtatController::class);
-
-Route::resource("/Paiement", PaiementController::class);
-
-Route::resource("/Portefeuille", MoneyController::class);
-
-Route::resource("/Liste_User", UsersController::class);
-
-
-//Route::post('etatAdd', [PageController::class, 'addEtat'])->name('register_etat_action');
-
-
 //Middleware pour la protection des pages
 Route::middleware(['Connection'])->group(function () {
 
@@ -80,9 +65,39 @@ Route::middleware(['Connection'])->group(function () {
     //Resource personne
     Route::resource('personnes', PersonneController::class)->names([
         // 'create' => 'add_person',
-        // 'index'  => 'list_persons',
-        'edit'   => 'edit_person',
+        'index'  => 'list_personnes',
+        'edit'   => 'edit_personne',
     ]);
+
+    //Resource etat
+    Route::resource('etats', EtatController::class)->names(
+        [
+            'edit'  => 'edit_etat',
+            'index' => 'list_etats'
+        ]
+    );
+
+    //Resource paiement
+    Route::resource('paiements', PaiementController::class)->names(
+        [
+            // 'create' => 'add_paiement',
+            'edit'  => 'edit_paiement',
+            'index' => 'list_paiements'
+        ]
+    );
+
+    //Formulaire ajout etat + sexe
+    Route::get('configuration', [PageController::class, 'configForm'])->name('config_form');
+
+    //Resource sexe
+    Route::resource('sexes', SexeController::class)->names(
+        [
+            'edit' => 'edit_sexe',
+        ]
+    );
+
+    //Route formulaire portefeuille
+    Route::get('mon portefeuille', [WalletController::class, 'walletForm'])->name('wallet_form');
 
     //Action mise à jour information de connexion
     Route::put('Mise à jour information utilisateur/{id}', [AuthController::class, 'updateUser'])->name('user_update');
