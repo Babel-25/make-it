@@ -52,10 +52,6 @@
                                     <i class="fa fa-check" aria-hidden="true"></i> Verifier </button> </a>
 
                         </div>
-<<<<<<< HEAD:resources/views/layout/user/portefeuille.blade.php
-                        
-=======
->>>>>>> 905a6210d319426fa2f17e86d4751a4ae9f79f35:resources/views/layout/user/wallets/portefeuille.blade.php
                     </div>
                 </div>
             </div>

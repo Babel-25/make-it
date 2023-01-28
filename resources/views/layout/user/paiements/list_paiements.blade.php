@@ -32,10 +32,10 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addPaieModal">Enregistrer code paiement</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
+                                    <h4 class="modal-title" id="addPaieModal" align="center">Enregistrer code paiement</h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -108,9 +108,9 @@
                                                 <p class="text-success"> Disponible </p>
                                             @endif
                                         </td>
-                                        <td>
+                                        <td align="center">
                                             @if ($verify_code_pay === true)
-                                                <p> - </p>
+                                                <p  > - </p>
                                             @else
                                                 <a href="{{ route('edit_paiement', $paie->id) }}" title=""> <button
                                                         class="btn btn-primary btn-circle" data-toggle="modal"
