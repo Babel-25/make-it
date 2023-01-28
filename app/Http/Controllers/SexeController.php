@@ -39,31 +39,36 @@ class SexeController extends Controller
     {
         $request->validate(
             [
-                'codeSexe'       => 'required',
-                'libelleSexe'         => 'required'
+                'codeSexe'    => 'required',
+                'libelleSexe' => 'required'
 
             ],
             [
-                'codeSexe.required'       => 'Le code est obligatoire',
-                'libelleSexe.required'         => 'Le libelle est obligatoire'
+                'codeSexe.required'    => 'Le code est obligatoire',
+                'libelleSexe.required' => 'Le libelle est obligatoire'
             ]
         );
 
-        $verifCodeSexe = DB::table('sexes')->where('code', $request->codeSexe)->get()->first();
-        if ($verifCodeSexe != null) {
-            //dd($valueCode);
-            session()->flash('echec1', 'Insertion echoué, cet enregistrement existe déja !');
+        if (Sexe::where('code', $request->codeSexe)->exists() === true) {
+            session()->flash('message1', 'Cet Enregistrement existe déjà');
             return back();
         } else {
-            $sexe = Sexe::create(
+            $insertion = Sexe::firstOrCreate(
                 [
-                    'code' => $request->codeSexe,
-                    'libelle'      => $request->libelleSexe,
+                    'code'    => $request->codeSexe,
+                ],
+                [
+                    'libelle' => ucfirst($request->libelleSexe),
                 ]
             );
 
-            session()->flash('message1', 'Ajout Réussi !');
-            return back();
+            if ($insertion) {
+                session()->flash('message1', 'Ajout Réussi !');
+                return back();
+            } else {
+                session()->flash('echec1', 'Echec,veuillez réessayer !');
+                return back();
+            }
         }
     }
 
@@ -87,7 +92,7 @@ class SexeController extends Controller
     public function edit($id)
     {
         $sexe = Sexe::find($id);
-        return view('layout.user.configModif')->with('sexes', $sexe);
+        return view('layout.user.sexes.edit_sexe', compact('sexe'));
     }
 
     /**
@@ -100,14 +105,17 @@ class SexeController extends Controller
     public function update(Request $request, $id)
     {
         $sex = Sexe::findOrFail($id);
-        $input = $sex->update([
+        $maj = $sex->update([
             'code' => request('codeSexes'),
             'libelle' => request('libelleSexes'),
         ]);
-        $input = Sexe::all();
-        session()->flash('message1', 'Modification Réussi !');
-        
-        return redirect('Configuration');
+        if ($maj) {
+            session()->flash('message1', 'Modification Réussi !');
+            return redirect()->route('config_form');
+        } else {
+            session()->flash('echec1', 'Echec, veuillez réessayer !');
+            return back();
+        }
     }
 
     /**

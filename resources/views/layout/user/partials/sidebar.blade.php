@@ -8,7 +8,7 @@
             <li class="mt">
                 <a class="active" href="{{ route('dashboard') }}">
                     <i class="fa fa-dashboard"></i>
-                    <span>Accueil</span>
+                    <span> Accueil </span>
                 </a>
             </li>
 
@@ -18,16 +18,16 @@
                     <span> Paramétrage </span>
                 </a>
                 <ul class="sub">
-                    <li><a href="{{ url('Configuration') }}"> Configuration</a></li>
+                    <li><a href="{{ route('config_form') }}"> Configuration</a></li>
                 </ul>
                 <ul class="sub">
-                    <li><a href="{{ url('Paiement') }}"> Paiement</a></li>
+                    <li><a href="{{ route('list_paiements') }}"> Paiement</a></li>
                 </ul>
                 <ul class="sub">
-                    <li><a href="{{ url('Liste_Etat') }}"> Liste Etat</a></li>
+                    <li><a href="{{ route('list_etats') }}"> Liste Etat</a></li>
                 </ul>
                 <ul class="sub">
-                    <li><a href="{{ url('Liste_User') }}"> Liste Utilisateurs</a></li>
+                    <li><a href="{{ route('list_personnes') }}"> Liste Utilisateurs</a></li>
                 </ul>
             </li>
 

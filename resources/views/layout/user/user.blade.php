@@ -42,7 +42,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('Portefeuille')  }}">
+                                        <a href="{{ route('wallet_form') }}">
                                             <span class="label label-success"><i class="fa fa-money"></i></span>
                                             Mon Portefeuille
                                         </a>

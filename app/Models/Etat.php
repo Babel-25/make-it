@@ -13,4 +13,8 @@ class Etat extends Model
         'code',
         'libelle',
     ];
+
+    public function user(){
+        return $this->hasOne(User::class);
+    }
 }

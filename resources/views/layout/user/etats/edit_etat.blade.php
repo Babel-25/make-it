@@ -7,17 +7,17 @@
             <div class="row">
                 <div class="col-md-6">
                     <h3> Modifier Etat Utilisateur </h3>
-                    <form class="form-horizontal style-form" method="POST" action="{{ url('Liste_Etat/' .$etats->id) }}" id="form_auth">
+                    <form class="form-horizontal style-form" method="POST" action="{{ route('etats.update',$etat->id) }}" id="form_auth">
                         @csrf
-                        @method("PATCH")
+                        @method("PUT")
                         <div class="form-group">
-                            <input type="hidden" name="id" id="id" value="{{$etats->id}}" />
+                            <input type="hidden" name="id" id="id" value="{{$etat->id}}" />
                             <div class="col-sm-10">
                                 <span>
                                     <h5>Code Etat</h5>
                                 </span>
-                                <select name="codeEtat" placeholder="Code" class="form-control mb-3" readonly="true">
-                                    <option value="{{$etats->code}}"> {{$etats->code}}</option>
+                                <select name="codeEtat" placeholder="Code" class="form-control mb-3" readonly="true" required>
+                                    <option value=""> choisir </option>
                                     <option value="ACT"> ACT </option>
                                     <option value="INA"> INA</option>
                                 </select>
@@ -29,7 +29,7 @@
                                     <h5>Libelle Etat</h5>
                                 </span>
                                 <div class="col-12">
-                                    <input type="text" value="{{$etats->libelle}} " class="form-control" name="libelleEtat">
+                                    <input type="text" value="{{$etat->libelle}} " class="form-control" name="libelleEtat">
                                 </div>
                             </div>
 
@@ -38,7 +38,7 @@
                         <button type="submit" class="btn btn-round btn-success"><i class="fa fa-check" aria-hidden="true"></i>
                             Modifier </button><br><br>
                     </form>
-                    <a href="{{ url('Liste_Etat') }}" title=""> <button class="btn btn-round btn-danger">
+                    <a href="{{ route('list_etats')}}" title=""> <button class="btn btn-round btn-danger">
                             <i class="fa fa-close" aria-hidden="true"></i> Annuler</button> </a>
                 </div>
                 <div class="col-md-6" align="center">

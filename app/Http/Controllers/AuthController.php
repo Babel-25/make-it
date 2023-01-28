@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\MessageGoogle;
+use App\Models\Etat;
 use App\Models\Montant;
 use App\Models\Paiement;
 use App\Models\Personne;
@@ -65,12 +66,20 @@ class AuthController extends Controller
             'prefix' => 'MAK-'
         ]);
 
+
+        //Recuperation du statut du code de paiement
+        $verif_code_pay_status = Paiement::where('code_paiement', $request->codePai)->first();
+
         //Vérification de l'existence du code de paiement
         $verif = Paiement::where('code_paiement', $request->codePai)->get();
+
         $verifCodePar = DB::table('personnes')->where('code_parrainage', $request->codePar)->get()->first();
         $recupInfo = json_decode($verif, true);
 
-        if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0) {
+        //Recuperation de l'Etat inactif
+        $etat = Etat::where('code', 'INA')->first();
+
+        if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0 && $verif_code_pay_status->status === 0) {
             $valueId = $recupInfo[0]['id'];
             if ($verifCodePar != null) {
                 // Insertion dans la table users
@@ -79,7 +88,7 @@ class AuthController extends Controller
                         'identifiant' => $request->pseudo,
                         'password'    => Hash::make($request->password),
                         'status'      => $request->status,
-                        'etat_id'     => '2'
+                        'etat_id'     => $etat->id
                     ]
                 );
 
@@ -87,7 +96,7 @@ class AuthController extends Controller
                 $person = Personne::create(
                     [
                         'nom_prenom'      => $request->name,
-                        'code_parrainage' => $generateCodePar,
+                        'code_parrainage' => $request->codePar,
                         'adresse'         => $request->adresse,
                         'contact'         => $request->phone,
                         'date_naissance'  => $request->date,
@@ -99,27 +108,36 @@ class AuthController extends Controller
                         'user_id'         => $user->id
                     ]
                 );
+
+                //Mise à jour de l'etat du code de paiement
+                $maj_paiement = $verif_code_pay_status->update([
+                    'status' => 1
+                ]);
+
+                //Insertion dans la table Montants
                 $montant = Montant::create(
                     [
                         'montant_parrain' => '0',
-                        'montant_net'    => '0',
-                        'montant_total'  => '0',
-                        'personne_id'  => $valueId
+                        'montant_net'     => '0',
+                        'montant_total'   => '0',
+                        'personne_id'     => $person->id
                     ]
-
                 );
 
-                if ($person and $user) {
+                if ($person and $user and $montant) {
                     session()->flash('message', 'Inscription Réussie!');
                     return back();
                 } else {
-                    session()->flash('message1', 'Inscription échouée, veuiller réessayer!');
+                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
                     return back();
                 }
             } else {
                 session()->flash('message1', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
                 return back();
             }
+        } else if ($verif_code_pay_status->status === 1) {
+            session()->flash('message1', 'Code paiement déjà utilisé, veuillez contactez le service clientèle!');
+            return back();
         } else {
             session()->flash('message1', 'Code paiement invalide, veuillez réessayer!');
             return back();
@@ -142,11 +160,11 @@ class AuthController extends Controller
 
         $try_connexion = Auth::attempt(['identifiant' => $data['identifiant'], 'password' => $data['password']]);
         if ($try_connexion) {
-            session()->flash('test', 'Bienvenu(e)');
+            session()->flash('message', 'Bienvenu(e)');
             return redirect()->route('dashboard');
         }
         //session()->flash('message', 'Identifiant ou mot de passe incorrect');
-        session()->flash('test', 'Identifiant ou mot de passe incorrect!');
+        session()->flash('message', 'Identifiant ou mot de passe incorrect!');
         return back();
     }
 
@@ -192,7 +210,6 @@ class AuthController extends Controller
         Mail::to($personne)->bcc("philippesf3@gmail.com")
             ->queue(new MessageGoogle($personne));
         session()->flash('message', 'Un mail vous a été envoyé');
-
 
         return back()->withText("Message envoyé");
     }

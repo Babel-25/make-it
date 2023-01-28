@@ -21,6 +21,10 @@ class Personne extends Model
         'paiement_id',
     ];
 
+    public function sexe(){
+        return $this->belongsTo(Sexe::class);
+    }
+
 
     //Une personne possède un seul et unique compte
     // public function user(){

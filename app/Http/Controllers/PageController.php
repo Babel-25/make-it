@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
-use App\Mail\MessageGoogle;
 use App\Models\Etat;
+use App\Models\Sexe;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class PageController extends Controller
@@ -41,12 +40,15 @@ class PageController extends Controller
     {
         //Informations user
         $user = User::find(auth()->user()->id)->personne;
-        return view('layout.user.profile', compact('user'));
+        $etat = Etat::where('id',auth()->user()->etat_id)->first();
+        return view('layout.user.profile', compact('user','etat'));
     }
 
+    //Page ajout sexe + ajout etat
     public function configForm()
     {
-        return view('layout.user.configuration');
+        $sexes = Sexe::all();
+        return view('layout.user.configuration',compact('sexes'));
     }
 
     public function paiementForm()
@@ -54,20 +56,17 @@ class PageController extends Controller
         return view('layout.user.paiement');
     }
 
-    public function sendEmail(Request $req)
+    //Envoie de mail
+    public function sendEmailSiteAction(Request $request)
     {
         $data = [
-            'name' =>$req->name,
-            'email' =>$req->email,
-            'message' =>$req->message
+            'name'    => $request->name,
+            'email'   => $request->email,
+            'message' => $request->message
         ];
         Mail::to('badioubabel1@gmail.com')->send(new ContactMail($data));
         session()->flash('message7', 'Email envoyé avec succès!');
         return back();
     }
 
-   
-
-    //Fonction ajout d'etat
-    
 }
