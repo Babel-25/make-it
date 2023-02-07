@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
 use App\Models\Etat;
+use App\Models\Personne;
 use App\Models\Sexe;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,10 +39,12 @@ class PageController extends Controller
     //Fonction page mon profil
     public function monProfil()
     {
-        //Informations user
-        $user = User::find(auth()->user()->id)->personne;
+        //Informations user et personnes
+        $user = User::find(auth()->user()->id);
+        $personnes = Personne::find(auth()->user()->id)->first();
+        //dd($personnes);
         $etat = Etat::where('id',auth()->user()->etat_id)->first();
-        return view('layout.user.profile', compact('user','etat'));
+        return view('layout.user.profile', compact('user','personnes','etat'));
     }
 
     //Page ajout sexe + ajout etat

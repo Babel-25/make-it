@@ -43,65 +43,65 @@
                 <div class="col-md-6">
                     <h3> Informations personnelles </h3>
                     <form class="form-horizontal style-form" name="form_person" method="POST"
-                        action="{{ route('personnes.update', $user->id) }}" id="form_user">
+                        action="{{ route('personnes.update', $personnes->id) }}" id="form_user">
                         @csrf
                         @method('PUT')
                         {{-- <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Code de Parrainage </label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" disabled="true" name="name"
-                                    value="{{ $user->code_parrainage }}">
+                                    value="{{ $personnes->code_parrainage }}">
                             </div>
                         </div> --}}
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Nom & Prénom(s) </label>
                             <div class="col-sm-10" id="name_on" style="display: none">
                                 <input type="text" class="form-control" name="nom_prenom"
-                                    value="{{ $user->nom_prenom }}">
+                                    value="{{ $personnes->nom_prenom }}">
                                 @error('nom_prenom')
                                     <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="name_off">
-                                <input type="text" class="form-control" value="{{ $user->nom_prenom }}" readonly>
+                                <input type="text" class="form-control" value="{{ $personnes->nom_prenom }}" readonly>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Contact </label>
                             <div class="col-sm-10" id="contact_on" style="display: none">
-                                <input type="text" class="form-control" name="contact" value="{{ $user->contact }}">
+                                <input type="text" class="form-control" name="contact" value="{{ $personnes->contact }}">
                                 @error('contact')
                                     <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="contact_off">
-                                <input type="text" class="form-control" value="{{ $user->contact }}" readonly>
+                                <input type="text" class="form-control" value="{{ $personnes->contact }}" readonly>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Email</label>
                             <div class="col-sm-10" id="email_on" style="display: none">
-                                <input type="email" class="form-control" name="email" value="{{ $user->email }}">
+                                <input type="email" class="form-control" name="email" value="{{ $personnes->email }}">
                                 @error('email')
                                     <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="email_off">
-                                <input type="email" class="form-control" value="{{ $user->email }}" readonly>
+                                <input type="email" class="form-control" value="{{ $personnes->email }}" readonly>
 
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Adresse</label>
                             <div class="col-sm-10" id="adresse_on" style="display: none">
-                                <input type="text" class="form-control" name="adresse" value="{{ $user->adresse }}">
+                                <input type="text" class="form-control" name="adresse" value="{{ $personnes->adresse }}">
                                 @error('adresse')
                                     <div class="text-danger"> {{ $message }} </div>
                                 @enderror
                             </div>
                             <div class="col-sm-10" id="adresse_off">
-                                <input type="text" class="form-control" value="{{ $user->adresse }}" readonly>
+                                <input type="text" class="form-control" value="{{ $personnes->adresse }}" readonly>
                             </div>
                         </div>
 

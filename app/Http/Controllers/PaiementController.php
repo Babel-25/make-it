@@ -18,8 +18,11 @@ class PaiementController extends Controller
     public function index()
     {
         $paiements = Paiement::all();
+<<<<<<< HEAD
         $verif_parrain_supreme = Membre::where('parrain', 0)->first();
 
+=======
+>>>>>>> 25275f7195e67f136df8313bb0701cc60c745a57
         return view('layout.user.paiements.list_paiements', compact('paiements'));
     }
 
