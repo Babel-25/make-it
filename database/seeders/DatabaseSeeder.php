@@ -144,13 +144,13 @@ class DatabaseSeeder extends Seeder
 
         $person = Personne::firstOrCreate(
             [
-                'nom_prenom'      => 'BIAO Badiou',
+                'nom_prenom'      => 'FOLY Jacques-Philippes',
                 'code_parrainage' => 'supreme',
                 'lien_parrainage' => '1010',
-                'adresse'         => 'Avedji',
-                'contact'         => '+228 93 32 02 65',
+                'adresse'         => 'Deckon',
+                'contact'         => '+228 92 00 93 58',
                 'date_naissance'  => '1998-4-1',
-                'email'           => 'biaobabel@gmail.com',
+                'email'           => 'liphzone@gmail.com',
                 'sexe_id'         => $sexe_masculin->id,
                 'paiement_id'     => $paiement1->id,
                 //Recuperation de l'id user

@@ -168,60 +168,51 @@ class AuthController extends Controller
                 $level4_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 4')->first();
 
 
-                //Parrain supreme
-                $verif_parrain_supreme = Membre::where('parrain', 0)->first();
+                //Information parrain table Personne
+                $pers_parrain = Personne::where('lien_parrainage',$request->codePar)->first();
 
-                //Parrain simple
-                $verif_parrain_simple = Membre::where('parrain','>',0)->first();
+                //Information parrain table Membre
+                $membre_parrain = Membre::where('parrain',$pers_parrain)->first();
 
-                //Nombre Fieul Parrain supreme au niveau 1 de la phase A
+                //Nombre Fieul parrain au niveau 1 de la phase A
                 $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level1_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level1_p1->id)->where('parrain', $pers_parrain->id)->count();
 
-                //Nombre Fieul Parrain supreme au niveau 2 de la phase A
+                //Nombre Fieul parrain au niveau 2 de la phase A
                 $count_fieul_p1_l2 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level2_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level2_p1->id)->where('parrain', $pers_parrain->id)->count();
 
-                //Nombre Fieul Parrain supreme au niveau 3 de la phase A
+                //Nombre Fieul parrain au niveau 3 de la phase A
                 $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level3_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level3_p1->id)->where('parrain', $pers_parrain->id)->count();
 
-                //Nombre Fieul Parrain supreme au niveau 4 de la phase A
+                //Nombre Fieul parrain au niveau 4 de la phase A
                 $count_fieul_p1_l4 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level4_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level4_p1->id)->where('parrain', $pers_parrain->id)->count();
 
 
-                //Nombre Fieul Parrain supreme au niveau 1 de la phase B
+                //Nombre Fieul parrain au niveau 1 de la phase B
                 $count_fieul_p2_l1 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level1_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level1_p1->id)->where('parrain', $pers_parrain->id)->count();
 
-                //Nombre Fieul Parrain supreme au niveau 2 de la phase B
+                //Nombre Fieul parrain au niveau 2 de la phase B
                 $count_fieul_p2_l2 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level2_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level2_p1->id)->where('parrain', $pers_parrain->id)->count();
 
-                //Nombre Fieul Parrain supreme au niveau 3 de la phase B
+                //Nombre Fieul parrain au niveau 3 de la phase B
                 $count_fieul_p2_l3 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level3_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+                    ->where('level_id', $level3_p1->id)->where('parrain', $pers_parrain->id)->count();
 
-                //Nombre Fieul Parrain supreme au niveau 4 de la phase B
+                //Nombre Fieul parrain au niveau 4 de la phase B
                 $count_fieul_p2_l4 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level4_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
-
-                //Fieul parrain supreme
-                $fieul_parrain_supreme = Membre::where('parrain', $verif_parrain_supreme->id)->first();
+                    ->where('level_id', $level4_p1->id)->where('parrain', $pers_parrain->id)->count();
 
 
-                //Information sur le parrain supreme
-                // $personne_supreme = Personne::where('code_parrainage', 'supreme')->first();
-
-                //Personne simple
-                $parrain = Personne::where('lien_parrainage',$request->codePar)->first();
-
-                //*********DEBUT CONDITION SUR LE PARRAIN SUPREME */
+                //*********DEBUT CONDITION SUR LE parrain */
                 //Verification phase 1
-                if ($phase1->id === $verif_parrain_supreme->phase_id) {
-                    //Preuve fieul du parrain supreme
-                    if ($person->code_parrainage === $parrain->lien_parrainage) {
+                if ($phase1->id === $membre_parrain->phase_id) {
+                    //Preuve fieul du parrain
+                    if ($person->code_parrainage === $pers_parrain->lien_parrainage) {
                         //Si nombre fieul est de 0 ou <=2
                         if ($count_fieul_p1_l1 === 0 || $count_fieul_p1_l1 < 2) {
                             $membre_1 = Membre::firstOrCreate([
@@ -229,7 +220,7 @@ class AuthController extends Controller
                                 'phase_id'    => $phase1->id,
                                 'level_id'    => $level1_p1->id,
                                 'personne_id' => $person->id,
-                                'parrain'     => $parrain->id,
+                                'parrain'     => $pers_parrain->id,
                             ]);
                         }
                         if ($count_fieul_p1_l1 === 2) {
@@ -239,7 +230,7 @@ class AuthController extends Controller
                                     'phase_id'    => $phase1->id,
                                     'level_id'    => $level2_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $parrain->id,
+                                    'parrain'     => $pers_parrain->id,
                                 ]);
                             }
                         }
@@ -251,7 +242,7 @@ class AuthController extends Controller
                                     'phase_id'    => $phase1->id,
                                     'level_id'    => $level3_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $parrain->id,
+                                    'parrain'     => $pers_parrain->id,
                                 ]);
                             }
                         }
@@ -262,7 +253,7 @@ class AuthController extends Controller
                                     'phase_id'    => $phase1->id,
                                     'level_id'    => $level4_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $parrain->id,
+                                    'parrain'     => $pers_parrain->id,
                                 ]);
                             }
                         }
@@ -274,13 +265,13 @@ class AuthController extends Controller
                                     'phase_id'    => $phase2->id,
                                     'level_id'    => $level2_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $parrain->id,
+                                    'parrain'     => $pers_parrain->id,
                                 ]);
                             }
                         }
                     }
                 }
-                //*********FIN CONDITION SUR LE PARRAIN SUPREME */
+                //*********FIN CONDITION SUR LE PARRAIN */
 
 
                 if ($person and $user and $montant) {
