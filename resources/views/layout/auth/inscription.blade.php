@@ -129,10 +129,6 @@
                                 </span>
                                 <p id="message"></p>
                                 <input type="text" class="form-control mb-3" name="status" value="Client" hidden>
-                                <!-- <input type="text" class="form-control mb-3" name="mt1" value="0" hidden>
-                                <input type="text" class="form-control mb-3" name="mt2" value="0" hidden>
-                                <input type="text" class="form-control mb-3" name="mt3" value="0" hidden>
-                                <input type="text" class="form-control mb-3" name="etat" value="2" hidden>-->
                             </div>
                             <div class="form-navigation mt-3">
                                 <button type="button" class="previous btn btn-primary float-left">&lt;

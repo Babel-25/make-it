@@ -28,6 +28,8 @@ return new class extends Migration
             //Id Personne
             $table->unsignedBigInteger('personne_id')->index();
             $table->foreign('personne_id')->references('id')->on('personnes')->onUpdate('cascade')->onDelete('cascade');
+
+            $table->integer('parrain');
             $table->timestamps();
         });
     }

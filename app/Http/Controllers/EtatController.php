@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Etat;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EtatController extends Controller
 {

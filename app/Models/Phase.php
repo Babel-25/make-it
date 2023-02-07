@@ -15,5 +15,4 @@ class Phase extends Model
         'total_niveau',
     ];
 
-
 }

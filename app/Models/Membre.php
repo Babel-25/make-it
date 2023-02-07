@@ -12,7 +12,8 @@ class Membre extends Model
     protected $fillable = [
         'ref_membre',
         'phase_id',
-        'niveau_id',
+        'level_id',
         'personne_id',
+        'parrain'
     ];
 }

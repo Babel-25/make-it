@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Personne;
-use App\Models\Sexe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

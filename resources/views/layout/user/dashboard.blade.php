@@ -13,7 +13,7 @@
             <div class=" text-center text-success m-3" style="border-color: green;border-style:solid;height:3em"> MOI
             </div>
         </div>
-        <div id="DeuxFieuls" class="mt">
+        <div id="2F" class="mt">
 
             <div class="row">
                 <div class="col-md-6" style="border-color: green;border-style:solid;height:3em"> </div>
@@ -23,7 +23,7 @@
         </div>
     </div>
     <div class="col-lg-12">
-        <div class="row mt" id="2Fieuls">
+        <div class="row mt" id="2F">
             <div class="col-md-6">
                 <div class="col-md-5" style="border-color: green;border-style:solid;height:3em">
 
@@ -43,7 +43,7 @@
         </div>
     </div>
     <div class="col-lg-12">
-        <div class="row mt" id="4Fieuls">
+        <div class="row mt" id="4F">
             <div class="col-md-4">
                 <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
 
@@ -75,7 +75,7 @@
         </div>
     </div>
     <div class="col-lg-12">
-        <div class="row mt" id="8Fieuls">
+        <div class="row mt" id="8F">
 
             <div class="col-md-5">
                 <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">

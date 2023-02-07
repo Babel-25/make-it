@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Membre;
 use App\Models\Paiement;
 use App\Models\Personne;
 use Illuminate\Http\Request;
@@ -17,8 +18,8 @@ class PaiementController extends Controller
     public function index()
     {
         $paiements = Paiement::all();
-        $verif_code_pay_status = Paiement::where('code_paiement', '100000')->first();
-        dd($verif_code_pay_status);
+        $verif_parrain_supreme = Membre::where('parrain', 0)->first();
+
         return view('layout.user.paiements.list_paiements', compact('paiements'));
     }
 
@@ -116,7 +117,7 @@ class PaiementController extends Controller
 
             return redirect()->route('list_paiements');
         } else {
-            session()->flash('echec4', 'Echec  !');
+            session()->flash('echec4', 'Echec !');
 
             return redirect()->route('list_paiements');
         }

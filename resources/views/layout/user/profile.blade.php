@@ -14,6 +14,10 @@
             <h1 class="mb"><i class="fa fa-angle-right"></i> Mon Profil <button id="switch_state" onclick="onClik()"
                     class="btn btn-success"> Modifier </button>
             </h1>
+            <div>
+                <p> Votre code de parrainage </p>
+                <p class="text-success"> <b> {{ $user->code_parrainage }} </b></p>
+            </div>
             <div align="right">
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                     @if ($etat->libelle === 'Inactif')
@@ -42,13 +46,13 @@
                         action="{{ route('personnes.update', $user->id) }}" id="form_user">
                         @csrf
                         @method('PUT')
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Code de Parrainage </label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" disabled="true" name="name"
                                     value="{{ $user->code_parrainage }}">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label class="col-sm-2 col-sm-2 control-label"> Nom & Prénom(s) </label>
                             <div class="col-sm-10" id="name_on" style="display: none">

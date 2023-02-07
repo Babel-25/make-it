@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Mail\MessageGoogle;
 use App\Models\Etat;
+use App\Models\Level;
+use App\Models\Membre;
 use App\Models\Montant;
 use App\Models\Paiement;
 use App\Models\Personne;
+use App\Models\Phase;
 use App\Models\User;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
@@ -15,6 +18,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -61,31 +65,33 @@ class AuthController extends Controller
         //Générateur de code parrainage
         $generateCodePar = IdGenerator::generate([
             'table'  => 'Personnes',
-            'field'  => 'code_parrainage',
+            'field'  => 'lien_parrainage',
             'length' => 10,
             'prefix' => 'MAK-'
         ]);
 
 
+        //Verifier l'existence du code de paiement
+        $exist_code_payment = Paiement::where('code_paiement', $request->codePai)->exists();
         //Recuperation du statut du code de paiement
         $verif_code_pay_status = Paiement::where('code_paiement', $request->codePai)->first();
 
         //Vérification de l'existence du code de paiement
         $verif = Paiement::where('code_paiement', $request->codePai)->get();
 
-        $verifCodePar = DB::table('personnes')->where('code_parrainage', $request->codePar)->get()->first();
+        $verifCodePar = DB::table('personnes')->where('lien_parrainage', $request->codePar)->get()->first();
         $recupInfo = json_decode($verif, true);
 
         //Recuperation de l'Etat inactif
         $etat = Etat::where('code', 'INA')->first();
 
-        if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0 && $verif_code_pay_status->status === 0) {
+        if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0 &&  $exist_code_payment === true && $verif_code_pay_status->status === 0) {
             $valueId = $recupInfo[0]['id'];
             if ($verifCodePar != null) {
                 // Insertion dans la table users
                 $user = User::create(
                     [
-                        'identifiant' => $request->pseudo,
+                        'identifiant' => strtolower($request->pseudo),
                         'password'    => Hash::make($request->password),
                         'status'      => $request->status,
                         'etat_id'     => $etat->id
@@ -97,12 +103,12 @@ class AuthController extends Controller
                     [
                         'nom_prenom'      => $request->name,
                         'code_parrainage' => $request->codePar,
+                        'lien_parrainage' => $generateCodePar,
                         'adresse'         => $request->adresse,
                         'contact'         => $request->phone,
                         'date_naissance'  => $request->date,
                         'email'           => $request->email,
                         'sexe_id'         => $request->sexe,
-                        'user_id'         => $user->id,
                         'paiement_id'     => $valueId,
                         //Recuperation de l'id user
                         'user_id'         => $user->id
@@ -117,12 +123,165 @@ class AuthController extends Controller
                 //Insertion dans la table Montants
                 $montant = Montant::create(
                     [
-                        'montant_parrain' => '0',
-                        'montant_net'     => '0',
-                        'montant_total'   => '0',
+                        'montant_parrain' => 0,
+                        'montant_net'     => 0,
+                        'montant_total'   => 0,
                         'personne_id'     => $person->id
                     ]
                 );
+
+
+                //Phase A
+                $phase1 = Phase::where('libelle_phase', 'Phase A')->first();
+
+                //Niveau 0
+                $level0_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 0')->first();
+
+                //Niveau 1
+                $level1_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 1')->first();
+
+                //Niveau 2
+                $level2_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 2')->first();
+
+                //Niveau 3
+                $level3_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 3')->first();
+
+                //Niveau 4
+                $level4_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 4')->first();
+
+                //Phase B
+                $phase2 = Phase::where('libelle_phase', 'Phase B')->first();
+
+                //Niveau 0
+                $level0_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 0')->first();
+
+                //Niveau 1
+                $level1_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 1')->first();
+
+                //Niveau 2
+                $level2_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 2')->first();
+
+                //Niveau 3
+                $level3_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 3')->first();
+
+                //Niveau 4
+                $level4_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 4')->first();
+
+
+                //Parrain supreme
+                $verif_parrain_supreme = Membre::where('parrain', 0)->first();
+
+                //Parrain simple
+                $verif_parrain_simple = Membre::where('parrain','>',0)->first();
+
+                //Nombre Fieul Parrain supreme au niveau 1 de la phase A
+                $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level1_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Nombre Fieul Parrain supreme au niveau 2 de la phase A
+                $count_fieul_p1_l2 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level2_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Nombre Fieul Parrain supreme au niveau 3 de la phase A
+                $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level3_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Nombre Fieul Parrain supreme au niveau 4 de la phase A
+                $count_fieul_p1_l4 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level4_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+
+                //Nombre Fieul Parrain supreme au niveau 1 de la phase B
+                $count_fieul_p2_l1 = Membre::where('phase_id', $phase2->id)
+                    ->where('level_id', $level1_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Nombre Fieul Parrain supreme au niveau 2 de la phase B
+                $count_fieul_p2_l2 = Membre::where('phase_id', $phase2->id)
+                    ->where('level_id', $level2_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Nombre Fieul Parrain supreme au niveau 3 de la phase B
+                $count_fieul_p2_l3 = Membre::where('phase_id', $phase2->id)
+                    ->where('level_id', $level3_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Nombre Fieul Parrain supreme au niveau 4 de la phase B
+                $count_fieul_p2_l4 = Membre::where('phase_id', $phase2->id)
+                    ->where('level_id', $level4_p1->id)->where('parrain', $verif_parrain_supreme->id)->count();
+
+                //Fieul parrain supreme
+                $fieul_parrain_supreme = Membre::where('parrain', $verif_parrain_supreme->id)->first();
+
+
+                //Information sur le parrain supreme
+                // $personne_supreme = Personne::where('code_parrainage', 'supreme')->first();
+
+                //Personne simple
+                $parrain = Personne::where('lien_parrainage',$request->codePar)->first();
+
+                //*********DEBUT CONDITION SUR LE PARRAIN SUPREME */
+                //Verification phase 1
+                if ($phase1->id === $verif_parrain_supreme->phase_id) {
+                    //Preuve fieul du parrain supreme
+                    if ($person->code_parrainage === $parrain->lien_parrainage) {
+                        //Si nombre fieul est de 0 ou <=2
+                        if ($count_fieul_p1_l1 === 0 || $count_fieul_p1_l1 < 2) {
+                            $membre_1 = Membre::firstOrCreate([
+                                'ref_membre'  => Str::random(10),
+                                'phase_id'    => $phase1->id,
+                                'level_id'    => $level1_p1->id,
+                                'personne_id' => $person->id,
+                                'parrain'     => $parrain->id,
+                            ]);
+                        }
+                        if ($count_fieul_p1_l1 === 2) {
+                            if ($count_fieul_p1_l2 === 0 || $count_fieul_p1_l2 <= 4) {
+                                $membre_2 = Membre::firstOrCreate([
+                                    'ref_membre'  => Str::random(10),
+                                    'phase_id'    => $phase1->id,
+                                    'level_id'    => $level2_p1->id,
+                                    'personne_id' => $person->id,
+                                    'parrain'     => $parrain->id,
+                                ]);
+                            }
+                        }
+
+                        if ($count_fieul_p1_l2 === 4) {
+                            if ($count_fieul_p1_l3 === 0 || $count_fieul_p1_l3 <= 8) {
+                                $membre_3 = Membre::firstOrCreate([
+                                    'ref_membre'  => Str::random(10),
+                                    'phase_id'    => $phase1->id,
+                                    'level_id'    => $level3_p1->id,
+                                    'personne_id' => $person->id,
+                                    'parrain'     => $parrain->id,
+                                ]);
+                            }
+                        }
+                        if ($count_fieul_p1_l3 === 8) {
+                            if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 <= 16) {
+                                $membre_4 = Membre::firstOrCreate([
+                                    'ref_membre'  => Str::random(10),
+                                    'phase_id'    => $phase1->id,
+                                    'level_id'    => $level4_p1->id,
+                                    'personne_id' => $person->id,
+                                    'parrain'     => $parrain->id,
+                                ]);
+                            }
+                        }
+
+                        if ($count_fieul_p1_l4 === 16) {
+                            if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 <= 16) {
+                                $membre = Membre::firstOrCreate([
+                                    'ref_membre'  => Str::random(10),
+                                    'phase_id'    => $phase2->id,
+                                    'level_id'    => $level2_p1->id,
+                                    'personne_id' => $person->id,
+                                    'parrain'     => $parrain->id,
+                                ]);
+                            }
+                        }
+                    }
+                }
+                //*********FIN CONDITION SUR LE PARRAIN SUPREME */
+
 
                 if ($person and $user and $montant) {
                     session()->flash('message', 'Inscription Réussie!');
@@ -135,6 +294,9 @@ class AuthController extends Controller
                 session()->flash('message1', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
                 return back();
             }
+        } else if ($exist_code_payment === false) {
+            session()->flash('message1', "Ce code de paiement n'existe pas!");
+            return back();
         } else if ($verif_code_pay_status->status === 1) {
             session()->flash('message1', 'Code paiement déjà utilisé, veuillez contactez le service clientèle!');
             return back();

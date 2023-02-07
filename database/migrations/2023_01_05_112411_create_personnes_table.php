@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('adresse');
             $table->string('date_naissance');
             $table->string('email')->unique();
-            $table->string('code_parrainage')->nullable();
+            $table->string('code_parrainage');
+            $table->string('lien_parrainage');
 
             //Id User
             $table->unsignedBigInteger('user_id')->index();
