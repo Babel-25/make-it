@@ -169,10 +169,10 @@ class AuthController extends Controller
 
 
                 //Information parrain table Personne
-                $pers_parrain = Personne::where('lien_parrainage',$request->codePar)->first();
+                $pers_parrain = Personne::where('lien_parrainage', $request->codePar)->first();
 
                 //Information parrain table Membre
-                $membre_parrain = Membre::where('parrain',$pers_parrain)->first();
+                $membre_parrain = Membre::where('parrain', $pers_parrain)->first();
 
                 //Nombre Fieul parrain au niveau 1 de la phase A
                 $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
@@ -213,7 +213,7 @@ class AuthController extends Controller
                 if ($phase1->id === $membre_parrain->phase_id) {
                     //Preuve fieul du parrain
                     if ($person->code_parrainage === $pers_parrain->lien_parrainage) {
-                        //Si nombre fieul est de 0 ou <=2
+                        //Si nombre fieul est de 0 ou <2
                         if ($count_fieul_p1_l1 === 0 || $count_fieul_p1_l1 < 2) {
                             $membre_1 = Membre::firstOrCreate([
                                 'ref_membre'  => Str::random(10),
@@ -224,7 +224,7 @@ class AuthController extends Controller
                             ]);
                         }
                         if ($count_fieul_p1_l1 === 2) {
-                            if ($count_fieul_p1_l2 === 0 || $count_fieul_p1_l2 <= 4) {
+                            if ($count_fieul_p1_l2 === 0 || $count_fieul_p1_l2 < 4) {
                                 $membre_2 = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -236,7 +236,7 @@ class AuthController extends Controller
                         }
 
                         if ($count_fieul_p1_l2 === 4) {
-                            if ($count_fieul_p1_l3 === 0 || $count_fieul_p1_l3 <= 8) {
+                            if ($count_fieul_p1_l3 === 0 || $count_fieul_p1_l3 < 8) {
                                 $membre_3 = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -247,7 +247,7 @@ class AuthController extends Controller
                             }
                         }
                         if ($count_fieul_p1_l3 === 8) {
-                            if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 <= 16) {
+                            if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 < 16) {
                                 $membre_4 = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -259,11 +259,11 @@ class AuthController extends Controller
                         }
 
                         if ($count_fieul_p1_l4 === 16) {
-                            if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 <= 16) {
+                            if ($count_fieul_p2_l1 === 0 || $count_fieul_p2_l1 < 2) {
                                 $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase2->id,
-                                    'level_id'    => $level2_p1->id,
+                                    'level_id'    => $level1_p2->id,
                                     'personne_id' => $person->id,
                                     'parrain'     => $pers_parrain->id,
                                 ]);

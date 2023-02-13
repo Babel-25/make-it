@@ -22,7 +22,8 @@ class Personne extends Model
         'paiement_id',
     ];
 
-    public function sexe(){
+    public function sexe()
+    {
         return $this->belongsTo(Sexe::class);
     }
 }

@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'code'    => 'F',
             'libelle' => 'Féminin'
         ]);
+
         $paiement1 =Paiement::firstOrCreate([
             'code_paiement'    => Str::random(10),
             'libelle_paiement' => 'Paiement montant 3000 F CFA',
@@ -51,7 +52,14 @@ class DatabaseSeeder extends Seeder
             'status'           => 0
         ]);
 
-        $paiement = Paiement::factory(5)->create();
+        $paiement2 =Paiement::firstOrCreate([
+            'code_paiement'    => Str::random(10),
+            'libelle_paiement' => 'Paiement montant 3000 F CFA',
+            'montant_paiement' => 3000,
+            'status'           => 0
+        ]);
+
+        $paiement = Paiement::factory(30)->create();
 
         $phase1 = Phase::firstOrCreate([
             'ref_phase'     => Str::random(16),
@@ -142,7 +150,7 @@ class DatabaseSeeder extends Seeder
             'etat_id'     => $etat_inactif->id
         ]);
 
-        $person = Personne::firstOrCreate(
+        $person1 = Personne::firstOrCreate(
             [
                 'nom_prenom'      => 'FOLY Jacques-Philippes',
                 'code_parrainage' => 'supreme',
@@ -158,22 +166,55 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $montant = Montant::create(
+        $person2 = Personne::firstOrCreate(
+            [
+                'nom_prenom'      => 'BIAO badiou',
+                'code_parrainage' => 'supreme',
+                'lien_parrainage' => '1010',
+                'adresse'         => 'Avedji',
+                'contact'         => '+228 90 23 11 22',
+                'date_naissance'  => '1998-4-1',
+                'email'           => 'badioubiao@gmail.com',
+                'sexe_id'         => $sexe_masculin->id,
+                'paiement_id'     => $paiement2->id,
+                //Recuperation de l'id user
+                'user_id'         => $user->id
+            ]
+        );
+
+        $montant1 = Montant::create(
             [
                 'montant_parrain' => 0,
                 'montant_net'     => 0,
                 'montant_total'   => 0,
-                'personne_id'     => $person->id
+                'personne_id'     => $person1->id
             ]
         );
 
-        if($person->code_parrainage === 'supreme'){}
+        $montant2 = Montant::create(
+            [
+                'montant_parrain' => 0,
+                'montant_net'     => 0,
+                'montant_total'   => 0,
+                'personne_id'     => $person2->id
+            ]
+        );
 
-        $membre = Membre::firstOrCreate([
+        // if($person1->code_parrainage === 'supreme'){}
+
+        $membre1 = Membre::firstOrCreate([
             'ref_membre'  => Str::random(20),
             'phase_id'    => $phase1->id,
-            'level_id'     => $phase1_level0->id,
-            'personne_id' => $person->id,
+            'level_id'    => $phase1_level0->id,
+            'personne_id' => $person1->id,
+            'parrain'     => 0
+        ]);
+
+        $membre2 = Membre::firstOrCreate([
+            'ref_membre'  => Str::random(20),
+            'phase_id'    => $phase1->id,
+            'level_id'    => $phase1_level0->id,
+            'personne_id' => $person2->id,
             'parrain'     => 0
         ]);
     }
