@@ -9,4 +9,8 @@ class Level extends Model
 {
     use HasFactory;
     protected $fillable = ['ref_niveau', 'libelle_niveau', 'total_membre', 'phase_id'];
+
+    public function phase(){
+        return $this->belongsTo(Phase::class);
+    }
 }

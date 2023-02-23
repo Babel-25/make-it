@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'identifiant'    => strtolower(fake()->firstNameMale()),
             'password'       => Hash::make('philippes'), // password
             'status'         => 'Client',
-            'etat_id'        => 1,
+            'etat_id'        => 2,
             'remember_token' => Str::random(10),
         ];
     }

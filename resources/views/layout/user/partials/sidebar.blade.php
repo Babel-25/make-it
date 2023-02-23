@@ -26,6 +26,7 @@
                 <ul class="sub">
                     <li><a href="{{ route('list_etats') }}"> Liste Etat</a></li>
                 </ul>
+
                 <ul class="sub">
                     <li><a href="{{ route('list_personnes') }}"> Liste Utilisateurs</a></li>
                 </ul>

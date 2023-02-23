@@ -67,11 +67,11 @@ class PageController extends Controller
     //Fonction page mon profil
     public function monProfil()
     {
-        //Informations user et personnes
-        $user = User::find(auth()->user()->id);
-        $personnes = Personne::find(auth()->user()->id)->first();
+        //Informations sur l'utilisateur
+        $personne = User::find(auth()->user()->id)->personne;
+        $fieuls = getDescendants($personne->id);
         $etat = Etat::where('id', auth()->user()->etat_id)->first();
-        return view('layout.user.profile', compact('user', 'personnes', 'etat'));
+        return view('layout.user.profile', compact('personne','fieuls', 'etat'));
     }
 
     //Page ajout sexe + ajout etat

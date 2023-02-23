@@ -353,6 +353,65 @@
             </div>
         </div>
 
+        {{-- <div class="col-lg-12">
+            <div class="row mt" id="16F">
+
+                <div class="col-md-5">
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
+
+                    </div>
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                    </div>
+                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
+
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
+
         <div class="col-lg-12">
             <div class="row mt" id="16F">
 
@@ -390,7 +449,250 @@
                                 @foreach ($personnes as $personne)
                                     @if ($item->personne_id === $personne->id)
                                         <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em">
+                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                        @break
+
+                        @case(2)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1"
+                                            style="border-color: green;border-style:solid;height:3em ;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                            </div>
+                        @break
+
+                        @case(3)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                        @break
+
+                        @case(4)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1"
+                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                        @break
+
+                        @case(5)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                        @break
+
+                        @case(6)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1"
+                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                        @break
+
+                        @case(7)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1"
+                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                        @break
+
+                        @case(8)
+                            @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1"
+                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                            {{ $personne->nom_prenom }}
+                                        </div>
+                                    @endif
+                                @endforeach
+                            @endforeach
+                        @break
+
+                        @default
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
+
+                            </div>
+                    @endswitch
+
+                </div>
+
+                <div class="col-md-5 col-md-offset-2">
+                    @switch(count($niv4_fieuls2))
+                        @case(0)
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+
+                            </div>
+                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
+
+                            </div>
+                        @break
+
+                        @case(1)
+                            @foreach ($niv4_fieuls2 as $item)
+                                @foreach ($personnes as $personne)
+                                    @if ($item->personne_id === $personne->id)
+                                        <div class="col-md-1"
+                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
                                             {{ $personne->nom_prenom }}
                                         </div>
                                     @endif
@@ -418,12 +720,12 @@
                             @break
 
                             @case(2)
-                                @foreach ($niv4_fieuls1 as $item)
+                                @foreach ($niv4_fieuls2 as $item)
                                     @foreach ($personnes as $personne)
                                         @if ($item->personne_id === $personne->id)
                                             <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em">
-                                                {{ $personne->nom_prenom }}
+                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                {{ substr($personne->nom_prenom,0,4) }}
                                             </div>
                                         @endif
                                     @endforeach
@@ -447,12 +749,12 @@
                                 @break
 
                                 @case(3)
-                                    @foreach ($niv4_fieuls1 as $item)
+                                    @foreach ($niv4_fieuls2 as $item)
                                         @foreach ($personnes as $personne)
                                             @if ($item->personne_id === $personne->id)
                                                 <div class="col-md-1"
-                                                    style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
+                                                    style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                    {{ substr($personne->nom_prenom,0,4) }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -480,12 +782,12 @@
                                 @break
 
                                 @case(4)
-                                    @foreach ($niv4_fieuls1 as $item)
+                                    @foreach ($niv4_fieuls2 as $item)
                                         @foreach ($personnes as $personne)
                                             @if ($item->personne_id === $personne->id)
-                                                <div class="col-md-1"
-                                                    style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
+                                                <div class="col-md-2"
+                                                    style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                    {{ substr($personne->nom_prenom,0,4) }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -509,12 +811,12 @@
                                 @break
 
                                 @case(5)
-                                    @foreach ($niv4_fieuls1 as $item)
+                                    @foreach ($niv4_fieuls2 as $item)
                                         @foreach ($personnes as $personne)
                                             @if ($item->personne_id === $personne->id)
                                                 <div class="col-md-1"
-                                                    style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
+                                                    style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                    {{ substr($personne->nom_prenom,0,4) }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -534,12 +836,12 @@
                                 @break
 
                                 @case(6)
-                                    @foreach ($niv4_fieuls1 as $item)
+                                    @foreach ($niv4_fieuls2 as $item)
                                         @foreach ($personnes as $personne)
                                             @if ($item->personne_id === $personne->id)
                                                 <div class="col-md-1"
-                                                    style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
+                                                    style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                    {{ substr($personne->nom_prenom,0,4) }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -555,12 +857,12 @@
                                 @break
 
                                 @case(7)
-                                    @foreach ($niv4_fieuls1 as $item)
+                                    @foreach ($niv4_fieuls2 as $item)
                                         @foreach ($personnes as $personne)
                                             @if ($item->personne_id === $personne->id)
                                                 <div class="col-md-1"
-                                                    style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
+                                                    style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                    {{ substr($personne->nom_prenom,0,4) }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -572,12 +874,12 @@
                                 @break
 
                                 @case(8)
-                                    @foreach ($niv4_fieuls1 as $item)
+                                    @foreach ($niv4_fieuls2 as $item)
                                         @foreach ($personnes as $personne)
                                             @if ($item->personne_id === $personne->id)
                                                 <div class="col-md-1"
-                                                    style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
+                                                    style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                                                    {{ substr($personne->nom_prenom,0,4) }}
                                                 </div>
                                             @endif
                                         @endforeach
@@ -617,307 +919,11 @@
 
                                     </div>
                             @endswitch
-
                         </div>
-                        <div class="col-md-5 col-md-offset-2">
-                            @switch(count($niv4_fieuls2))
-                                @case(0)
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
-
-                                    </div>
-                                @break
-
-                                @case(1)
-                                    @foreach ($niv4_fieuls2 as $item)
-                                        @foreach ($personnes as $personne)
-                                            @if ($item->personne_id === $personne->id)
-                                                <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
-                                                    {{ $personne->nom_prenom }}
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    @endforeach
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                    </div>
-                                    <div class="col-md-1"
-                                        style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-                                    @break
-
-                                    @case(2)
-                                        @foreach ($niv4_fieuls2 as $item)
-                                            @foreach ($personnes as $personne)
-                                                @if ($item->personne_id === $personne->id)
-                                                    <div class="col-md-1"
-                                                        style="border-color: green;border-style:solid;height:3em">
-                                                        {{ $personne->nom_prenom }}
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                        <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                        </div>
-                                        <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                        </div>
-                                        <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                        </div>
-                                        <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                        </div>
-                                        <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                        </div>
-                                        <div class="col-md-1"
-                                            style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-                                        @break
-
-                                        @case(3)
-                                            @foreach ($niv4_fieuls2 as $item)
-                                                @foreach ($personnes as $personne)
-                                                    @if ($item->personne_id === $personne->id)
-                                                        <div class="col-md-1"
-                                                            style="border-color: green;border-style:solid;height:3em">
-                                                            {{ $personne->nom_prenom }}
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                        @break
-
-                                        @case(4)
-                                            @foreach ($niv4_fieuls2 as $item)
-                                                @foreach ($personnes as $personne)
-                                                    @if ($item->personne_id === $personne->id)
-                                                        <div class="col-md-2"
-                                                            style="border-color: green;border-style:solid;height:3em">
-                                                            {{ $personne->nom_prenom }}
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                        @break
-
-                                        @case(5)
-                                            @foreach ($niv4_fieuls2 as $item)
-                                                @foreach ($personnes as $personne)
-                                                    @if ($item->personne_id === $personne->id)
-                                                        <div class="col-md-1"
-                                                            style="border-color: green;border-style:solid;height:3em">
-                                                            {{ $personne->nom_prenom }}
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                        @break
-
-                                        @case(6)
-                                            @foreach ($niv4_fieuls2 as $item)
-                                                @foreach ($personnes as $personne)
-                                                    @if ($item->personne_id === $personne->id)
-                                                        <div class="col-md-1"
-                                                            style="border-color: green;border-style:solid;height:3em">
-                                                            {{ $personne->nom_prenom }}
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                        @break
-
-                                        @case(7)
-                                            @foreach ($niv4_fieuls2 as $item)
-                                                @foreach ($personnes as $personne)
-                                                    @if ($item->personne_id === $personne->id)
-                                                        <div class="col-md-1"
-                                                            style="border-color: green;border-style:solid;height:3em">
-                                                            {{ $personne->nom_prenom }}
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                        @break
-
-                                        @case(8)
-                                            @foreach ($niv4_fieuls2 as $item)
-                                                @foreach ($personnes as $personne)
-                                                    @if ($item->personne_id === $personne->id)
-                                                        <div class="col-md-1"
-                                                            style="border-color: green;border-style:solid;height:3em">
-                                                            {{ $personne->nom_prenom }}
-                                                        </div>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                        @break
-
-                                        @default
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1"
-                                                style="border-color: green;border-style:solid;height:3em;margin-right:1em">
-
-                                            </div>
-                                            <div class="col-md-1" style="border-color: green;border-style:solid;height:3em">
-
-                                            </div>
-                                    @endswitch
-                                </div>
-                            </div>
-                        </div>
     </section>
-    <!--<section class="container mt">
-                                                                                                                        <div id="PhaseI">
-                                                                                                                            <div class="bg-theme01 row text-center text-success " style="border-color: green;border-style:solid;height:3em">
-                                                                                                                                <div class="col-md-6 text-white"> Gain Brut Phase A :</div>
-                                                                                                                                <div class="col-md-6 text-white"> 10 000 F CFA</div>
-                                                                                                                            </div>
-                                                                                                                        </div>
-
-                                                                                                                        <div class="bg-theme01 row mt" style="border-color: green;border-style:solid;height:3em">
-                                                                                                                            <div class="bg-theme01 col-md-4 "> Gain Parrainage direct </div>
-                                                                                                                            <div class="bg-white col-md-8 text-theme01 text-center"> 600 F CFA</div>
-                                                                                                                        </div>
-                                                                                                                        <div class="bg-theme01 row mt" style="border-color: green;border-style:solid;height:3em">
-                                                                                                                            <div class="bg-theme01 col-md-6 "> Gain net total de la phase I </div>
-                                                                                                                            <div class="bg-white col-md-6 text-theme01 text-center"> 9 540 F CFA</div>
-                                                                                                                        </div>
-                                                                                                                    </section>-->
 @endsection

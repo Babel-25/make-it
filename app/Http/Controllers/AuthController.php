@@ -115,23 +115,12 @@ class AuthController extends Controller
                     ]
                 );
 
-                //Mise à jour de l'etat du code de paiement
-                $maj_paiement = $verif_code_pay_status->update([
-                    'status' => 1
-                ]);
+                //Informations sur le parrain
+                $person_parrain = Personne::where('lien_parrainage', $request->codePar)->first();
+                $membre_parrain = Membre::where('parrain', $person_parrain->id)->first();
+                //Fin Information parrain
 
-                //Insertion dans la table Montants
-                $montant = Montant::create(
-                    [
-                        'montant_parrain' => 0,
-                        'montant_net'     => 0,
-                        'montant_total'   => 0,
-                        'personne_id'     => $person->id
-                    ]
-                );
-
-
-                //Phase A
+                //Phase A ****
                 $phase1 = Phase::where('libelle_phase', 'Phase A')->first();
 
                 //Niveau 0
@@ -149,7 +138,25 @@ class AuthController extends Controller
                 //Niveau 4
                 $level4_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 4')->first();
 
-                //Phase B
+                //Nombre Fieul parrain au niveau 1 de la phase A
+                $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level1_p1->id)->where('parrain', $person_parrain->id)->count();
+
+                //Nombre Fieul parrain au niveau 2 de la phase A
+                $count_fieul_p1_l2 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level2_p1->id)->where('parrain', $person_parrain->id)->count();
+
+                //Nombre Fieul parrain au niveau 3 de la phase A
+                $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level3_p1->id)->where('parrain', $person_parrain->id)->count();
+
+                //Nombre Fieul parrain au niveau 4 de la phase A
+                $count_fieul_p1_l4 = Membre::where('phase_id', $phase1->id)
+                    ->where('level_id', $level4_p1->id)->where('parrain', $person_parrain->id)->count();
+
+                //Fin Phase A
+
+                //Phase B ***
                 $phase2 = Phase::where('libelle_phase', 'Phase B')->first();
 
                 //Niveau 0
@@ -168,119 +175,241 @@ class AuthController extends Controller
                 $level4_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 4')->first();
 
 
-                //Information parrain table Personne
-                $pers_parrain = Personne::where('lien_parrainage', $request->codePar)->first();
-
-                //Information parrain table Membre
-                $membre_parrain = Membre::where('parrain', $pers_parrain)->first();
-
-                //Nombre Fieul parrain au niveau 1 de la phase A
-                $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level1_p1->id)->where('parrain', $pers_parrain->id)->count();
-
-                //Nombre Fieul parrain au niveau 2 de la phase A
-                $count_fieul_p1_l2 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level2_p1->id)->where('parrain', $pers_parrain->id)->count();
-
-                //Nombre Fieul parrain au niveau 3 de la phase A
-                $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level3_p1->id)->where('parrain', $pers_parrain->id)->count();
-
-                //Nombre Fieul parrain au niveau 4 de la phase A
-                $count_fieul_p1_l4 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level4_p1->id)->where('parrain', $pers_parrain->id)->count();
-
-
                 //Nombre Fieul parrain au niveau 1 de la phase B
                 $count_fieul_p2_l1 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level1_p1->id)->where('parrain', $pers_parrain->id)->count();
+                    ->where('level_id', $level1_p1->id)->where('parrain', $person_parrain->id)->count();
 
                 //Nombre Fieul parrain au niveau 2 de la phase B
                 $count_fieul_p2_l2 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level2_p1->id)->where('parrain', $pers_parrain->id)->count();
+                    ->where('level_id', $level2_p1->id)->where('parrain', $person_parrain->id)->count();
 
                 //Nombre Fieul parrain au niveau 3 de la phase B
                 $count_fieul_p2_l3 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level3_p1->id)->where('parrain', $pers_parrain->id)->count();
+                    ->where('level_id', $level3_p1->id)->where('parrain', $person_parrain->id)->count();
 
                 //Nombre Fieul parrain au niveau 4 de la phase B
                 $count_fieul_p2_l4 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level4_p1->id)->where('parrain', $pers_parrain->id)->count();
+                    ->where('level_id', $level4_p1->id)->where('parrain', $person_parrain->id)->count();
+                //Fin Phase B
 
-
-                //*********DEBUT CONDITION SUR LE parrain */
-                //Verification phase 1
-                if ($phase1->id === $membre_parrain->phase_id) {
-                    //Preuve fieul du parrain
-                    if ($person->code_parrainage === $pers_parrain->lien_parrainage) {
-                        //Si nombre fieul est de 0 ou <2
+                //Condition sur phase I
+                if ($phase1->id === $membre_parrain->phase_id and $membre_parrain->etat === 0) {
+                    //Verification du lien de parrainage utilisé par fieul
+                    if ($person_parrain->lien_parrainage === request('codePar')) {
+                        //Verification Niveau 1 : 2 fieuls max
                         if ($count_fieul_p1_l1 === 0 || $count_fieul_p1_l1 < 2) {
-                            $membre_1 = Membre::firstOrCreate([
+                            $fieul_niv1 = Membre::firstOrCreate([
                                 'ref_membre'  => Str::random(10),
                                 'phase_id'    => $phase1->id,
                                 'level_id'    => $level1_p1->id,
                                 'personne_id' => $person->id,
-                                'parrain'     => $pers_parrain->id,
+                                'parrain'     => $person_parrain->id,
+                                'etat'        => 0
                             ]);
+
+                            //Enregistrement du montant du fieul
+                            $montant = Montant::firstOrCreate([
+                                'phase_id'        => $phase1->id,
+                                'personne_id'     => $person->id,
+                                'gain_parrainage' => 0,
+                                'gain_niv1'       => 0,
+                                'gain_niv2'       => 0,
+                                'gain_niv3'       => 0,
+                                'gain_niv4'       => 0,
+                            ]);
+
+                            //Si le montant parrain existe, on fait une mise à jour sur le montant
+                            if (!empty($parrain_montant_exists)) {
+                                $montant_parrain_update = $parrain_montant_exists->update([
+                                    'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                    'gain_niv1'       => $parrain_montant_exists->gain_niv1 + 200
+                                ]);
+                            }
                         }
+                        //Max fieuls Niveau 1 atteint
                         if ($count_fieul_p1_l1 === 2) {
+                            //Changement etat Utilisateur
+                            $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
+                            $state = User::where('etat_id', $etat->id)->first();
+                            if ($person_parrain->user_id === $state->id) {
+                                $update_state = $state->update([
+                                    'etat_id' => $actif->id
+                                ]);
+                            }
+                            //Verification Niveau 2 : 4 fieuls max
                             if ($count_fieul_p1_l2 === 0 || $count_fieul_p1_l2 < 4) {
                                 $membre_2 = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
                                     'level_id'    => $level2_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $pers_parrain->id,
+                                    'parrain'     => $person_parrain->id,
+                                    'etat'        => 0
                                 ]);
+                                //Enregistrement du montant du fieul
+                                $montant = Montant::firstOrCreate([
+                                    'phase_id'        => $phase1->id,
+                                    'personne_id'     => $person->id,
+                                    'gain_parrainage' => 0,
+                                    'gain_niv1'       => 0,
+                                    'gain_niv2'       => 0,
+                                    'gain_niv3'       => 0,
+                                    'gain_niv4'       => 0,
+                                ]);
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                    ]);
+                                }
                             }
                         }
 
+                        //Max fieuls Niveau 2 atteint
                         if ($count_fieul_p1_l2 === 4) {
+                            //Verification Niveau 3 : 8 fieuls max
                             if ($count_fieul_p1_l3 === 0 || $count_fieul_p1_l3 < 8) {
                                 $membre_3 = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
                                     'level_id'    => $level3_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $pers_parrain->id,
+                                    'parrain'     => $person_parrain->id,
+                                    'etat'        => 0
                                 ]);
+
+                                //Enregistrement du montant du fieul
+                                $montant = Montant::firstOrCreate([
+                                    'phase_id'        => $phase1->id,
+                                    'personne_id'     => $person->id,
+                                    'gain_parrainage' => 0,
+                                    'gain_niv1'       => 0,
+                                    'gain_niv2'       => 0,
+                                    'gain_niv3'       => 0,
+                                    'gain_niv4'       => 0,
+                                ]);
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                    ]);
+                                }
                             }
                         }
+
+                        //Max fieuls Niveau 3 atteint
                         if ($count_fieul_p1_l3 === 8) {
+                            //Verification Niveau 4 : 16 fieuls max
                             if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 < 16) {
                                 $membre_4 = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
                                     'level_id'    => $level4_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $pers_parrain->id,
+                                    'parrain'     => $person_parrain->id,
+                                    'etat'        => 0
                                 ]);
+
+                                //Enregistrement du montant du fieul
+                                $montant = Montant::firstOrCreate([
+                                    'phase_id'        => $phase1->id,
+                                    'personne_id'     => $person->id,
+                                    'gain_parrainage' => 0,
+                                    'gain_niv1'       => 0,
+                                    'gain_niv2'       => 0,
+                                    'gain_niv3'       => 0,
+                                    'gain_niv4'       => 0,
+                                ]);
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                    ]);
+                                }
                             }
                         }
 
+                        //Max fieuls Niveau  atteint
                         if ($count_fieul_p1_l4 === 16) {
-                            if ($count_fieul_p2_l1 === 0 || $count_fieul_p2_l1 < 2) {
-                                $membre = Membre::firstOrCreate([
-                                    'ref_membre'  => Str::random(10),
-                                    'phase_id'    => $phase2->id,
-                                    'level_id'    => $level1_p2->id,
-                                    'personne_id' => $person->id,
-                                    'parrain'     => $pers_parrain->id,
+                            //Recuperation des informations de la phase I de l'utilisateur
+                            $info_membre_parrain = Membre::where('phase_id', $phase1->id)->where('personne_id', $person_parrain->id)->first();
+
+                            $membre = Membre::firstOrCreate([
+                                'ref_membre'  => Str::random(10),
+                                'phase_id'    => $phase1->id,
+                                'level_id'    => $level4_p1->id,
+                                'personne_id' => $person->id,
+                                'parrain'     => $person_parrain->id,
+                                'etat'        => 0
+                            ]);
+
+                            //Enregistrement du montant du fieul
+                            $montant_fieul = Montant::firstOrCreate([
+                                'phase_id'  => $phase1->id,
+                                'personne_id' => $person->id,
+                            ], [
+                                'gain_parrainage' => 0,
+                                'gain_niv1'       => 0,
+                                'gain_niv2'       => 0,
+                                'gain_niv3'       => 0,
+                                'gain_niv4'       => 0,
+                            ]);
+
+                            // //Si le montant parrain existe, on fait une mise à jour sur le montant
+                            if (!empty($parrain_montant_exists)) {
+                                $montant_parrain_update = $parrain_montant_exists->update([
+                                    'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                    'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
                                 ]);
                             }
+
+                            // Mise à jour de l'etat de la phase  I dans la table Membre
+                            $maj_parrain = $info_membre_parrain->update([
+                                'etat' => 1
+                            ]);
+
+                            //Reinscription du parrain dans la table Membre
+                            $reinscription_parrain_p2 = Membre::firstOrCreate([
+                                'ref_membre'  => Str::random(10),
+                                'phase_id'    => $phase2->id,
+                                'level_id'    => $level0_p2->id,
+                                'personne_id' => $info_membre_parrain->id,
+                                'parrain'     => $info_membre_parrain->parrain,
+                                'etat'        => 0
+                            ]);
+
+                            //Enregistrement du nouveau montant du parrain à la phase II
+                            $montant_p2 = Montant::firstOrCreate([
+                                'phase_id'        => $phase1->id,
+                                'personne_id'     => $person->id,
+                                'gain_parrainage' => 0,
+                                'gain_niv1'       => 0,
+                                'gain_niv2'       => 0,
+                                'gain_niv3'       => 0,
+                                'gain_niv4'       => 0,
+                            ]);
                         }
                     }
                 }
-                //*********FIN CONDITION SUR LE PARRAIN */
 
 
-                if ($person and $user and $montant) {
-                    session()->flash('message', 'Inscription Réussie!');
-                    return back();
-                } else {
-                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
-                    return back();
-                }
+
+
+
+                // if ($person and $user) {
+                //     session()->flash('message', 'Inscription Réussie!');
+                //     return back();
+                // } else {
+                //     session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                //     return back();
+                // }
+
             } else {
                 session()->flash('message1', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
                 return back();

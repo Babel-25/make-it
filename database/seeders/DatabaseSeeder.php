@@ -14,7 +14,6 @@ use App\Models\Phase;
 use App\Models\Sexe;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -27,6 +26,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        //Debut creation Etat
         $etat_actif = Etat::firstOrCreate([
             'code'    => 'ACT',
             'libelle' => 'Actif'
@@ -35,7 +35,9 @@ class DatabaseSeeder extends Seeder
             'code'    => 'INA',
             'libelle' => 'Inactif'
         ]);
+        //Fin
 
+        //Debut creation Sexe
         $sexe_masculin = Sexe::firstOrCreate([
             'code'    => 'M',
             'libelle' => 'Masculin'
@@ -44,23 +46,27 @@ class DatabaseSeeder extends Seeder
             'code'    => 'F',
             'libelle' => 'Féminin'
         ]);
+        //Fin
 
-        $paiement1 =Paiement::firstOrCreate([
+        //Debut creation paiement
+        $paiement1 = Paiement::firstOrCreate([
             'code_paiement'    => Str::random(10),
             'libelle_paiement' => 'Paiement montant 3000 F CFA',
             'montant_paiement' => 3000,
             'status'           => 0
         ]);
 
-        $paiement2 =Paiement::firstOrCreate([
+        $paiement2 = Paiement::firstOrCreate([
             'code_paiement'    => Str::random(10),
             'libelle_paiement' => 'Paiement montant 3000 F CFA',
             'montant_paiement' => 3000,
             'status'           => 0
         ]);
 
-        $paiement = Paiement::factory(30)->create();
+        $paiement = Paiement::factory(20)->create();
+        //Fin
 
+        //Debut creation phase
         $phase1 = Phase::firstOrCreate([
             'ref_phase'     => Str::random(16),
             'libelle_phase' => 'Phase A',
@@ -142,8 +148,10 @@ class DatabaseSeeder extends Seeder
             'total_membre'   => 16,
             'phase_id'       => $phase2->id
         ]);
+        //Fin
 
-        $user = User::firstOrCreate([
+        //Debut Creation User + Personne
+        $user1 = User::firstOrCreate([
             'identifiant' => 'liph',
             'password'    => Hash::make('philippes'),
             'status'      => 'Admin',
@@ -162,60 +170,29 @@ class DatabaseSeeder extends Seeder
                 'sexe_id'         => $sexe_masculin->id,
                 'paiement_id'     => $paiement1->id,
                 //Recuperation de l'id user
-                'user_id'         => $user->id
+                'user_id'         => $user1->id
             ]
         );
 
-        $person2 = Personne::firstOrCreate(
+        $montant1 = Montant::firstOrCreate(
             [
-                'nom_prenom'      => 'BIAO badiou',
-                'code_parrainage' => 'supreme',
-                'lien_parrainage' => '1010',
-                'adresse'         => 'Avedji',
-                'contact'         => '+228 90 23 11 22',
-                'date_naissance'  => '1998-4-1',
-                'email'           => 'badioubiao@gmail.com',
-                'sexe_id'         => $sexe_masculin->id,
-                'paiement_id'     => $paiement2->id,
-                //Recuperation de l'id user
-                'user_id'         => $user->id
-            ]
-        );
-
-        $montant1 = Montant::create(
-            [
-                'montant_parrain' => 0,
-                'montant_net'     => 0,
-                'montant_total'   => 0,
+                'phase_id'        => $phase1->id,
+                'gain_parrainage' => 0,
+                'gain_niv1'       => 0,
+                'gain_niv2'       => 0,
+                'gain_niv3'       => 0,
+                'gain_niv4'       => 0,
                 'personne_id'     => $person1->id
             ]
         );
-
-        $montant2 = Montant::create(
-            [
-                'montant_parrain' => 0,
-                'montant_net'     => 0,
-                'montant_total'   => 0,
-                'personne_id'     => $person2->id
-            ]
-        );
-
-        // if($person1->code_parrainage === 'supreme'){}
 
         $membre1 = Membre::firstOrCreate([
             'ref_membre'  => Str::random(20),
             'phase_id'    => $phase1->id,
             'level_id'    => $phase1_level0->id,
             'personne_id' => $person1->id,
-            'parrain'     => 0
-        ]);
-
-        $membre2 = Membre::firstOrCreate([
-            'ref_membre'  => Str::random(20),
-            'phase_id'    => $phase1->id,
-            'level_id'    => $phase1_level0->id,
-            'personne_id' => $person2->id,
-            'parrain'     => 0
+            'parrain'     => 0,
+            'etat'        => 0,
         ]);
     }
 }

@@ -18,7 +18,8 @@ class MontantFactory extends Factory
     public function definition()
     {
         return [
-            'montant_parrain' => 0,
+            'phase_id'  => 1,
+            'gain_parrainage' => 0,
             'montant_net'     => 0,
             'montant_total'   => 0,
             'personne_id'     => Personne::factory()->create(),

@@ -16,5 +16,6 @@ class Membre extends Model
         'level_id',
         'personne_id',
         'parrain'
+        ,'etat'
     ];
 }

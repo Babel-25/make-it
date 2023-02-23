@@ -30,6 +30,8 @@ return new class extends Migration
             $table->foreign('personne_id')->references('id')->on('personnes')->onUpdate('cascade')->onDelete('cascade');
 
             $table->integer('parrain');
+
+            $table->boolean('etat');
             $table->timestamps();
         });
     }
