@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Membre;
-use App\Models\Montant;
 use App\Models\Paiement;
-use App\Models\Personne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
