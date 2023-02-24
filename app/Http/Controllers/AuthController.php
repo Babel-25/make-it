@@ -117,7 +117,7 @@ class AuthController extends Controller
 
                 //Informations sur le parrain
                 $person_parrain = Personne::where('lien_parrainage', $request->codePar)->first();
-                $membre_parrain = Membre::where('parrain', $person_parrain->id)->first();
+                $membre_parrain = Membre::where('parrain', $person_parrain)->first();
                 //Fin Information parrain
 
                 //Phase A ****
@@ -191,6 +191,11 @@ class AuthController extends Controller
                 $count_fieul_p2_l4 = Membre::where('phase_id', $phase2->id)
                     ->where('level_id', $level4_p1->id)->where('parrain', $person_parrain->id)->count();
                 //Fin Phase B
+
+                //Mise à jour de l'etat du code de paiement
+                $maj_paiement = $verif_code_pay_status->update([
+                    'status' => 1
+                ]);
 
                 //Condition sur phase I
                 if ($phase1->id === $membre_parrain->phase_id and $membre_parrain->etat === 0) {
@@ -399,17 +404,13 @@ class AuthController extends Controller
                 }
 
 
-
-
-
-                // if ($person and $user) {
-                //     session()->flash('message', 'Inscription Réussie!');
-                //     return back();
-                // } else {
-                //     session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
-                //     return back();
-                // }
-
+                if ($person and $user) {
+                    session()->flash('message', 'Inscription Réussie!');
+                    return back();
+                } else {
+                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                    return back();
+                }
             } else {
                 session()->flash('message1', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');
                 return back();
