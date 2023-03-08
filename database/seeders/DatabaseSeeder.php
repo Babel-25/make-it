@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'status'           => 0
         ]);
 
-        $paiement = Paiement::factory(20)->create();
+        $paiement = Paiement::factory(40)->create();
         //Fin
 
         //Debut creation phase
@@ -192,7 +192,9 @@ class DatabaseSeeder extends Seeder
             'level_id'    => $phase1_level0->id,
             'personne_id' => $person1->id,
             'parrain'     => 0,
+            'position'    => 0,
             'etat'        => 0,
+            'parrain_direct' => 'NULL'
         ]);
     }
 }

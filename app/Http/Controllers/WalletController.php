@@ -15,8 +15,7 @@ class WalletController extends Controller
         $montant_parrainage =  $montant_user->gain_parrainage;
         $montant_phase1 =  $montant_user->gain_niv1 +  $montant_user->gain_niv2 +
             $montant_user->gain_niv3 +  $montant_user->gain_niv4;
-
         $montant_net = $montant_parrainage + $montant_phase1;
-        return view('layout.user.wallets.portefeuille', compact('montant_user', 'montant_parrainage', 'montant_phase1','montant_net'));
+        return view('layout.user.wallets.portefeuille', compact('montant_user', 'montant_parrainage', 'montant_phase1', 'montant_net'));
     }
 }

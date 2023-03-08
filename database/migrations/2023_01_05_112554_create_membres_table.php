@@ -31,7 +31,10 @@ return new class extends Migration
 
             $table->integer('parrain');
 
+            $table->integer('position');
+
             $table->boolean('etat');
+            $table->enum('parrain_direct',['OUI','NON','NULL'])->default('OUI');
             $table->timestamps();
         });
     }

@@ -70,7 +70,6 @@ class AuthController extends Controller
             'prefix' => 'MAK-'
         ]);
 
-
         //Verifier l'existence du code de paiement
         $exist_code_payment = Paiement::where('code_paiement', $request->codePai)->exists();
         //Recuperation du statut du code de paiement
@@ -98,7 +97,7 @@ class AuthController extends Controller
                     ]
                 );
 
-                // Insertion dans la table Personnes
+                // // Insertion dans la table Personnes
                 $person = Personne::create(
                     [
                         'nom_prenom'      => $request->name,
@@ -115,51 +114,69 @@ class AuthController extends Controller
                     ]
                 );
 
+
+                //Parrain supreme
+                $parrain_supreme = Membre::where('parrain', 0)->first();
+                $personne_par_supreme = Personne::where('code_parrainage', 'supreme')->first();
+
                 //Informations sur le parrain
-                $person_parrain = Personne::where('lien_parrainage', $request->codePar)->first();
+                $person_parrain = Personne::where('lien_parrainage', request('codePar'))->first();
+                $user_parrain = User::where('id', $person_parrain->id)->first();
                 $membre_parrain = Membre::where('parrain', $person_parrain)->first();
+
+
+                //Verification de l'existence d'un montant du parrain au prealable dans la BDD
                 $parrain_montant_exists = Montant::where('personne_id', $person_parrain->id)->first();
-                //Fin Information parrain
 
-                //Phase A ****
+
+                //Verification existance fieuls
+                $exist_fieuls = Membre::where('parrain', $person_parrain)->where('position', '<>', 0)->exists();
+
+                $get_parrains = Membre::where('personne_id', $person_parrain->id)->get();
+
+
+                //Mise à jour de l'etat du code de paiement
+                $maj_paiement = $verif_code_pay_status->update([
+                    'status' => 1
+                ]);
+
+                //***** PHASE A */
                 $phase1 = Phase::where('libelle_phase', 'Phase A')->first();
-
                 //Niveau 0
                 $level0_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 0')->first();
 
                 //Niveau 1
                 $level1_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 1')->first();
 
+                // //Nombre de fieuls au niveau 1
+                // $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
+                //     ->where('level_id', $level1_p1->id)
+                //     ->where('parrain', $membre_parrain->id)->count();
+
                 //Niveau 2
                 $level2_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 2')->first();
 
+                // //Nombre de fieuls au niveau 2
+                // $count_fieul_p1_l2 = Membre::where('phase_id', $phase1->id)->where('level_id', $level2_p1->id)->where('parrain', $membre_parrain->id)->count();
+
+
                 //Niveau 3
                 $level3_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 3')->first();
+                //Nombre de fieuls au niveau 3
+                $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)->where('level_id', $level3_p1->id)->where('parrain', $membre_parrain->id)->count();
+
 
                 //Niveau 4
                 $level4_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 4')->first();
+                //Nombre de fieuls au niveau 4
+                $count_fieul_p1_l4 = Membre::where('phase_id', $phase1->id)->where('level_id', $level4_p1->id)->where('parrain', $membre_parrain->id)->count();
 
-                //Nombre Fieul parrain au niveau 1 de la phase A
-                $count_fieul_p1_l1 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level1_p1->id)->where('parrain', $person_parrain->id)->count();
+                //Fieuls parrain supreme
+                $count_fieul_parrain_sup = Membre::where('phase_id', $phase1->id)->where('parrain', $parrain_supreme->personne_id)->count();
 
-                //Nombre Fieul parrain au niveau 2 de la phase A
-                $count_fieul_p1_l2 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level2_p1->id)->where('parrain', $person_parrain->id)->count();
 
-                //Nombre Fieul parrain au niveau 3 de la phase A
-                $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level3_p1->id)->where('parrain', $person_parrain->id)->count();
-
-                //Nombre Fieul parrain au niveau 4 de la phase A
-                $count_fieul_p1_l4 = Membre::where('phase_id', $phase1->id)
-                    ->where('level_id', $level4_p1->id)->where('parrain', $person_parrain->id)->count();
-
-                //Fin Phase A
-
-                //Phase B ***
+                //***** PHASE B */
                 $phase2 = Phase::where('libelle_phase', 'Phase B')->first();
-
                 //Niveau 0
                 $level0_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 0')->first();
 
@@ -176,83 +193,739 @@ class AuthController extends Controller
                 $level4_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 4')->first();
 
 
-                //Nombre Fieul parrain au niveau 1 de la phase B
-                $count_fieul_p2_l1 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level1_p1->id)->where('parrain', $person_parrain->id)->count();
+                if ($membre_parrain->id === $phase1->id and $membre_parrain->etat === 0) {
 
-                //Nombre Fieul parrain au niveau 2 de la phase B
-                $count_fieul_p2_l2 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level2_p1->id)->where('parrain', $person_parrain->id)->count();
+                    foreach ($get_parrains as $value) {
+                        //Verification parrain supreme
+                        if ($value->parrain === 0) {
+                            //Total Fieuls du parrain supreme Niveau 1 Phase 1
+                            $count_fieuls_parrain_sup_l1_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level1_p1->id)
+                                ->where('parrain', $value->parrain)->count();
 
-                //Nombre Fieul parrain au niveau 3 de la phase B
-                $count_fieul_p2_l3 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level3_p1->id)->where('parrain', $person_parrain->id)->count();
+                            //Total Fieuls du parrain supreme Niveau 2 Phase 1
+                            $count_fieuls_parrain_sup_l2_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level2_p1->id)
+                                ->where('parrain', $value->parrain)->count();
 
-                //Nombre Fieul parrain au niveau 4 de la phase B
-                $count_fieul_p2_l4 = Membre::where('phase_id', $phase2->id)
-                    ->where('level_id', $level4_p1->id)->where('parrain', $person_parrain->id)->count();
-                //Fin Phase B
+                            //Total Fieuls du parrain supreme Niveau 3 Phase 1
+                            $count_fieuls_parrain_sup_l3_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level3_p1->id)
+                                ->where('parrain', $value->parrain)->count();
 
-                //Mise à jour de l'etat du code de paiement
-                $maj_paiement = $verif_code_pay_status->update([
-                    'status' => 1
-                ]);
+                            //Total Fieuls du parrain supreme Niveau 4 Phase 1
+                            $count_fieuls_parrain_sup_l4_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level4_p1->id)
+                                ->where('parrain', $value->parrain)->count();
 
-                //Condition sur phase I
-                if ($phase1->id === $membre_parrain->phase_id and $membre_parrain->etat === 0) {
-                    //Verification du lien de parrainage utilisé par fieul
-                    if ($person_parrain->lien_parrainage === request('codePar')) {
-                        //Verification Niveau 1 : 2 fieuls max
-                        if ($count_fieul_p1_l1 === 0 || $count_fieul_p1_l1 < 2) {
-                            $fieul_niv1 = Membre::firstOrCreate([
-                                'ref_membre'  => Str::random(10),
-                                'phase_id'    => $phase1->id,
-                                'level_id'    => $level1_p1->id,
-                                'personne_id' => $person->id,
-                                'parrain'     => $person_parrain->id,
-                                'etat'        => 0
-                            ]);
-
-                            //Enregistrement du montant du fieul
-                            $montant = Montant::firstOrCreate([
-                                'phase_id'        => $phase1->id,
-                                'personne_id'     => $person->id,
-                                'gain_parrainage' => 0,
-                                'gain_niv1'       => 0,
-                                'gain_niv2'       => 0,
-                                'gain_niv3'       => 0,
-                                'gain_niv4'       => 0,
-                            ]);
-
-                            //Si le montant parrain existe, on fait une mise à jour sur le montant
-                            if (!empty($parrain_montant_exists)) {
-                                $montant_parrain_update = $parrain_montant_exists->update([
-                                    'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                    'gain_niv1'       => $parrain_montant_exists->gain_niv1 + 200
+                            #Niveau 1
+                            //Parrain Supreme - Total Niveau 1 = 0
+                            if ($count_fieuls_parrain_sup_l1_p1 === 0) {
+                                $membre = Membre::firstOrCreate([
+                                    'ref_membre'  => Str::random(10),
+                                    'phase_id'    => $phase1->id,
+                                    'level_id'    => $level1_p1->id,
+                                    'personne_id' => $person->id,
+                                    'parrain'     => $person_parrain->id,
+                                    'position'    => 1,
+                                    'etat'        => 0,
+                                ]);
+                                $montant = Montant::firstOrCreate([
+                                    'phase_id'        => $phase1->id,
+                                    'personne_id'     => $person->id,
+                                    'gain_parrainage' => 0,
+                                    'gain_niv1'       => 0,
+                                    'gain_niv2'       => 0,
+                                    'gain_niv3'       => 0,
+                                    'gain_niv4'       => 0,
                                 ]);
                             }
-                        }
-                        //Max fieuls Niveau 1 atteint
-                        if ($count_fieul_p1_l1 === 2) {
-                            //Changement etat Utilisateur
-                            $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
-                            $state = User::where('etat_id', $etat->id)->first();
-                            if ($person_parrain->user_id === $state->id) {
+
+                            //Parrain Supreme - Total Niveau 1 = 1
+                            if ($count_fieuls_parrain_sup_l1_p1 === 1) {
+                                $membre = Membre::firstOrCreate([
+                                    'ref_membre'  => Str::random(10),
+                                    'phase_id'    => $phase1->id,
+                                    'level_id'    => $level1_p1->id,
+                                    'personne_id' => $person->id,
+                                    'parrain'     => $person_parrain->id,
+                                    'position'    => 2,
+                                    'etat'        => 0,
+                                ]);
+                                $montant = Montant::firstOrCreate([
+                                    'phase_id'        => $phase1->id,
+                                    'personne_id'     => $person->id,
+                                    'gain_parrainage' => 0,
+                                    'gain_niv1'       => 0,
+                                    'gain_niv2'       => 0,
+                                    'gain_niv3'       => 0,
+                                    'gain_niv4'       => 0,
+                                ]);
+                            }
+
+                            //Parrain Supreme - Niveau 1 plein
+                            if ($count_fieuls_parrain_sup_l1_p1 === 2) {
+                                $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
+                                $state = $user_parrain->etat;
                                 $update_state = $state->update([
                                     'etat_id' => $actif->id
                                 ]);
+
+                                #Parrain Supreme - Niveau 2
+                                switch ($count_fieuls_parrain_sup_l2_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                }
                             }
-                            //Verification Niveau 2 : 4 fieuls max
-                            if ($count_fieul_p1_l2 === 0 || $count_fieul_p1_l2 < 4) {
-                                $membre_2 = Membre::firstOrCreate([
+                            //Parrain Supreme - Niveau 2 plein
+                            if ($count_fieuls_parrain_sup_l2_p1 === 4) {
+                                #Parrain Supreme - Niveau 3
+                                switch ($count_fieuls_parrain_sup_l3_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 4:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 5,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 5:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 6,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 6:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 7,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+
+                                    case 7:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 8,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                }
+                            }
+
+                            //Parrain Supreme - Niveau 3 plein
+                            if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                #Parrain Supreme - Niveau 4
+                                switch ($count_fieuls_parrain_sup_l4_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 4:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 5,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 5:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 6,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 6:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 7,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 7:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 8,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 8:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 9,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 9:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 10,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 10:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 11,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 11:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 12,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 12:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 13,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 13:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 14,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 14:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 15,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+
+                                    case 15:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 16,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                }
+                            }
+                            //Parrain Supreme - Niveau 4 plein
+                            if ($count_fieul_p1_l4 === 16) {
+                                dd('BIENVENU DANS LA PHASE II x)');
+                            }
+                        }
+                        //Verification parrain simple
+                        else {
+                            //Total Fieuls du parrain Niveau 1 Phase 1
+                            $count_fieuls_l1_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level1_p1->id)
+                                ->where('parrain', $person_parrain->id)->count();
+
+                            //Total Fieuls du parrain Niveau 2 Phase 1
+                            $count_fieuls_l2_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level2_p1->id)
+                                ->where('parrain', $person_parrain->id)->count();
+
+                            //Total Fieuls du parrain Niveau 3 Phase 1
+                            $count_fieuls_l3_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level3_p1->id)
+                                ->where('parrain', $person_parrain->id)->count();
+
+                            //Total Fieuls du parrain Niveau 4 Phase 1
+                            $count_fieuls_l4_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level4_p1->id)
+                                ->where('parrain', $person_parrain->id)->count();
+
+
+                            //Total Fieuls du parrain supreme Niveau 1 Phase 1
+                            $count_fieuls_parrain_sup_l1_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level1_p1->id)
+                                ->where('parrain', $value->parrain)->count();
+
+                            //Total Fieuls du parrain supreme Niveau 2 Phase 1
+                            $count_fieuls_parrain_sup_l2_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level2_p1->id)
+                                ->where('parrain', $value->parrain)->count();
+
+                            //Total Fieuls du parrain supreme Niveau 3 Phase 1
+                            $count_fieuls_parrain_sup_l3_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level3_p1->id)
+                                ->where('parrain', $value->parrain)->count();
+
+                            //Total Fieuls du parrain supreme Niveau 4 Phase 1
+                            $count_fieuls_parrain_sup_l4_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level4_p1->id)
+                                ->where('parrain', $value->parrain)->count();
+
+                            //Parrain Simple - Niveau 1 - Total fieuls = 0
+                            if ($count_fieuls_l1_p1 === 0) {
+                                $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
-                                    'level_id'    => $level2_p1->id,
+                                    'level_id'    => $level1_p1->id,
                                     'personne_id' => $person->id,
                                     'parrain'     => $person_parrain->id,
-                                    'etat'        => 0
+                                    'position'    => 1,
+                                    'etat'        => 0,
                                 ]);
-                                //Enregistrement du montant du fieul
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
                                     'personne_id'     => $person->id,
@@ -263,30 +936,373 @@ class AuthController extends Controller
                                     'gain_niv4'       => 0,
                                 ]);
 
-                                //Si le montant parrain existe, on fait une mise à jour sur le montant
-                                if (!empty($parrain_montant_exists)) {
-                                    $montant_parrain_update = $parrain_montant_exists->update([
-                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                        'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
-                                    ]);
+                                //Verification Fieuls Parrain Supreme Niveau 2
+                                switch ($count_fieuls_parrain_sup_l2_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'     => Str::random(10),
+                                            'phase_id'       => $phase1->id,
+                                            'level_id'       => $level2_p1->id,
+                                            'personne_id'    => $person->id,
+                                            'parrain'        => $value->parrain,
+                                            'position'       => 1,
+                                            'etat'           => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'     => Str::random(10),
+                                            'phase_id'       => $phase1->id,
+                                            'level_id'       => $level2_p1->id,
+                                            'personne_id'    => $person->id,
+                                            'parrain'        => $value->parrain,
+                                            'position'       => 2,
+                                            'etat'           => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'     => Str::random(10),
+                                            'phase_id'       => $phase1->id,
+                                            'level_id'       => $level2_p1->id,
+                                            'personne_id'    => $person->id,
+                                            'parrain'        => $value->parrain,
+                                            'position'       => 3,
+                                            'etat'           => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'    => Str::random(10),
+                                            'phase_id'      => $phase1->id,
+                                            'level_id'      => $level2_p1->id,
+                                            'personne_id'   => $person->id,
+                                            'parrain'       => $value->parrain,
+                                            'position'      => 4,
+                                            'etat'          => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                }
+
+                                //Parrain Supreme - Niveau 2 plein
+                                if ($count_fieuls_parrain_sup_l2_p1 === 4) {
+                                    //Verification Fieuls Parrain Supreme Niveau 3
+                                    switch ($count_fieuls_parrain_sup_l3_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 1,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        =>  $value->parrain,
+                                                'position'       => 2,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 3,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 4,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 4:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 5,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+                                            break;
+                                        case 5:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 6,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+                                            break;
+                                        case 6:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 7,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 7:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 8,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                    }
+                                }
+                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                    //Verification Fieuls Parrain Supreme Niveau 4
+                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 1,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 2,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 3,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 4,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 4:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 5,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 5:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 6,
+                                                'etat'        => 0,
+                                            ]);
+                                            break;
+                                        case 6:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 7,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 7:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 8,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 8:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 9,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 9:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 10,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 10:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 11,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 11:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 12,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 12:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 13,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 13:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 14,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 14:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 15,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 15:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 16,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                    }
                                 }
                             }
-                        }
 
-                        //Max fieuls Niveau 2 atteint
-                        if ($count_fieul_p1_l2 === 4) {
-                            //Verification Niveau 3 : 8 fieuls max
-                            if ($count_fieul_p1_l3 === 0 || $count_fieul_p1_l3 < 8) {
-                                $membre_3 = Membre::firstOrCreate([
+                            //Parrain Simple - Total fieuls = 1
+                            if ($count_fieuls_l1_p1 === 1) {
+                                $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
-                                    'level_id'    => $level3_p1->id,
+                                    'level_id'    => $level1_p1->id,
                                     'personne_id' => $person->id,
-                                    'parrain'     => $person_parrain->id,
-                                    'etat'        => 0
+                                    'parrain'     => $value->parrain,
+                                    'position'    => 2,
+                                    'etat'        => 0,
                                 ]);
-
-                                //Enregistrement du montant du fieul
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
                                     'personne_id'     => $person->id,
@@ -297,113 +1313,1497 @@ class AuthController extends Controller
                                     'gain_niv4'       => 0,
                                 ]);
 
-                                //Si le montant parrain existe, on fait une mise à jour sur le montant
-                                if (!empty($parrain_montant_exists)) {
-                                    $montant_parrain_update = $parrain_montant_exists->update([
-                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                        'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                    ]);
+                                //Verification Fieuls Parrain Supreme Niveau 2
+                                switch ($count_fieuls_parrain_sup_l2_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $value->parrain,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $value->parrain,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $value->parrain,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $value->parrain,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                }
+
+                                //Verification Fieuls Parrain Supreme Niveau 2 plein
+                                if ($count_fieuls_parrain_sup_l2_p1 === 4) {
+                                    //Verification Fieuls Parrain Supreme Niveau 3
+                                    switch ($count_fieuls_parrain_sup_l3_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 1,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 2,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 3,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 4,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 4:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 5,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 5:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 6,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 6:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 7,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 7:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 8,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                    }
+                                }
+
+                                //Verification Fieuls Parrain Supreme Niveau 3 plein
+                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                    //Verification Fieuls Parrain Supreme Niveau 4
+                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 1,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 2,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 3,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 4,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 4:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 5,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 5:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 6,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 6:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 7,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 7:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 8,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 8:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 9,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 9:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 10,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 10:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 11,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+
+                                            break;
+                                        case 11:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 12,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 12:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 13,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 13:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 14,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 14:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 15,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 15:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $value->parrain,
+                                                'position'    => 16,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                    }
                                 }
                             }
-                        }
 
-                        //Max fieuls Niveau 3 atteint
-                        if ($count_fieul_p1_l3 === 8) {
-                            //Verification Niveau 4 : 16 fieuls max
-                            if ($count_fieul_p1_l4 === 0 || $count_fieul_p1_l4 < 16) {
-                                $membre_4 = Membre::firstOrCreate([
-                                    'ref_membre'  => Str::random(10),
-                                    'phase_id'    => $phase1->id,
-                                    'level_id'    => $level4_p1->id,
-                                    'personne_id' => $person->id,
-                                    'parrain'     => $person_parrain->id,
-                                    'etat'        => 0
+                            //Parrain Simple - Niveau 1 Plein
+                            if ($count_fieuls_l1_p1 === 2) {
+                                $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
+                                $state = $user_parrain->etat;
+                                $update_state = $state->update([
+                                    'etat_id' => $actif->id
                                 ]);
 
-                                //Enregistrement du montant du fieul
-                                $montant = Montant::firstOrCreate([
-                                    'phase_id'        => $phase1->id,
-                                    'personne_id'     => $person->id,
-                                    'gain_parrainage' => 0,
-                                    'gain_niv1'       => 0,
-                                    'gain_niv2'       => 0,
-                                    'gain_niv3'       => 0,
-                                    'gain_niv4'       => 0,
-                                ]);
+                                #Parrain Simple - Niveau 2
+                                switch ($count_fieuls_l2_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                }
 
-                                //Si le montant parrain existe, on fait une mise à jour sur le montant
-                                if (!empty($parrain_montant_exists)) {
-                                    $montant_parrain_update = $parrain_montant_exists->update([
-                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                        'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
-                                    ]);
+                                //Verification Fieuls Parrain Supreme Niveau 3
+                                switch ($count_fieuls_parrain_sup_l3_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 4:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 5,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 5:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 6,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                    case 6:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 7,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+
+                                    case 7:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     =>  $value->parrain,
+                                            'position'    => 8,
+                                            'etat'        => 0,
+                                            'parrain_direct' => 'NON'
+                                        ]);
+                                        break;
+                                }
+
+                                //Verification Fieuls Parrain Supreme Niveau 3 plein
+                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                    //Verification Fieuls Parrain Supreme Niveau 4
+                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 1,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 2,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 3,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 4,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 4:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 5,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 5:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 6,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 6:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 7,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 7:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level4_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 8,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 8:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 9,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 9:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 10,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 10:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 11,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 11:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 12,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 12:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 13,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 13:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 14,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 14:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 15,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 15:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 16,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                    }
                                 }
                             }
-                        }
 
-                        //Max fieuls Niveau  atteint
-                        if ($count_fieul_p1_l4 === 16) {
-                            //Recuperation des informations de la phase I de l'utilisateur
-                            $info_membre_parrain = Membre::where('phase_id', $phase1->id)->where('personne_id', $person_parrain->id)->first();
+                            #Parrain Simple Niveau 2 Plein
+                            if ($count_fieuls_l2_p1 === 4) {
+                                #Niveau 3
+                                switch ($count_fieuls_l3_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 4:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 5,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 5:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 6,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 6:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 7,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
 
-                            $membre = Membre::firstOrCreate([
-                                'ref_membre'  => Str::random(10),
-                                'phase_id'    => $phase1->id,
-                                'level_id'    => $level4_p1->id,
-                                'personne_id' => $person->id,
-                                'parrain'     => $person_parrain->id,
-                                'etat'        => 0
-                            ]);
+                                    case 7:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level2_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 8,
+                                            'etat'        => 0,
+                                        ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                }
 
-                            //Enregistrement du montant du fieul
-                            $montant_fieul = Montant::firstOrCreate([
-                                'phase_id'  => $phase1->id,
-                                'personne_id' => $person->id,
-                            ], [
-                                'gain_parrainage' => 0,
-                                'gain_niv1'       => 0,
-                                'gain_niv2'       => 0,
-                                'gain_niv3'       => 0,
-                                'gain_niv4'       => 0,
-                            ]);
+                                //Verification Fieuls Parrain Supreme Niveau 3 plein
+                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                    //Verification Fieuls Parrain Supreme Niveau 4
+                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 1,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 2,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 3,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
 
-                            // //Si le montant parrain existe, on fait une mise à jour sur le montant
-                            if (!empty($parrain_montant_exists)) {
-                                $montant_parrain_update = $parrain_montant_exists->update([
-                                    'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                    'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
-                                ]);
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 4,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 4:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 5,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 5:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 6,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 6:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 7,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 7:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level4_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 8,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 8:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 9,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 9:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 10,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 10:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 11,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 11:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 12,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 12:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 13,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 13:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 14,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                        case 14:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level4_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $value->parrain,
+                                                'position'       => 15,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+
+                                        case 15:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level4_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     =>  $value->parrain,
+                                                'position'    => 16,
+                                                'etat'        => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            break;
+                                    }
+                                }
                             }
 
-                            // Mise à jour de l'etat de la phase  I dans la table Membre
-                            $maj_parrain = $info_membre_parrain->update([
-                                'etat' => 1
-                            ]);
+                            #Parrain Simple - Niveau 3 Plein
+                            if ($count_fieuls_l3_p1 === 8) {
+                                #Niveau 4
+                                switch ($count_fieuls_l4_p1) {
+                                    case 0:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 1,
+                                            'etat'        => 0,
+                                        ]);
 
-                            //Reinscription du parrain dans la table Membre
-                            $reinscription_parrain_p2 = Membre::firstOrCreate([
-                                'ref_membre'  => Str::random(10),
-                                'phase_id'    => $phase2->id,
-                                'level_id'    => $level0_p2->id,
-                                'personne_id' => $info_membre_parrain->id,
-                                'parrain'     => $info_membre_parrain->parrain,
-                                'etat'        => 0
-                            ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 1:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 2,
+                                            'etat'        => 0,
+                                        ]);
 
-                            //Enregistrement du nouveau montant du parrain à la phase II
-                            $montant_p2 = Montant::firstOrCreate([
-                                'phase_id'        => $phase1->id,
-                                'personne_id'     => $person->id,
-                                'gain_parrainage' => 0,
-                                'gain_niv1'       => 0,
-                                'gain_niv2'       => 0,
-                                'gain_niv3'       => 0,
-                                'gain_niv4'       => 0,
-                            ]);
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 2:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 3,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+
+                                    case 3:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 4,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 4:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 5,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 5:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 6,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 6:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 7,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 7:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 8,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 8:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 9,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 9:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 10,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 10:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 11,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 11:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 12,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 12:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 13,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 13:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 14,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                    case 14:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 15,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+
+                                    case 15:
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase1->id,
+                                            'level_id'    => $level4_p1->id,
+                                            'personne_id' => $person->id,
+                                            'parrain'     => $person_parrain->id,
+                                            'position'    => 16,
+                                            'etat'        => 0,
+                                        ]);
+
+                                        $montant = Montant::firstOrCreate([
+                                            'phase_id'        => $phase1->id,
+                                            'personne_id'     => $person->id,
+                                            'gain_parrainage' => 0,
+                                            'gain_niv1'       => 0,
+                                            'gain_niv2'       => 0,
+                                            'gain_niv3'       => 0,
+                                            'gain_niv4'       => 0,
+                                        ]);
+                                        break;
+                                }
+
+                                //Enregistrement a faire aun niveau suivant du parrain supreme
+                            }
                         }
                     }
                 }
-
 
                 if ($person and $user) {
                     session()->flash('message', 'Inscription Réussie!');

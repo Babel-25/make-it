@@ -43,7 +43,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 col-sm-3 control-label"> Gain net total : </label>
                                 <div class="col-sm-9" id="">
-                                    <input type="text" class="form-control" value="{{ $montant_net - 0.1*$montant_net }}" readonly>
+                                    <input type="text" class="form-control"
+                                        value="{{ $montant_net - 0.1 * $montant_net }}" readonly>
                                 </div>
                             </div>
                         </form>
