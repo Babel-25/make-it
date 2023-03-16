@@ -50,14 +50,14 @@ class DatabaseSeeder extends Seeder
 
         //Debut creation paiement
         $paiement1 = Paiement::firstOrCreate([
-            'code_paiement'    => Str::random(10),
+            'code_paiement'    => random_int(1000, 100000000),
             'libelle_paiement' => 'Paiement montant 3000 F CFA',
             'montant_paiement' => 3000,
             'status'           => 0
         ]);
 
         $paiement2 = Paiement::firstOrCreate([
-            'code_paiement'    => Str::random(10),
+            'code_paiement'    => random_int(1000, 100000000),
             'libelle_paiement' => 'Paiement montant 3000 F CFA',
             'montant_paiement' => 3000,
             'status'           => 0
