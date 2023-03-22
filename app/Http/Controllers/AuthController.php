@@ -87,37 +87,9 @@ class AuthController extends Controller
         if ($recupInfo != null && $recupInfo != 'undefined' && $recupInfo[0] != 0 &&  $exist_code_payment === true && $verif_code_pay_status->status === 0) {
             $valueId = $recupInfo[0]['id'];
             if ($verifCodePar != null) {
-                // Insertion dans la table users
-                $user = User::create(
-                    [
-                        'identifiant' => strtolower($request->pseudo),
-                        'password'    => Hash::make($request->password),
-                        'status'      => $request->status,
-                        'etat_id'     => $etat->id
-                    ]
-                );
-
-                // // Insertion dans la table Personnes
-                $person = Personne::create(
-                    [
-                        'nom_prenom'      => $request->name,
-                        'code_parrainage' => $request->codePar,
-                        'lien_parrainage' => $generateCodePar,
-                        'adresse'         => $request->adresse,
-                        'contact'         => $request->phone,
-                        'date_naissance'  => $request->date,
-                        'email'           => $request->email,
-                        'sexe_id'         => $request->sexe,
-                        'paiement_id'     => $valueId,
-                        //Recuperation de l'id user
-                        'user_id'         => $user->id
-                    ]
-                );
-
 
                 //Parrain supreme
                 $parrain_supreme = Membre::where('parrain', 0)->first();
-                $personne_par_supreme = Personne::where('code_parrainage', 'supreme')->first();
 
                 //Informations sur le parrain
                 $person_parrain = Personne::where('lien_parrainage', request('codePar'))->first();
@@ -156,7 +128,6 @@ class AuthController extends Controller
                 //Nombre de fieuls au niveau 3
                 $count_fieul_p1_l3 = Membre::where('phase_id', $phase1->id)->where('level_id', $level3_p1->id)->where('parrain', $membre_parrain->id)->count();
 
-
                 //Niveau 4
                 $level4_p1 = Level::where('phase_id', $phase1->id)->where('libelle_niveau', 'Niveau 4')->first();
                 //Nombre de fieuls au niveau 4
@@ -164,7 +135,6 @@ class AuthController extends Controller
 
                 //Fieuls parrain supreme
                 $count_fieul_parrain_sup = Membre::where('phase_id', $phase1->id)->where('parrain', $parrain_supreme->personne_id)->count();
-
 
                 //***** PHASE B */
                 $phase2 = Phase::where('libelle_phase', 'Phase B')->first();
@@ -184,7 +154,7 @@ class AuthController extends Controller
                 $level4_p2 = Level::where('phase_id', $phase2->id)->where('libelle_niveau', 'Niveau 4')->first();
 
 
-                if ($membre_parrain->id === $phase1->id and $membre_parrain->etat === 0) {
+                if ($membre_parrain->phase_id === $phase1->id and $membre_parrain->etat === 1) {
 
                     foreach ($get_parrains as $value) {
                         //Verification parrain supreme
@@ -209,9 +179,39 @@ class AuthController extends Controller
                                 ->where('level_id', $level4_p1->id)
                                 ->where('parrain', $value->personne_id)->count();
 
+                            //Information sur la personne
+                            $info_person = Personne::where('id', $value->personn_id)->first();
+
                             #Niveau 1
                             //Parrain Supreme - Total Niveau 1 = 0
                             if ($count_fieuls_parrain_sup_l1_p1 === 0) {
+                                // Insertion dans la table users
+                                $user = User::create(
+                                    [
+                                        'identifiant' => strtolower($request->pseudo),
+                                        'password'    => Hash::make($request->password),
+                                        'status'      => $request->status,
+                                        'etat_id'     => $etat->id
+                                    ]
+                                );
+
+                                // Insertion dans la table Personnes
+                                $person = Personne::create(
+                                    [
+                                        'nom_prenom'      => $request->name,
+                                        'code_parrainage' => $request->codePar,
+                                        'lien_parrainage' => $generateCodePar,
+                                        'adresse'         => $request->adresse,
+                                        'contact'         => $request->phone,
+                                        'date_naissance'  => $request->date,
+                                        'email'           => $request->email,
+                                        'sexe_id'         => $request->sexe,
+                                        'paiement_id'     => $valueId,
+                                        //Recuperation de l'id user
+                                        'user_id'         => $user->id
+                                    ]
+                                );
+
                                 $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -219,7 +219,7 @@ class AuthController extends Controller
                                     'personne_id' => $person->id,
                                     'parrain'     => $person_parrain->id,
                                     'position'    => 1,
-                                    'etat'        => 0,
+                                    'etat'        => 1,
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -230,10 +230,49 @@ class AuthController extends Controller
                                     'gain_niv3'       => 0,
                                     'gain_niv4'       => 0,
                                 ]);
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv1'       => $parrain_montant_exists->gain_niv1 + 200
+                                    ]);
+                                }
+
+                                if ($person and $user) {
+                                    session()->flash('message', 'Inscription Réussie!');
+                                    return back();
+                                } else {
+                                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                    return back();
+                                }
                             }
 
                             //Parrain Supreme - Total Niveau 1 = 1
                             if ($count_fieuls_parrain_sup_l1_p1 === 1) {
+                                $user = User::create(
+                                    [
+                                        'identifiant' => strtolower($request->pseudo),
+                                        'password'    => Hash::make($request->password),
+                                        'status'      => $request->status,
+                                        'etat_id'     => $etat->id
+                                    ]
+                                );
+                                $person = Personne::create(
+                                    [
+                                        'nom_prenom'      => $request->name,
+                                        'code_parrainage' => $request->codePar,
+                                        'lien_parrainage' => $generateCodePar,
+                                        'adresse'         => $request->adresse,
+                                        'contact'         => $request->phone,
+                                        'date_naissance'  => $request->date,
+                                        'email'           => $request->email,
+                                        'sexe_id'         => $request->sexe,
+                                        'paiement_id'     => $valueId,
+                                        //Recuperation de l'id user
+                                        'user_id'         => $user->id
+                                    ]
+                                );
                                 $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -241,7 +280,7 @@ class AuthController extends Controller
                                     'personne_id' => $person->id,
                                     'parrain'     => $person_parrain->id,
                                     'position'    => 2,
-                                    'etat'        => 0,
+                                    'etat'        => 1,
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -252,6 +291,22 @@ class AuthController extends Controller
                                     'gain_niv3'       => 0,
                                     'gain_niv4'       => 0,
                                 ]);
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv1'       => $parrain_montant_exists->gain_niv1 + 200
+                                    ]);
+                                }
+
+                                if ($person and $user) {
+                                    session()->flash('message', 'Inscription Réussie!');
+                                    return back();
+                                } else {
+                                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                    return back();
+                                }
                             }
 
                             //Parrain Supreme - Niveau 1 plein
@@ -265,6 +320,29 @@ class AuthController extends Controller
                                 #Parrain Supreme - Niveau 2
                                 switch ($count_fieuls_parrain_sup_l2_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -272,7 +350,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -283,8 +361,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -292,7 +409,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -303,8 +420,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
+
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -312,7 +469,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -323,8 +480,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -332,7 +528,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -343,6 +539,22 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                 }
                             }
@@ -351,6 +563,29 @@ class AuthController extends Controller
                                 #Parrain Supreme - Niveau 3
                                 switch ($count_fieuls_parrain_sup_l3_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -358,7 +593,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -369,8 +604,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -378,7 +653,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -389,8 +664,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -398,7 +712,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -409,8 +723,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -418,7 +771,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -429,8 +782,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 4:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -438,7 +831,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -449,8 +842,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 5:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -458,7 +891,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -469,8 +902,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 6:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -478,7 +951,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -489,9 +962,49 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
 
                                     case 7:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -499,7 +1012,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -510,6 +1023,23 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                 }
                             }
@@ -519,6 +1049,29 @@ class AuthController extends Controller
                                 #Parrain Supreme - Niveau 4
                                 switch ($count_fieuls_parrain_sup_l4_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -526,7 +1079,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -538,8 +1091,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
+
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -547,7 +1140,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -559,8 +1152,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -568,7 +1200,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -580,9 +1212,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
 
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -590,7 +1261,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -602,8 +1273,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 4:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -611,7 +1321,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -623,8 +1333,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 5:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -632,7 +1381,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -644,8 +1393,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 6:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -653,7 +1441,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -665,8 +1453,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 7:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -674,7 +1501,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -686,8 +1513,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 8:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -695,7 +1560,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 9,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -707,8 +1572,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 9:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -716,7 +1619,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 10,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -728,8 +1631,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 10:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -737,7 +1678,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 11,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -749,8 +1690,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 11:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -758,7 +1737,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 12,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -770,8 +1749,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 12:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -779,7 +1796,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 13,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -791,8 +1808,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 13:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -800,7 +1855,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 14,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -812,8 +1867,46 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
                                     case 14:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -821,7 +1914,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 15,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -833,9 +1926,47 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
                                         break;
 
                                     case 15:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -843,7 +1974,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 16,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -855,12 +1986,48 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                        if (!empty($parrain_montant_exists)) {
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv4'       => $parrain_montant_exists->gain_niv4 + 1250
+                                            ]);
+                                        }
+
+
+                                        if ($person and $user) {
+                                            session()->flash('message', 'Inscription Réussie!');
+                                            return back();
+                                        } else {
+                                            session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                            return back();
+                                        }
+
+                                        //Inscription vers phase II
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase2->id,
+                                            'level_id'    => $level1_p2->id,
+                                            'personne_id' => $value->personne_id,
+                                            'parrain'     => $value->parrain,
+                                            'position'    => $value->position,
+                                            'etat'        => 2,
+                                        ]);
+
+                                        //Changement etat dans la table membre à 0
+                                        $etat_p1_parrain_sup = Membre::where('personne_id', $value->personne_id)->where('parrain', $value->parrain)->first();
+                                        $etat_update_to_p2 = $etat_p1_parrain_sup->update([
+                                            'etat' => 2
+                                        ]);
+
                                         break;
                                 }
                             }
                             //Parrain Supreme - Niveau 4 plein
                             if ($count_fieul_p1_l4 === 16) {
-                                dd('BIENVENU DANS LA PHASE II x)');
+                                session()->flash('message', 'Maximum de parrainage atteint');
+                                return back();
                             }
                         }
                         //Verification parrain simple
@@ -885,8 +2052,11 @@ class AuthController extends Controller
                                 ->where('level_id', $level4_p1->id)
                                 ->where('parrain', $person_parrain->id)->count();
 
-                            //Mon parrain à moi
+                            //Parrain indirect
                             $mon_parrain_membre = Membre::where('personne_id', $value->parrain)->first();
+
+                            //Montant parrain indirect
+                            $montant_mon_parrain = Montant::where('personne_id', $value->parrain)->first();
 
                             //Total Fieuls de mon parrain Niveau 1 Phase 1
                             $count_fieuls_parrain_sup_l1_p1 = Membre::where('phase_id', $phase1->id)
@@ -910,6 +2080,29 @@ class AuthController extends Controller
 
                             //Parrain Simple - Niveau 1 - Total fieuls = 0
                             if ($count_fieuls_l1_p1 === 0) {
+                                $user = User::create(
+                                    [
+                                        'identifiant' => strtolower($request->pseudo),
+                                        'password'    => Hash::make($request->password),
+                                        'status'      => $request->status,
+                                        'etat_id'     => $etat->id
+                                    ]
+                                );
+                                $person = Personne::create(
+                                    [
+                                        'nom_prenom'      => $request->name,
+                                        'code_parrainage' => $request->codePar,
+                                        'lien_parrainage' => $generateCodePar,
+                                        'adresse'         => $request->adresse,
+                                        'contact'         => $request->phone,
+                                        'date_naissance'  => $request->date,
+                                        'email'           => $request->email,
+                                        'sexe_id'         => $request->sexe,
+                                        'paiement_id'     => $valueId,
+                                        //Recuperation de l'id user
+                                        'user_id'         => $user->id
+                                    ]
+                                );
                                 $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -917,7 +2110,7 @@ class AuthController extends Controller
                                     'personne_id' => $person->id,
                                     'parrain'     => $person_parrain->id,
                                     'position'    => 1,
-                                    'etat'        => 0,
+                                    'etat'        => 1,
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -942,6 +2135,11 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
+                                        ]);
                                         break;
                                     case 1:
                                         $membre = Membre::firstOrCreate([
@@ -953,6 +2151,11 @@ class AuthController extends Controller
                                             'position'       => 2,
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
+                                        ]);
+
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                         ]);
                                         break;
                                     case 2:
@@ -966,6 +2169,10 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
+                                        ]);
                                         break;
                                     case 3:
                                         $membre = Membre::firstOrCreate([
@@ -977,6 +2184,10 @@ class AuthController extends Controller
                                             'position'      => 4,
                                             'etat'          => 0,
                                             'parrain_direct' => 'NON'
+                                        ]);
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                         ]);
                                         break;
                                 }
@@ -996,6 +2207,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
@@ -1007,6 +2222,10 @@ class AuthController extends Controller
                                                 'position'       => 2,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 2:
@@ -1020,6 +2239,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
@@ -1031,6 +2254,10 @@ class AuthController extends Controller
                                                 'position'       => 4,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 4:
@@ -1044,7 +2271,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 5:
                                             $membre = Membre::firstOrCreate([
@@ -1057,7 +2287,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 6:
                                             $membre = Membre::firstOrCreate([
@@ -1070,8 +2303,11 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
-
                                         case 7:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -1082,6 +2318,10 @@ class AuthController extends Controller
                                                 'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                     }
@@ -1100,6 +2340,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
@@ -1111,6 +2355,10 @@ class AuthController extends Controller
                                                 'position'       => 2,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 2:
@@ -1124,6 +2372,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
@@ -1135,6 +2387,10 @@ class AuthController extends Controller
                                                 'position'       => 4,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 4:
@@ -1148,6 +2404,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 5:
                                             $membre = Membre::firstOrCreate([
@@ -1159,6 +2419,10 @@ class AuthController extends Controller
                                                 'position'       => 6,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 6:
@@ -1172,6 +2436,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 7:
                                             $membre = Membre::firstOrCreate([
@@ -1183,6 +2451,10 @@ class AuthController extends Controller
                                                 'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 8:
@@ -1196,6 +2468,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 9:
                                             $membre = Membre::firstOrCreate([
@@ -1207,6 +2483,10 @@ class AuthController extends Controller
                                                 'position'       => 10,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 10:
@@ -1220,6 +2500,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 11:
                                             $membre = Membre::firstOrCreate([
@@ -1231,6 +2515,10 @@ class AuthController extends Controller
                                                 'position'       => 12,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 12:
@@ -1244,6 +2532,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 13:
                                             $membre = Membre::firstOrCreate([
@@ -1255,6 +2547,10 @@ class AuthController extends Controller
                                                 'position'       => 14,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 14:
@@ -1268,8 +2564,11 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
-
                                         case 15:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -1281,13 +2580,56 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                     }
+                                }
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv1'       => $parrain_montant_exists->gain_niv1 + 200
+                                    ]);
+                                }
+
+                                if ($person and $user) {
+                                    session()->flash('message', 'Inscription Réussie!');
+                                    return back();
+                                } else {
+                                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                    return back();
                                 }
                             }
 
                             //Parrain Simple - Total fieuls = 1
                             if ($count_fieuls_l1_p1 === 1) {
+                                $user = User::create(
+                                    [
+                                        'identifiant' => strtolower($request->pseudo),
+                                        'password'    => Hash::make($request->password),
+                                        'status'      => $request->status,
+                                        'etat_id'     => $etat->id
+                                    ]
+                                );
+                                $person = Personne::create(
+                                    [
+                                        'nom_prenom'      => $request->name,
+                                        'code_parrainage' => $request->codePar,
+                                        'lien_parrainage' => $generateCodePar,
+                                        'adresse'         => $request->adresse,
+                                        'contact'         => $request->phone,
+                                        'date_naissance'  => $request->date,
+                                        'email'           => $request->email,
+                                        'sexe_id'         => $request->sexe,
+                                        'paiement_id'     => $valueId,
+                                        //Recuperation de l'id user
+                                        'user_id'         => $user->id
+                                    ]
+                                );
                                 $membre = Membre::firstOrCreate([
                                     'ref_membre'  => Str::random(10),
                                     'phase_id'    => $phase1->id,
@@ -1295,7 +2637,7 @@ class AuthController extends Controller
                                     'personne_id' => $person->id,
                                     'parrain'     => $value->parrain,
                                     'position'    => 2,
-                                    'etat'        => 0,
+                                    'etat'        => 1,
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -1317,8 +2659,12 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $mon_parrain_membre->personne_id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                             'parrain_direct' => 'NON'
+                                        ]);
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                         ]);
                                         break;
                                     case 1:
@@ -1329,8 +2675,12 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $mon_parrain_membre->personne_id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                             'parrain_direct' => 'NON'
+                                        ]);
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                         ]);
                                         break;
                                     case 2:
@@ -1341,8 +2691,12 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $mon_parrain_membre->personne_id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                             'parrain_direct' => 'NON'
+                                        ]);
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                         ]);
                                         break;
                                     case 3:
@@ -1353,8 +2707,12 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $mon_parrain_membre->personne_id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                             'parrain_direct' => 'NON'
+                                        ]);
+                                        //Mise à jour du montant du parrain indirect
+                                        $montant_parrain_update = $montant_mon_parrain->update([
+                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                         ]);
                                         break;
                                 }
@@ -1374,6 +2732,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
@@ -1385,6 +2747,10 @@ class AuthController extends Controller
                                                 'position'       => 2,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 2:
@@ -1398,6 +2764,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
@@ -1409,6 +2779,10 @@ class AuthController extends Controller
                                                 'position'       => 4,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 4:
@@ -1422,6 +2796,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
                                         case 5:
                                             $membre = Membre::firstOrCreate([
@@ -1433,6 +2811,10 @@ class AuthController extends Controller
                                                 'position'       => 6,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 6:
@@ -1446,8 +2828,11 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                            ]);
                                             break;
-
                                         case 7:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -1458,6 +2843,10 @@ class AuthController extends Controller
                                                 'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
                                             ]);
                                             break;
                                     }
@@ -1478,6 +2867,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
@@ -1489,6 +2882,10 @@ class AuthController extends Controller
                                                 'position'       => 2,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 2:
@@ -1502,6 +2899,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
@@ -1513,6 +2914,10 @@ class AuthController extends Controller
                                                 'position'       => 4,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 4:
@@ -1526,6 +2931,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 5:
                                             $membre = Membre::firstOrCreate([
@@ -1537,6 +2946,10 @@ class AuthController extends Controller
                                                 'position'       => 6,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 6:
@@ -1550,6 +2963,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 7:
                                             $membre = Membre::firstOrCreate([
@@ -1561,6 +2978,10 @@ class AuthController extends Controller
                                                 'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 8:
@@ -1574,6 +2995,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 9:
                                             $membre = Membre::firstOrCreate([
@@ -1585,6 +3010,10 @@ class AuthController extends Controller
                                                 'position'       => 10,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 10:
@@ -1598,6 +3027,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 11:
                                             $membre = Membre::firstOrCreate([
@@ -1609,6 +3042,10 @@ class AuthController extends Controller
                                                 'position'       => 12,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 12:
@@ -1622,6 +3059,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 13:
                                             $membre = Membre::firstOrCreate([
@@ -1633,6 +3074,10 @@ class AuthController extends Controller
                                                 'position'       => 14,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 14:
@@ -1646,8 +3091,11 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
-
                                         case 15:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -1659,8 +3107,28 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                     }
+                                }
+
+                                //Si le montant parrain existe, on fait une mise à jour sur le montant
+                                if (!empty($parrain_montant_exists)) {
+                                    $montant_parrain_update = $parrain_montant_exists->update([
+                                        'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                        'gain_niv1'       => $parrain_montant_exists->gain_niv1 + 200
+                                    ]);
+                                }
+
+                                if ($person and $user) {
+                                    session()->flash('message', 'Inscription Réussie!');
+                                    return back();
+                                } else {
+                                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
+                                    return back();
                                 }
                             }
 
@@ -1675,6 +3143,29 @@ class AuthController extends Controller
                                 #Parrain Simple - Niveau 2
                                 switch ($count_fieuls_l2_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -1682,7 +3173,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -1693,8 +3184,36 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                        ]);
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -1702,7 +3221,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -1713,8 +3232,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                        ]);
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -1722,7 +3268,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -1733,8 +3279,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                        ]);
                                         break;
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -1742,7 +3315,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -1753,12 +3326,39 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv2'       => $parrain_montant_exists->gain_niv2 + 350
+                                        ]);
                                         break;
                                 }
 
                                 //Verification Fieuls Mon parrain Niveau 3
                                 switch ($count_fieuls_parrain_sup_l3_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1769,8 +3369,35 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -1781,8 +3408,35 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1793,8 +3447,35 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1805,8 +3486,35 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 4:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1817,8 +3525,35 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 5:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1829,8 +3564,35 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 6:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1841,9 +3603,36 @@ class AuthController extends Controller
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
 
                                     case 7:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'     => Str::random(10),
                                             'phase_id'       => $phase1->id,
@@ -1853,6 +3642,10 @@ class AuthController extends Controller
                                             'position'       => 8,
                                             'etat'           => 0,
                                             'parrain_direct' => 'NON'
+                                        ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                         ]);
                                         break;
                                 }
@@ -1872,6 +3665,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
@@ -1884,6 +3681,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 2:
                                             $membre = Membre::firstOrCreate([
@@ -1893,8 +3694,12 @@ class AuthController extends Controller
                                                 'personne_id' => $person->id,
                                                 'parrain'     => $mon_parrain_membre->personne_id,
                                                 'position'    => 3,
-                                                'etat'        => 0,
+                                                'etat'        => 1,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 3:
@@ -1908,6 +3713,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 4:
                                             $membre = Membre::firstOrCreate([
@@ -1919,6 +3728,10 @@ class AuthController extends Controller
                                                 'position'       => 5,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 5:
@@ -1944,6 +3757,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 7:
                                             $membre = Membre::firstOrCreate([
@@ -1955,6 +3772,10 @@ class AuthController extends Controller
                                                 'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 8:
@@ -1968,6 +3789,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 9:
                                             $membre = Membre::firstOrCreate([
@@ -1979,6 +3804,10 @@ class AuthController extends Controller
                                                 'position'       => 10,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 10:
@@ -1992,6 +3821,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 11:
                                             $membre = Membre::firstOrCreate([
@@ -2003,6 +3836,10 @@ class AuthController extends Controller
                                                 'position'       => 12,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 12:
@@ -2016,6 +3853,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 13:
                                             $membre = Membre::firstOrCreate([
@@ -2027,6 +3868,10 @@ class AuthController extends Controller
                                                 'position'       => 14,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 14:
@@ -2040,8 +3885,11 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
-
                                         case 15:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -2053,6 +3901,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                     }
                                 }
@@ -2063,6 +3915,30 @@ class AuthController extends Controller
                                 #Niveau 3
                                 switch ($count_fieuls_l3_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
+
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2070,7 +3946,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2081,8 +3957,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2090,7 +3993,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2101,8 +4004,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2110,7 +4040,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2121,8 +4051,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2130,7 +4087,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2141,8 +4098,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 4:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2150,7 +4134,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2161,8 +4145,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 5:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2170,7 +4181,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2181,8 +4192,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 6:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2190,7 +4228,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2201,9 +4239,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
-
                                     case 7:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2211,7 +4275,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -2221,6 +4285,10 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                        ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                         ]);
                                         break;
                                 }
@@ -2240,6 +4308,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
@@ -2252,6 +4324,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 2:
                                             $membre = Membre::firstOrCreate([
@@ -2263,6 +4339,10 @@ class AuthController extends Controller
                                                 'position'       => 3,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
 
@@ -2277,6 +4357,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 4:
                                             $membre = Membre::firstOrCreate([
@@ -2288,6 +4372,10 @@ class AuthController extends Controller
                                                 'position'       => 5,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 5:
@@ -2301,6 +4389,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 6:
                                             $membre = Membre::firstOrCreate([
@@ -2312,6 +4404,10 @@ class AuthController extends Controller
                                                 'position'       => 7,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 7:
@@ -2325,6 +4421,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 8:
                                             $membre = Membre::firstOrCreate([
@@ -2336,6 +4436,10 @@ class AuthController extends Controller
                                                 'position'           => 9,
                                                 'etat'               => 0,
                                                 'parrain_direct'     => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 9:
@@ -2349,6 +4453,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 10:
                                             $membre = Membre::firstOrCreate([
@@ -2360,6 +4468,10 @@ class AuthController extends Controller
                                                 'position'       => 11,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 11:
@@ -2373,6 +4485,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 12:
                                             $membre = Membre::firstOrCreate([
@@ -2384,6 +4500,10 @@ class AuthController extends Controller
                                                 'position'       => 13,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 13:
@@ -2397,6 +4517,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                         case 14:
                                             $membre = Membre::firstOrCreate([
@@ -2409,8 +4533,11 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
-
                                         case 15:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -2422,6 +4549,10 @@ class AuthController extends Controller
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
+                                            //Mise à jour du montant du parrain indirect
+                                            $montant_parrain_update = $montant_mon_parrain->update([
+                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            ]);
                                             break;
                                     }
                                 }
@@ -2432,6 +4563,29 @@ class AuthController extends Controller
                                 #Niveau 4
                                 switch ($count_fieuls_l4_p1) {
                                     case 0:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2439,7 +4593,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2451,8 +4605,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 1:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2460,7 +4641,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2472,8 +4653,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 2:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2481,7 +4689,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2493,9 +4701,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
-
                                     case 3:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2503,7 +4737,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2515,8 +4749,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 4:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2524,7 +4785,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2536,8 +4797,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 5:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2545,7 +4833,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2557,8 +4845,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 6:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2566,7 +4881,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2578,8 +4893,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 7:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2587,7 +4929,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2599,8 +4941,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 8:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2608,7 +4977,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 9,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2620,8 +4989,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 9:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2629,7 +5025,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 10,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2641,8 +5037,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 10:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2650,7 +5073,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 11,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2662,8 +5085,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 11:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2671,7 +5121,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 12,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2683,8 +5133,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 12:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2692,7 +5169,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 13,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2704,8 +5181,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 13:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2713,7 +5217,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 14,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2725,8 +5229,35 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
                                     case 14:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2734,7 +5265,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 15,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2746,9 +5277,36 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
                                         break;
 
                                     case 15:
+                                        $user = User::create(
+                                            [
+                                                'identifiant' => strtolower($request->pseudo),
+                                                'password'    => Hash::make($request->password),
+                                                'status'      => $request->status,
+                                                'etat_id'     => $etat->id
+                                            ]
+                                        );
+                                        $person = Personne::create(
+                                            [
+                                                'nom_prenom'      => $request->name,
+                                                'code_parrainage' => $request->codePar,
+                                                'lien_parrainage' => $generateCodePar,
+                                                'adresse'         => $request->adresse,
+                                                'contact'         => $request->phone,
+                                                'date_naissance'  => $request->date,
+                                                'email'           => $request->email,
+                                                'sexe_id'         => $request->sexe,
+                                                'paiement_id'     => $valueId,
+                                                //Recuperation de l'id user
+                                                'user_id'         => $user->id
+                                            ]
+                                        );
                                         $membre = Membre::firstOrCreate([
                                             'ref_membre'  => Str::random(10),
                                             'phase_id'    => $phase1->id,
@@ -2756,7 +5314,7 @@ class AuthController extends Controller
                                             'personne_id' => $person->id,
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 16,
-                                            'etat'        => 0,
+                                            'etat'        => 1,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -2768,21 +5326,38 @@ class AuthController extends Controller
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
                                         ]);
+                                        $montant_parrain_update = $parrain_montant_exists->update([
+                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                        ]);
+
+                                        //Inscription vers phase II
+                                        $membre = Membre::firstOrCreate([
+                                            'ref_membre'  => Str::random(10),
+                                            'phase_id'    => $phase2->id,
+                                            'level_id'    => $level1_p2->id,
+                                            'personne_id' => $value->personne_id,
+                                            'parrain'     => $value->parrain,
+                                            'position'    => $value->position,
+                                            'etat'        => 2,
+                                        ]);
+
+                                        //Changement etat dans la table membre à 0
+                                        $etat_p1_parrain_simple = Membre::where('personne_id', $value->personne_id)->where('parrain', $value->parrain)->first();
+                                        $etat_update_to_p2 = $etat_p1_parrain_simple->update([
+                                            'etat' => 2
+                                        ]);
                                         break;
                                 }
 
                                 //Enregistrement a faire aun niveau suivant du parrain supreme
+                                if ($count_fieuls_l3_p1 === 16) {
+                                    session()->flash('message', 'Maximum de parrainage atteint');
+                                    return back();
+                                }
                             }
                         }
                     }
-                }
-
-                if ($person and $user) {
-                    session()->flash('message', 'Inscription Réussie!');
-                    return back();
-                } else {
-                    session()->flash('message1', 'Inscription échouée, veuillez réessayer!');
-                    return back();
                 }
             } else {
                 session()->flash('message1', 'Code de parrainage non attribuer, veuillez recontacter votre parrain!');

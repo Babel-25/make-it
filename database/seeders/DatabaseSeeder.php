@@ -193,7 +193,7 @@ class DatabaseSeeder extends Seeder
             'personne_id' => $person1->id,
             'parrain'     => 0,
             'position'    => 0,
-            'etat'        => 0,
+            'etat'        => 1,
             'parrain_direct' => 'NULL'
         ]);
     }
