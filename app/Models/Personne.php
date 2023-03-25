@@ -22,6 +22,10 @@ class Personne extends Model
         'paiement_id',
     ];
 
+    public function membre(){
+        return $this->hasOne(Membre::class);
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }

@@ -28,6 +28,7 @@ return new class extends Migration
             $table->float('gain_niv2')->nullable();
             $table->float('gain_niv3')->nullable();
             $table->float('gain_niv4')->nullable();
+            $table->string('sponsor_link');
             $table->timestamps();
         });
     }

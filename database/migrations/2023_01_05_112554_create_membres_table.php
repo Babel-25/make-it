@@ -35,6 +35,7 @@ return new class extends Migration
 
             $table->integer('etat');
             $table->enum('parrain_direct',['OUI','NON','NULL'])->default('OUI');
+            $table->string('sponsor_link');
             $table->timestamps();
         });
     }

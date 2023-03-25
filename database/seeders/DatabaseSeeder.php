@@ -174,6 +174,18 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        $membre1 = Membre::firstOrCreate([
+            'ref_membre'     => Str::random(20),
+            'phase_id'       => $phase1->id,
+            'level_id'       => $phase1_level0->id,
+            'personne_id'    => $person1->id,
+            'parrain'        => 0,
+            'position'       => 0,
+            'etat'           => 1,
+            'parrain_direct' => 'NULL',
+            'sponsor_link'   => 'SUP' . strtoupper(Str::random(30))
+        ]);
+
         $montant1 = Montant::firstOrCreate(
             [
                 'phase_id'        => $phase1->id,
@@ -182,19 +194,9 @@ class DatabaseSeeder extends Seeder
                 'gain_niv2'       => 0,
                 'gain_niv3'       => 0,
                 'gain_niv4'       => 0,
-                'personne_id'     => $person1->id
+                'personne_id'     => $person1->id,
+                'sponsor_link'    => $membre1->sponsor_link
             ]
         );
-
-        $membre1 = Membre::firstOrCreate([
-            'ref_membre'  => Str::random(20),
-            'phase_id'    => $phase1->id,
-            'level_id'    => $phase1_level0->id,
-            'personne_id' => $person1->id,
-            'parrain'     => 0,
-            'position'    => 0,
-            'etat'        => 1,
-            'parrain_direct' => 'NULL'
-        ]);
     }
 }

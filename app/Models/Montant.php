@@ -17,5 +17,6 @@ class Montant extends Model
         'gain_niv2',
         'gain_niv3',
         'gain_niv4',
+        'sponsor_link'
     ];
 }

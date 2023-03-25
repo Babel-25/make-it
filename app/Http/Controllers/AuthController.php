@@ -213,13 +213,14 @@ class AuthController extends Controller
                                 );
 
                                 $membre = Membre::firstOrCreate([
-                                    'ref_membre'  => Str::random(10),
-                                    'phase_id'    => $phase1->id,
-                                    'level_id'    => $level1_p1->id,
-                                    'personne_id' => $person->id,
-                                    'parrain'     => $person_parrain->id,
-                                    'position'    => 1,
-                                    'etat'        => 1,
+                                    'ref_membre'   => Str::random(10),
+                                    'phase_id'     => $phase1->id,
+                                    'level_id'     => $level1_p1->id,
+                                    'personne_id'  => $person->id,
+                                    'parrain'      => $person_parrain->id,
+                                    'position'     => 1,
+                                    'etat'         => 1,
+                                    'sponsor_link' => $value->sponsor_link
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -229,6 +230,7 @@ class AuthController extends Controller
                                     'gain_niv2'       => 0,
                                     'gain_niv3'       => 0,
                                     'gain_niv4'       => 0,
+                                    'sponsor_link'    => $membre->sponsor_link
                                 ]);
 
                                 //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -281,6 +283,8 @@ class AuthController extends Controller
                                     'parrain'     => $person_parrain->id,
                                     'position'    => 2,
                                     'etat'        => 1,
+                                    'sponsor_link' => $value->sponsor_link
+
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -290,6 +294,7 @@ class AuthController extends Controller
                                     'gain_niv2'       => 0,
                                     'gain_niv3'       => 0,
                                     'gain_niv4'       => 0,
+                                    'sponsor_link'    => $membre->sponsor_link
                                 ]);
 
                                 //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -351,6 +356,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -360,6 +366,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -410,6 +417,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -419,6 +427,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -470,6 +479,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -479,6 +489,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -529,6 +540,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -538,6 +550,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -594,6 +607,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -603,6 +617,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -654,6 +669,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -663,6 +679,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -713,6 +730,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -722,6 +740,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -772,6 +791,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -781,6 +801,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -832,6 +853,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -841,6 +863,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -892,6 +915,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -901,6 +925,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -952,6 +977,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -961,6 +987,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1013,6 +1040,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -1022,6 +1050,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1080,6 +1109,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1090,6 +1120,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1141,6 +1172,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1151,6 +1183,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1201,6 +1234,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1211,6 +1245,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1262,6 +1297,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1272,6 +1308,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1322,6 +1359,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1332,6 +1370,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1382,6 +1421,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1392,6 +1432,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1442,6 +1483,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1452,6 +1494,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -1502,6 +1545,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1512,6 +1556,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1561,6 +1606,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 9,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1571,6 +1617,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1620,6 +1667,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 10,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1630,6 +1678,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1679,6 +1728,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 11,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1689,6 +1739,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1738,6 +1789,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 12,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1748,6 +1800,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1797,6 +1850,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 13,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1807,6 +1861,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1856,6 +1911,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 14,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1866,6 +1922,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1915,6 +1972,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 15,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1925,6 +1983,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
                                         if (!empty($parrain_montant_exists)) {
@@ -1975,6 +2034,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 16,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -1985,6 +2045,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         //Si le montant parrain existe, on fait une mise à jour sur le montant
@@ -2032,31 +2093,62 @@ class AuthController extends Controller
                         }
                         //Verification parrain simple
                         else {
-                            //Total Fieuls du parrain Niveau 1 Phase 1
+                            //Total fieuls du parrain supreme Niveau 1 Phase 1
+                            $count_fieuls_parrain_sup_l1_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level1_p1->id)
+                                ->where('sponsor_link', $value->sponsor_link)->count();
+
+                            //Total fieuls du parrain supreme Niveau 2 Phase 1
+                            $count_fieuls_parrain_sup_l2_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level2_p1->id)
+                                ->where('sponsor_link', $value->sponsor_link)->count();
+
+                            //Total fieuls du parrain supreme Niveau 3 Phase 1
+                            $count_fieuls_parrain_sup_l3_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level3_p1->id)
+                                ->where('sponsor_link', $value->sponsor_link)->count();
+
+                            //Total fieuls du parrain supreme Niveau 4 Phase 1
+                            $count_fieuls_parrain_sup_l4_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level4_p1->id)
+                                ->where('sponsor_link', $value->sponsor_link)->count();
+
+                            //Total fieuls du parrain supreme Niveau 4 Phase 1
+                            $count_fieuls_parrain_sup_l4_p1 = Membre::where('phase_id', $phase1->id)
+                                ->where('level_id', $level4_p1->id)
+                                ->where('sponsor_link', $value->sponsor_link)->count();
+
+                            // $person_sup = Personne::
+
+                            //Total Fieuls du parrain direct Niveau 1 Phase 1
                             $count_fieuls_l1_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level1_p1->id)
                                 ->where('parrain', $person_parrain->id)->count();
 
-                            //Total Fieuls du parrain Niveau 2 Phase 1
+                            //Total Fieuls du parrain direct Niveau 2 Phase 1
                             $count_fieuls_l2_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level2_p1->id)
                                 ->where('parrain', $person_parrain->id)->count();
 
-                            //Total Fieuls du parrain Niveau 3 Phase 1
+                            //Total Fieuls du parrain direct Niveau 3 Phase 1
                             $count_fieuls_l3_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level3_p1->id)
                                 ->where('parrain', $person_parrain->id)->count();
 
-                            //Total Fieuls du parrain Niveau 4 Phase 1
+                            //Total Fieuls du parrain direct Niveau 4 Phase 1
                             $count_fieuls_l4_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level4_p1->id)
                                 ->where('parrain', $person_parrain->id)->count();
 
+
+                            //Parrain Supreme 
+                            $parrain_sup = Membre::where('parrain', 0)->where('sponsor_link', $value->sponsor_link)->first();
+
+                            //Montant Parrain Supreme
+                            $montant_parrain_sup = Montant::where('personne_id', $parrain_sup->personne_id)->first();
+
                             //Parrain indirect
                             $mon_parrain_membre = Membre::where('personne_id', $value->parrain)->first();
-
-                            //Montant parrain indirect
-                            $montant_mon_parrain = Montant::where('personne_id', $value->parrain)->first();
 
                             //Total Fieuls de mon parrain Niveau 1 Phase 1
                             $count_fieuls_parrain_sup_l1_p1 = Membre::where('phase_id', $phase1->id)
@@ -2064,21 +2156,25 @@ class AuthController extends Controller
                                 ->where('parrain', $mon_parrain_membre->personne_id)->count();
 
                             //Total Fieuls de mon parrain Niveau 2 Phase 1
-                            $count_fieuls_parrain_sup_l2_p1 = Membre::where('phase_id', $phase1->id)
+                            $count_fieuls_parrain_indirect_l2_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level2_p1->id)
                                 ->where('parrain', $mon_parrain_membre->personne_id)->count();
 
                             //Total Fieuls de mon parrain Niveau 3 Phase 1
-                            $count_fieuls_parrain_sup_l3_p1 = Membre::where('phase_id', $phase1->id)
+                            $count_fieuls_parrain_indirect_l3_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level3_p1->id)
                                 ->where('parrain', $mon_parrain_membre->personne_id)->count();
 
                             //Total Fieuls de mon parrain Niveau 4 Phase 1
-                            $count_fieuls_parrain_sup_l4_p1 = Membre::where('phase_id', $phase1->id)
+                            $count_fieuls_parrain_indirect_l4_p1 = Membre::where('phase_id', $phase1->id)
                                 ->where('level_id', $level4_p1->id)
                                 ->where('parrain', $mon_parrain_membre->personne_id)->count();
 
-                            //Parrain Simple - Niveau 1 - Total fieuls = 0
+                            //Montant parrain indirect
+                            $montant_mon_parrain = Montant::where('personne_id', $value->parrain)->first();
+
+
+                            //Inscription Fieul chez Parrain Simple - Niveau 1 - Total fieuls = 0
                             if ($count_fieuls_l1_p1 === 0) {
                                 $user = User::create(
                                     [
@@ -2111,6 +2207,7 @@ class AuthController extends Controller
                                     'parrain'     => $person_parrain->id,
                                     'position'    => 1,
                                     'etat'        => 1,
+                                    'sponsor_link' => $value->sponsor_link
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -2120,82 +2217,541 @@ class AuthController extends Controller
                                     'gain_niv2'       => 0,
                                     'gain_niv3'       => 0,
                                     'gain_niv4'       => 0,
+                                    'sponsor_link'    => $membre->sponsor_link
                                 ]);
+                                //Verification du parrain indirect et le parrain supreme
+                                if ($montant_parrain_sup->personne_id != $mon_parrain_membre->personne_id) {
 
-                                //Verification Fieuls Mon parrain Niveau 2
-                                switch ($count_fieuls_parrain_sup_l2_p1) {
-                                    case 0:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 1,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
+                                    //Save fieul membre chez Parrain Supreme Niveau 2 - Total Fieuls  = 4
+                                    switch ($count_fieuls_parrain_sup_l2_p1) {
+                                        case 0:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 1,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
+                                                'parrain_direct' => 'NON'
+                                            ]);
 
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                    case 1:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 2,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 2,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
+                                                'parrain_direct' => 'NON'
+                                            ]);
 
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                    case 2:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 3,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                    case 3:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'    => Str::random(10),
-                                            'phase_id'      => $phase1->id,
-                                            'level_id'      => $level2_p1->id,
-                                            'personne_id'   => $person->id,
-                                            'parrain'       => $mon_parrain_membre->personne_id,
-                                            'position'      => 4,
-                                            'etat'          => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                }
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 3,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
+                                                'parrain_direct' => 'NON'
+                                            ]);
 
-                                //Mon parrain - Niveau 2 plein
-                                if ($count_fieuls_parrain_sup_l2_p1 === 4) {
-                                    //Verification Fieuls Mon parrain Niveau 3
-                                    switch ($count_fieuls_parrain_sup_l3_p1) {
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
+                                            ]);
+                                            break;
+                                        case 3:
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 4,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
+                                            ]);
+                                            break;
+                                    }
+
+                                    //Niveau 2  Parrain Supreme plein
+                                    if ($count_fieuls_parrain_sup_l2_p1 === 4) {
+                                        //Save fieul membre Niveau 3 Parrain supreme - Total fieul 8
+                                        switch ($count_fieuls_parrain_sup_l3_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    //Niveau 3 Parrain supreme plein
+                                    if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                        //Save Fieul membre Parrain Supreme Niveau 4 - total fieul = 16
+
+                                        switch ($count_fieuls_parrain_sup_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    //Niveau 4 plein Parrain Supreme
+                                    if ($count_fieuls_parrain_sup_l4_p1) {
+                                        session()->flash('message', 'Maximum de fieuls atteints!');
+                                        return back();
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 2
+                                    switch ($count_fieuls_parrain_indirect_l2_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
@@ -2205,11 +2761,13 @@ class AuthController extends Controller
                                                 'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 1,
                                                 'etat'           => 0,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
+
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 1:
@@ -2218,14 +2776,16 @@ class AuthController extends Controller
                                                 'phase_id'       => $phase1->id,
                                                 'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        =>  $mon_parrain_membre->personne_id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 2,
                                                 'etat'           => 0,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
+
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 2:
@@ -2237,356 +2797,949 @@ class AuthController extends Controller
                                                 'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 3,
                                                 'etat'           => 0,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 4,
-                                                'etat'           => 0,
+                                                'ref_membre'    => Str::random(10),
+                                                'phase_id'      => $phase1->id,
+                                                'level_id'      => $level2_p1->id,
+                                                'personne_id'   => $person->id,
+                                                'parrain'       => $mon_parrain_membre->personne_id,
+                                                'position'      => 4,
+                                                'etat'          => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 4:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 5,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 5:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 6,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 6:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 7,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 7:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 8,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                     }
+
+                                    //Mon parrain - Niveau 2 plein
+                                    if ($count_fieuls_parrain_indirect_l2_p1 === 4) {
+                                        //Save fieul membre chez Mon parrain Niveau 4 -total fieul 16
+                                        switch ($count_fieuls_parrain_indirect_l3_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        =>  $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
                                 }
-                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
-                                    //Verification Fieuls Mon parrain Niveau 4
-                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                //Verification SI le parrain indirect est le parrain supreme
+                                else {
+
+                                    //Verification Fieuls Mon parrain Niveau 2
+                                    switch ($count_fieuls_parrain_indirect_l2_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 1,
                                                 'etat'           => 0,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
+
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 2,
                                                 'etat'           => 0,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
+
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 2:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 3,
                                                 'etat'           => 0,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 4,
-                                                'etat'           => 0,
+                                                'ref_membre'    => Str::random(10),
+                                                'phase_id'      => $phase1->id,
+                                                'level_id'      => $level2_p1->id,
+                                                'personne_id'   => $person->id,
+                                                'parrain'       => $mon_parrain_membre->personne_id,
+                                                'position'      => 4,
+                                                'etat'          => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 4:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 5,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 5:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 6,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 6:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 7,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 7:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 8,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 8:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 9,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 9:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 10,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 10:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 11,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 11:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 12,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 12:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 13,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 13:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 14,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 14:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 15,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 15:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 16,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                     }
+
+                                    //Mon parrain - Niveau 2 plein
+                                    if ($count_fieuls_parrain_indirect_l2_p1 === 4) {
+                                        //Save fieul membre chez Mon parrain Niveau 4 -total fieul 16
+                                        switch ($count_fieuls_parrain_indirect_l3_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        =>  $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
                                 }
+
 
                                 //Si le montant parrain existe, on fait une mise à jour sur le montant
                                 if (!empty($parrain_montant_exists)) {
@@ -2638,6 +3791,7 @@ class AuthController extends Controller
                                     'parrain'     => $value->parrain,
                                     'position'    => 2,
                                     'etat'        => 1,
+                                    'sponsor_link' => $value->sponsor_link
                                 ]);
                                 $montant = Montant::firstOrCreate([
                                     'phase_id'        => $phase1->id,
@@ -2647,94 +3801,28 @@ class AuthController extends Controller
                                     'gain_niv2'       => 0,
                                     'gain_niv3'       => 0,
                                     'gain_niv4'       => 0,
+                                    'sponsor_link'    => $membre->sponsor_link
                                 ]);
 
-                                //Verification Fieuls Mon parrain Niveau 2
-                                switch ($count_fieuls_parrain_sup_l2_p1) {
-                                    case 0:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'  => Str::random(10),
-                                            'phase_id'    => $phase1->id,
-                                            'level_id'    => $level2_p1->id,
-                                            'personne_id' => $person->id,
-                                            'parrain'     => $mon_parrain_membre->personne_id,
-                                            'position'    => 1,
-                                            'etat'        => 1,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                    case 1:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'  => Str::random(10),
-                                            'phase_id'    => $phase1->id,
-                                            'level_id'    => $level2_p1->id,
-                                            'personne_id' => $person->id,
-                                            'parrain'     => $mon_parrain_membre->personne_id,
-                                            'position'    => 2,
-                                            'etat'        => 1,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                    case 2:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'  => Str::random(10),
-                                            'phase_id'    => $phase1->id,
-                                            'level_id'    => $level2_p1->id,
-                                            'personne_id' => $person->id,
-                                            'parrain'     => $mon_parrain_membre->personne_id,
-                                            'position'    => 3,
-                                            'etat'        => 1,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                    case 3:
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'  => Str::random(10),
-                                            'phase_id'    => $phase1->id,
-                                            'level_id'    => $level2_p1->id,
-                                            'personne_id' => $person->id,
-                                            'parrain'     => $mon_parrain_membre->personne_id,
-                                            'position'    => 4,
-                                            'etat'        => 1,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        //Mise à jour du montant du parrain indirect
-                                        $montant_parrain_update = $montant_mon_parrain->update([
-                                            'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
-                                        ]);
-                                        break;
-                                }
-
-                                //Verification Fieuls Mon parrain Niveau 2 plein
-                                if ($count_fieuls_parrain_sup_l2_p1 === 4) {
-                                    //Verification Fieuls Mon parrain Niveau 3
-                                    switch ($count_fieuls_parrain_sup_l3_p1) {
+                                if ($montant_parrain_sup->personne_id != $mon_parrain_membre->personne_id) {
+                                    //Save fieul membre Parrain Supreme Niveau 2
+                                    switch ($count_fieuls_parrain_sup_l2_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
                                                 'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 1,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 1:
@@ -2743,14 +3831,16 @@ class AuthController extends Controller
                                                 'phase_id'       => $phase1->id,
                                                 'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 2,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 2:
@@ -2759,14 +3849,16 @@ class AuthController extends Controller
                                                 'phase_id'       => $phase1->id,
                                                 'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 3,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 3:
@@ -2775,343 +3867,1412 @@ class AuthController extends Controller
                                                 'phase_id'       => $phase1->id,
                                                 'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 4,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 4:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 5,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 5:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 6,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 6:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 7,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
-                                            ]);
-                                            break;
-                                        case 7:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level2_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 8,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv2' => $montant_parrain_sup->gain_niv2 + 350
                                             ]);
                                             break;
                                     }
-                                }
 
-                                //Verification Fieuls Mon parrain Niveau 3 plein
-                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
-                                    //Verification Fieuls Mon parrain Niveau 4
-                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                    //Niveau 2  Parrain Supreme plein
+                                    if ($count_fieuls_parrain_sup_l2_p1 === 4) {
+                                        //Save fieul membre Niveau 3 Parrain supreme - Total fieul 8
+                                        switch ($count_fieuls_parrain_sup_l3_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    //Niveau 3 Parrain supreme plein
+                                    if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                        //Save Fieul membre Parrain Supreme Niveau 4 - total fieul = 16
+
+                                        switch ($count_fieuls_parrain_sup_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    //Niveau 4 plein Parrain Supreme
+                                    if ($count_fieuls_parrain_sup_l4_p1) {
+                                        session()->flash('message', 'Maximum de fieuls atteints!');
+                                        return back();
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 2
+                                    switch ($count_fieuls_parrain_indirect_l2_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 1,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 1,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 2,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 2,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 2:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 3,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 3,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 4,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 4,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
-                                        case 4:
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 2 plein
+                                    if ($count_fieuls_parrain_indirect_l2_p1 === 4) {
+                                        //Verification Fieuls Mon parrain Niveau 3
+                                        switch ($count_fieuls_parrain_indirect_l3_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                        }
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 3 plein
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                }
+                                //Verification SI le parrain indirect est le parrain supreme
+                                else {
+                                    //Verification Fieuls Mon parrain Niveau 2
+                                    switch ($count_fieuls_parrain_indirect_l2_p1) {
+                                        case 0:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 5,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 1,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
-                                        case 5:
+                                        case 1:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 6,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 2,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
-                                        case 6:
+                                        case 2:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 7,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 3,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
-                                        case 7:
+                                        case 3:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 8,
-                                                'etat'           => 0,
+                                                'ref_membre'  => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'    => $level2_p1->id,
+                                                'personne_id' => $person->id,
+                                                'parrain'     => $mon_parrain_membre->personne_id,
+                                                'position'    => 4,
+                                                'etat'        => 1,
+                                                'sponsor_link' => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
                                             //Mise à jour du montant du parrain indirect
                                             $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                'gain_niv2' => $montant_mon_parrain->gain_niv2 + 350
                                             ]);
                                             break;
-                                        case 8:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 9,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 9:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 10,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 10:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 11,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 11:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 12,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 12:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 13,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 13:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 14,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 14:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 15,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
-                                        case 15:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 16,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 2 plein
+                                    if ($count_fieuls_parrain_indirect_l2_p1 === 4) {
+                                        //Verification Fieuls Mon parrain Niveau 3
+                                        switch ($count_fieuls_parrain_indirect_l3_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv3' => $montant_mon_parrain->gain_niv3 + 400
+                                                ]);
+                                                break;
+                                        }
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 3 plein
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
                                     }
                                 }
 
@@ -3174,6 +5335,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -3183,6 +5345,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
 
                                         $montant_parrain_update = $parrain_montant_exists->update([
@@ -3222,6 +5385,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -3231,6 +5395,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -3269,6 +5434,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -3278,6 +5444,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -3316,6 +5483,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -3325,6 +5493,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -3333,579 +5502,1610 @@ class AuthController extends Controller
                                         break;
                                 }
 
-                                //Verification Fieuls Mon parrain Niveau 3
-                                switch ($count_fieuls_parrain_sup_l3_p1) {
-                                    case 0:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 1,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                    case 1:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'    => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 2,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                    case 2:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 3,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                    case 3:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 4,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                    case 4:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 5,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                    case 5:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 6,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                    case 6:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 7,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-
-                                    case 7:
-                                        $user = User::create(
-                                            [
-                                                'identifiant' => strtolower($request->pseudo),
-                                                'password'    => Hash::make($request->password),
-                                                'status'      => $request->status,
-                                                'etat_id'     => $etat->id
-                                            ]
-                                        );
-                                        $person = Personne::create(
-                                            [
-                                                'nom_prenom'      => $request->name,
-                                                'code_parrainage' => $request->codePar,
-                                                'lien_parrainage' => $generateCodePar,
-                                                'adresse'         => $request->adresse,
-                                                'contact'         => $request->phone,
-                                                'date_naissance'  => $request->date,
-                                                'email'           => $request->email,
-                                                'sexe_id'         => $request->sexe,
-                                                'paiement_id'     => $valueId,
-                                                //Recuperation de l'id user
-                                                'user_id'         => $user->id
-                                            ]
-                                        );
-                                        $membre = Membre::firstOrCreate([
-                                            'ref_membre'     => Str::random(10),
-                                            'phase_id'       => $phase1->id,
-                                            'level_id'       => $level2_p1->id,
-                                            'personne_id'    => $person->id,
-                                            'parrain'        => $mon_parrain_membre->personne_id,
-                                            'position'       => 8,
-                                            'etat'           => 0,
-                                            'parrain_direct' => 'NON'
-                                        ]);
-                                        $montant_parrain_update = $parrain_montant_exists->update([
-                                            'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
-                                            'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
-                                        ]);
-                                        break;
-                                }
-
-                                //Verification Fieuls Mon Parrain Niveau 3 plein
-                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
-                                    //Verification Fieuls Mon Parrain Niveau 4
-                                    switch ($count_fieuls_parrain_sup_l4_p1) {
+                                if ($montant_parrain_sup->personne_id != $mon_parrain_membre->personne_id) {
+                                    //Save fieul membre Parrain Supreme Niveau 3 
+                                    switch ($count_fieuls_parrain_sup_l3_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 1,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 2,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 2:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'  => Str::random(10),
-                                                'phase_id'    => $phase1->id,
-                                                'level_id'    => $level4_p1->id,
-                                                'personne_id' => $person->id,
-                                                'parrain'     => $mon_parrain_membre->personne_id,
-                                                'position'    => 3,
-                                                'etat'        => 1,
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 3,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 3:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 4,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 4:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 5,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 5:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 6,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
+                                            ]);
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 6:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 7,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
                                             ]);
                                             break;
                                         case 7:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 8,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv3' => $montant_parrain_sup->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                    }
+
+                                    //Niveau 3 Parrain supreme plein
+                                    if ($count_fieuls_parrain_sup_l3_p1 === 8) {
+                                        //Save Fieul membre Parrain Supreme Niveau 4 - total fieul = 16
+                                        switch ($count_fieuls_parrain_sup_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level2_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $parrain_sup->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'sponsor_link'   => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+
+                                                //MAJ montant parrain supreme
+                                                $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                    'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                    //Niveau 4 plein Parrain Supreme
+                                    if ($count_fieuls_parrain_sup_l4_p1) {
+                                        session()->flash('message', 'Maximum de fieuls atteints!');
+                                        return back();
+                                    }
+
+                                    //Verification Fieuls Mon parrain Niveau 3
+                                    switch ($count_fieuls_parrain_indirect_l3_p1) {
+                                        case 0:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 1,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 1:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 2,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 3,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 3:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 4,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 4:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 5,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 5:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 6,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 6:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 7,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+
+                                        case 7:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
                                                 'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 8:
+                                    }
+
+                                    //Verification Fieuls Mon Parrain Niveau 3 plein
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon Parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'  => Str::random(10),
+                                                    'phase_id'    => $phase1->id,
+                                                    'level_id'    => $level4_p1->id,
+                                                    'personne_id' => $person->id,
+                                                    'parrain'     => $mon_parrain_membre->personne_id,
+                                                    'position'    => 3,
+                                                    'etat'        => 1,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                }
+                                //Verification SI parrain indirect est le parrain supreme
+                                else {
+                                    //Verification Fieuls Mon parrain Niveau 3
+                                    switch ($count_fieuls_parrain_indirect_l3_p1) {
+                                        case 0:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 9,
+                                                'position'       => 1,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 9:
+                                        case 1:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
+                                            $membre = Membre::firstOrCreate([
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'    => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'position'       => 2,
+                                                'etat'           => 0,
+                                                'parrain_direct' => 'NON'
+                                            ]);
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
+                                            ]);
+                                            break;
+                                        case 2:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 10,
+                                                'position'       => 3,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 10:
+                                        case 3:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 11,
+                                                'position'       => 4,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 11:
+                                        case 4:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 12,
+                                                'position'       => 5,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 12:
+                                        case 5:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 13,
+                                                'position'       => 6,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 13:
+                                        case 6:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 14,
+                                                'position'       => 7,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 14:
+
+                                        case 7:
+                                            $user = User::create(
+                                                [
+                                                    'identifiant' => strtolower($request->pseudo),
+                                                    'password'    => Hash::make($request->password),
+                                                    'status'      => $request->status,
+                                                    'etat_id'     => $etat->id
+                                                ]
+                                            );
+                                            $person = Personne::create(
+                                                [
+                                                    'nom_prenom'      => $request->name,
+                                                    'code_parrainage' => $request->codePar,
+                                                    'lien_parrainage' => $generateCodePar,
+                                                    'adresse'         => $request->adresse,
+                                                    'contact'         => $request->phone,
+                                                    'date_naissance'  => $request->date,
+                                                    'email'           => $request->email,
+                                                    'sexe_id'         => $request->sexe,
+                                                    'paiement_id'     => $valueId,
+                                                    //Recuperation de l'id user
+                                                    'user_id'         => $user->id
+                                                ]
+                                            );
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
                                                 'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 15,
+                                                'position'       => 8,
                                                 'etat'           => 0,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                            $montant_parrain_update = $parrain_montant_exists->update([
+                                                'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
+                                                'gain_niv3'       => $parrain_montant_exists->gain_niv3 + 400
                                             ]);
                                             break;
-                                        case 15:
-                                            $membre = Membre::firstOrCreate([
-                                                'ref_membre'     => Str::random(10),
-                                                'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
-                                                'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
-                                                'position'       => 16,
-                                                'etat'           => 0,
-                                                'parrain_direct' => 'NON'
-                                            ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
-                                            ]);
-                                            break;
+                                    }
+
+                                    //Verification Fieuls Mon Parrain Niveau 3 plein
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon Parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'  => Str::random(10),
+                                                    'phase_id'    => $phase1->id,
+                                                    'level_id'    => $level4_p1->id,
+                                                    'personne_id' => $person->id,
+                                                    'parrain'     => $mon_parrain_membre->personne_id,
+                                                    'position'    => 3,
+                                                    'etat'        => 1,
+                                                    'sponsor_link' => $value->sponsor_link,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 9,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
                                     }
                                 }
                             }
@@ -3947,6 +7147,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -3956,6 +7157,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -3994,6 +7196,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4003,6 +7206,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4041,6 +7245,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4050,6 +7255,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4088,6 +7294,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4097,6 +7304,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4135,6 +7343,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4144,6 +7353,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4182,6 +7392,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4191,6 +7402,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4229,6 +7441,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4238,6 +7451,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4276,6 +7490,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
                                         $montant = Montant::firstOrCreate([
                                             'phase_id'        => $phase1->id,
@@ -4285,6 +7500,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4292,268 +7508,834 @@ class AuthController extends Controller
                                         ]);
                                         break;
                                 }
-
-                                //Verification Fieuls Mon Parrain Niveau 3 plein
-                                if ($count_fieuls_parrain_sup_l3_p1 === 8) {
-                                    //Verification Fieuls Mon Parrain Niveau 4
+                                if ($montant_parrain_sup->personne_id != $mon_parrain_membre->personne_id) {
+                                    //Save fieul Niveau 4 Parrain Supreme
                                     switch ($count_fieuls_parrain_sup_l4_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 1,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 1:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 2,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 2:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 3,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
-
                                         case 3:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 4,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 4:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 5,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 5:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 6,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 6:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 7,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 7:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 8,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 8:
                                             $membre = Membre::firstOrCreate([
-                                                'ref_membre'         => Str::random(10),
-                                                'phase_id'           => $phase1->id,
-                                                'level_id'           => $level4_p1->id,
-                                                'personne_id'        => $person->id,
-                                                'parrain'            => $mon_parrain_membre->personne_id,
-                                                'position'           => 9,
-                                                'etat'               => 0,
-                                                'parrain_direct'     => 'NON'
+                                                'ref_membre'     => Str::random(10),
+                                                'phase_id'       => $phase1->id,
+                                                'level_id'       => $level2_p1->id,
+                                                'personne_id'    => $person->id,
+                                                'parrain'        => $parrain_sup->personne_id,
+                                                'position'       => 9,
+                                                'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
+                                                'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
+
                                         case 9:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 10,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 10:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 11,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 11:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 12,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 12:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 13,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 13:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 14,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 14:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 15,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
                                         case 15:
                                             $membre = Membre::firstOrCreate([
                                                 'ref_membre'     => Str::random(10),
                                                 'phase_id'       => $phase1->id,
-                                                'level_id'       => $level4_p1->id,
+                                                'level_id'       => $level2_p1->id,
                                                 'personne_id'    => $person->id,
-                                                'parrain'        => $mon_parrain_membre->personne_id,
+                                                'parrain'        => $parrain_sup->personne_id,
                                                 'position'       => 16,
                                                 'etat'           => 0,
+                                                'sponsor_link'   => $value->sponsor_link,
                                                 'parrain_direct' => 'NON'
                                             ]);
-                                            //Mise à jour du montant du parrain indirect
-                                            $montant_parrain_update = $montant_mon_parrain->update([
-                                                'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+
+                                            //MAJ montant parrain supreme
+                                            $update_mt_parrain_sup = $montant_parrain_sup->update([
+                                                'gain_niv4' => $montant_parrain_sup->gain_niv4 + 1250
                                             ]);
                                             break;
+                                    }
+                                    //Niveau 4 plein Parrain Supreme
+                                    if ($count_fieuls_parrain_sup_l4_p1) {
+                                        session()->flash('message', 'Maximum de fieuls atteints!');
+                                        return back();
+                                    }
+
+
+                                    //Verification Fieuls Mon Parrain Niveau 3 plein
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon Parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'         => Str::random(10),
+                                                    'phase_id'           => $phase1->id,
+                                                    'level_id'           => $level4_p1->id,
+                                                    'personne_id'        => $person->id,
+                                                    'parrain'            => $mon_parrain_membre->personne_id,
+                                                    'position'           => 9,
+                                                    'etat'               => 0,
+                                                    'parrain_direct'     => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
+                                    }
+                                }
+                                //Verification SI parrain indirect est le parrain supreme
+                                else {
+                                    //Verification Fieuls Mon Parrain Niveau 3 plein
+                                    if ($count_fieuls_parrain_indirect_l3_p1 === 8) {
+                                        //Verification Fieuls Mon Parrain Niveau 4
+                                        switch ($count_fieuls_parrain_indirect_l4_p1) {
+                                            case 0:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 1,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 1:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 2,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 2:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 3,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+
+                                            case 3:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 4,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 4:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 5,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 5:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 6,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 6:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 7,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 7:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 8,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 8:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'         => Str::random(10),
+                                                    'phase_id'           => $phase1->id,
+                                                    'level_id'           => $level4_p1->id,
+                                                    'personne_id'        => $person->id,
+                                                    'parrain'            => $mon_parrain_membre->personne_id,
+                                                    'position'           => 9,
+                                                    'etat'               => 0,
+                                                    'parrain_direct'     => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 9:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 10,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 10:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 11,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 11:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 12,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 12:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 13,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 13:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 14,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 14:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 15,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                            case 15:
+                                                $membre = Membre::firstOrCreate([
+                                                    'ref_membre'     => Str::random(10),
+                                                    'phase_id'       => $phase1->id,
+                                                    'level_id'       => $level4_p1->id,
+                                                    'personne_id'    => $person->id,
+                                                    'parrain'        => $mon_parrain_membre->personne_id,
+                                                    'position'       => 16,
+                                                    'etat'           => 0,
+                                                    'parrain_direct' => 'NON'
+                                                ]);
+                                                //Mise à jour du montant du parrain indirect
+                                                $montant_parrain_update = $montant_mon_parrain->update([
+                                                    'gain_niv4' => $montant_mon_parrain->gain_niv4 + 1250
+                                                ]);
+                                                break;
+                                        }
                                     }
                                 }
                             }
@@ -4594,6 +8376,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 1,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4604,6 +8387,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4642,6 +8426,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 2,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4652,6 +8437,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4690,6 +8476,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 3,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4700,6 +8487,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4738,6 +8526,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 4,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4748,6 +8537,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4786,6 +8576,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 5,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4796,6 +8587,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4834,6 +8626,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 6,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4844,6 +8637,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4882,6 +8676,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 7,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4892,6 +8687,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4930,6 +8726,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 8,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4940,6 +8737,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -4978,6 +8776,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 9,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -4988,6 +8787,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5026,6 +8826,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 10,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5036,6 +8837,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5074,6 +8876,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 11,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5084,6 +8887,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5122,6 +8926,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 12,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5132,6 +8937,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5170,6 +8976,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 13,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5180,6 +8987,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5218,6 +9026,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 14,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5228,6 +9037,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5266,6 +9076,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 15,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5276,6 +9087,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5315,6 +9127,7 @@ class AuthController extends Controller
                                             'parrain'     => $person_parrain->id,
                                             'position'    => 16,
                                             'etat'        => 1,
+                                            'sponsor_link' => $value->sponsor_link,
                                         ]);
 
                                         $montant = Montant::firstOrCreate([
@@ -5325,6 +9138,7 @@ class AuthController extends Controller
                                             'gain_niv2'       => 0,
                                             'gain_niv3'       => 0,
                                             'gain_niv4'       => 0,
+                                            'sponsor_link'    => $membre->sponsor_link
                                         ]);
                                         $montant_parrain_update = $parrain_montant_exists->update([
                                             'gain_parrainage' => $parrain_montant_exists->gain_parrainage + 300,
@@ -5333,13 +9147,14 @@ class AuthController extends Controller
 
                                         //Inscription vers phase II
                                         $membre = Membre::firstOrCreate([
-                                            'ref_membre'  => Str::random(10),
-                                            'phase_id'    => $phase2->id,
-                                            'level_id'    => $level1_p2->id,
-                                            'personne_id' => $value->personne_id,
-                                            'parrain'     => $value->parrain,
-                                            'position'    => $value->position,
-                                            'etat'        => 2,
+                                            'ref_membre'   => Str::random(10),
+                                            'phase_id'     => $phase2->id,
+                                            'level_id'     => $level1_p2->id,
+                                            'personne_id'  => $value->personne_id,
+                                            'parrain'      => $value->parrain,
+                                            'position'     => $value->position,
+                                            'etat'         => 2,
+                                            'sponsor_link' => 'SUP' . strtoupper(Str::random(30))
                                         ]);
 
                                         //Changement etat dans la table membre à 0

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Membre extends Model
 {
@@ -26,6 +27,11 @@ class Membre extends Model
         'parrain',
         'position',
         'etat',
-        'parrain_direct'
+        'parrain_direct',
+        'sponsor_link'
     ];
+
+    public function personne(){
+        return $this->belongsTo(Personne::class);
+    }
 }
