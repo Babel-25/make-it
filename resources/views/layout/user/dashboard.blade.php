@@ -33,9 +33,9 @@
                                 <div class="col-md-5" style="border-color: green;border-style:solid;height:3em">
                                     {{ $personne->nom_prenom }} </div>
                                 <div class="col-md-2"> </div>
-                                <div class="col-md-5" style="border-color: green;border-style:solid;height:3em">
-                                </div>
                             @endforeach
+                            <div class="col-md-5" style="border-color: green;border-style:solid;height:3em">
+                            </div>
                         @break
 
                         @case(2)
@@ -130,9 +130,6 @@
                                     {{ $personne->nom_prenom }}
                                 </div>
                             @endforeach
-
-                            <div class="col-md-5 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
-                            </div>
                         @break
 
                         @default
@@ -276,9 +273,6 @@
                             <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
 
                             </div>
-                            <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
-
-                            </div>
                         @break
 
                         @case(6)
@@ -287,9 +281,6 @@
                                     $personne = \App\Models\Personne::where('id', $item->personne_id)->first();
                                 @endphp
                             @endforeach
-                            <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
-                                {{ $personne->nom_prenom }}
-                            </div>
                             <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
 
                             </div>
@@ -317,10 +308,10 @@
                                 @php
                                     $personne = \App\Models\Personne::where('id', $item->personne_id)->first();
                                 @endphp
+                                <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
+                                    {{ $personne->nom_prenom }}
+                                </div>
                             @endforeach
-                            <div class="col-md-2 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
-                                {{ $personne->nom_prenom }}
-                            </div>
                         @break
 
                         @default
