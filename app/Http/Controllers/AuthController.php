@@ -158,6 +158,7 @@ class AuthController extends Controller
 
                     foreach ($get_parrains as $value) {
                         //Verification parrain supreme
+
                         if ($value->parrain === 0) {
                             //Total Fieuls du parrain supreme Niveau 1 Phase 1
                             $count_fieuls_parrain_sup_l1_p1 = Membre::where('phase_id', $phase1->id)
@@ -181,6 +182,7 @@ class AuthController extends Controller
 
                             //Information sur la personne
                             $info_person = Personne::where('id', $value->personn_id)->first();
+
 
                             #Niveau 1
                             //Parrain Supreme - Total Niveau 1 = 0
@@ -297,6 +299,11 @@ class AuthController extends Controller
                                     'sponsor_link'    => $membre->sponsor_link
                                 ]);
 
+                                $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
+                                $update_state = $user_parrain->update([
+                                    'etat_id' => $actif->id
+                                ]);
+
                                 //Si le montant parrain existe, on fait une mise à jour sur le montant
                                 if (!empty($parrain_montant_exists)) {
                                     $montant_parrain_update = $parrain_montant_exists->update([
@@ -316,11 +323,7 @@ class AuthController extends Controller
 
                             //Parrain Supreme - Niveau 1 plein
                             if ($count_fieuls_parrain_sup_l1_p1 === 2) {
-                                $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
-                                $state = $person_parrain->etat;
-                                $update_state = $state->update([
-                                    'etat_id' => $actif->id
-                                ]);
+
 
                                 #Parrain Supreme - Niveau 2
                                 switch ($count_fieuls_parrain_sup_l2_p1) {
@@ -2141,7 +2144,7 @@ class AuthController extends Controller
                                 ->where('parrain', $person_parrain->id)->count();
 
 
-                            //Parrain Supreme 
+                            //Parrain Supreme
                             $parrain_sup = Membre::where('parrain', 0)->where('sponsor_link', $value->sponsor_link)->first();
 
                             //Montant Parrain Supreme
@@ -3803,6 +3806,11 @@ class AuthController extends Controller
                                     'gain_niv4'       => 0,
                                     'sponsor_link'    => $membre->sponsor_link
                                 ]);
+                                //changement etat si deux fieuls sont déjà enregistrés
+                                $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
+                                $update_state = $user_parrain->update([
+                                    'etat_id' => $actif->id
+                                ]);
 
                                 if ($montant_parrain_sup->personne_id != $mon_parrain_membre->personne_id) {
                                     //Save fieul membre Parrain Supreme Niveau 2
@@ -5295,11 +5303,7 @@ class AuthController extends Controller
 
                             //Parrain Simple - Niveau 1 Plein
                             if ($count_fieuls_l1_p1 === 2) {
-                                $actif = Etat::where('code', 'ACT')->where('libelle', 'Actif')->first();
-                                $state = $user_parrain->etat;
-                                $update_state = $state->update([
-                                    'etat_id' => $actif->id
-                                ]);
+
 
                                 #Parrain Simple - Niveau 2
                                 switch ($count_fieuls_l2_p1) {
@@ -5503,7 +5507,7 @@ class AuthController extends Controller
                                 }
 
                                 if ($montant_parrain_sup->personne_id != $mon_parrain_membre->personne_id) {
-                                    //Save fieul membre Parrain Supreme Niveau 3 
+                                    //Save fieul membre Parrain Supreme Niveau 3
                                     switch ($count_fieuls_parrain_sup_l3_p1) {
                                         case 0:
                                             $membre = Membre::firstOrCreate([

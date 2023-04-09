@@ -90,7 +90,7 @@
                                 @php
                                     $personne = \App\Models\Personne::where('id', $item->personne_id)->first();
                                 @endphp
-                                <div class="col-md-5" style="border-color: green;border-style:solid;height:3em">
+                                <div class="col-md-5 col-md-offset-1" style="border-color: green;border-style:solid;height:3em">
                                     {{ $personne->nom_prenom }}
                                 </div>
                             @endforeach
